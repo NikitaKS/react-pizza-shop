@@ -50,6 +50,9 @@
     flex-wrap: wrap;
     box-sizing: border-box;
 }
+.mainImg > img{
+    width: 300px;
+}
 @media (min-width: 1151px) {
     .container {
         max-width: 1100px;

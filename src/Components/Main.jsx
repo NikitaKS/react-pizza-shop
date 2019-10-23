@@ -85,7 +85,7 @@ let filtersTitles = props.pizza.filter.map( f => <span>{f.name}</span>);
     return (
         <div className={style.card}>
             <h2>{props.pizza.name}</h2>
-            <div><img src={props.pizza.photo}/></div>
+            <div className={style.mainImg}><img src={props.pizza.photo}/></div>
             <h3>Price: {props.pizza.price}</h3>
             <h4>size: {props.pizza.size}</h4>
             <div>
