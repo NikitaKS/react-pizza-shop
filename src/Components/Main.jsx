@@ -5,21 +5,25 @@ import style from './Main.module.css';
 
 class Main extends Component {
 
-    state = {
-        pirozki: [
-            {
-                filter: [{name: 'big'},{name: 'small'}],
-                name: "123",
-                photo: "http://127.0.0.1:8000/media/images/user.jpg",
-                price: "22.00",
-                size: "2",
-                text_long: "ng",
-                text_short: "da",
-            },
+state = {
+    pirozki: [
+        {
+            filter: [{name: 'big'}],
+            pizza_id: 123,
+            name: "123",
+            photo: "http://127.0.0.1:8000/media/images/user.jpg",
+            price: "22.00",
+            size: "2",
+            text_long: "ng",
+            text_short: "da",
+            active: true,
+        },
         ],
-        filters: [{name: 'asd'},{name: 'asdw'}],
-        selectedFilter: 'All'
-    };
+    order: [],
+    filters: [{name: 'one'},{name: 'two'}],
+    selectedFilter: 'All'
+};
+
 
     componentDidMount() {
 
@@ -35,6 +39,12 @@ class Main extends Component {
         axios.get('http://127.0.0.1:8000/api/filter/?format=json')
             .then(res => {
                 this.setState({filters: res.data})
+            })
+    };
+    newOrderPost = (formData) => {
+        axios.post('http://127.0.0.1:8000/api/filter/?format=json', formData)
+            .then(res => {
+                this.setState({resOfOrder: res.data})
             })
     };
     changeFilter = (filterName) => {
@@ -56,6 +66,23 @@ class Main extends Component {
         let filters = this.state.filters.map(f => <button
             onClick={()=>{this.changeFilter(f.name)}}>{f.name}</button>);
 
+        let formDataExample = {
+            name: 'asda',
+            phone: 123,
+            day: new Date(12/11/2011),
+            time: 1,
+            order: [
+                {
+                    name: "123",
+                    pizza_id: 123,
+                    photo: "http://127.0.0.1:8000/media/images/user.jpg",
+                    price: "22.00",
+                    size: "2",
+                    text_short: "da",
+                    quantity: 2
+                },
+            ]
+        };
         return (
             <div>
 
@@ -64,6 +91,8 @@ class Main extends Component {
                     <div>asd</div>
                     <button onClick={this.piroshokGet}>pirozhok</button>
                     <button onClick={this.filtersGet}>filters</button>
+                    <button onClick={()=>{this.newOrderPost(formDataExample)}}>post</button>
+
                 </header>
                 <div>
                     <span>FILTERS</span>
