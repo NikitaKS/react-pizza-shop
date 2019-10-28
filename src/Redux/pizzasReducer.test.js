@@ -1,7 +1,7 @@
 import pizzasReducer, {
     addPizzaToOrder,
-    decreaseQuantity,
-    increaseQuantity,
+    _decreaseQuantity,
+    _increaseQuantity,
     setFiltersSuccess,
     setPizzasSuccess
 } from "./pizzasReducer";
@@ -32,6 +32,8 @@ let state = {
         },
     ],
     filters: [],
+    totalPrice: 0,
+    totalQuantity: 0,
     selectedFilter: 'All'
 };
 it('active pizzas should be added to state', () => {
@@ -89,7 +91,7 @@ it('filters should be added to state', () => {
 it('pizza quantity in order should be increased', () => {
     //test data
 
-    let action = increaseQuantity(state.pizzas[0]);
+    let action = _increaseQuantity(123);
 
     //action
     let newState = pizzasReducer(state,action);
@@ -101,7 +103,7 @@ it('pizza quantity in order should be increased', () => {
 it('pizza quantity should be decreased', () => {
     //test data
 
-    let action = decreaseQuantity(state.pizzas[0]);
+    let action = _decreaseQuantity(123);
 
     //action
     let newState = pizzasReducer(state,action);
@@ -110,7 +112,7 @@ it('pizza quantity should be decreased', () => {
     expect(newState.order[0].quantity).toBe(1);
 });
 
-it('pizza quantity should not be decreased if 0', () => {
+it('pizza quantity should not be decreased if 1', () => {
     //test data
     let oldState = {
         order: [
@@ -121,18 +123,18 @@ it('pizza quantity should not be decreased if 0', () => {
             price: "22.00",
             size: "2",
             text_short: "da",
-            quantity: 0
+            quantity: 1
         },
         ],
     };
 
-    let action = decreaseQuantity(123);
+    let action = _decreaseQuantity(123);
 
     //action
     let newState = pizzasReducer(oldState, action);
 
     //expectation
-    expect(newState.order[0].quantity).toBe(0);
+    expect(newState.order[0].quantity).toBe(1);
 });
 
 it('pizza should be added to order with id, name, photo url, quantity', () => {

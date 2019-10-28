@@ -22,7 +22,7 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
     )
 };
 
-const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}) => {
+const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}) => {
     return (
         <div>
             <hr />
@@ -41,9 +41,9 @@ const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder, c
         <div>
             <div>
                 <div>
-                    <button onClick={decreaseQuantity}>-</button>
+                    <button onClick={()=>{decreaseQuantity(pizza.id)}}>-</button>
                     <span>{pizza.quantity}</span>
-                    <button onClick={increaseQuantity}>+</button>
+                    <button onClick={()=>{increaseQuantity(pizza.id)}}>+</button>
                 </div>
                 <div>
                     <span>{pizza.price*pizza.quantity}</span>
@@ -51,7 +51,7 @@ const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder, c
                 </div>
             </div>
             <div>
-                <button onClick={removeFromOrder}>X</button>
+                <button onClick={()=>{removeFromOrder(pizza.id)}}>X</button>
             </div>
         </div>
     </div>

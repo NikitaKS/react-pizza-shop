@@ -55,7 +55,7 @@ const pizzasReducer = (state = initialState, action) => {
             return {
                 ...state,
                 order: state.order.map(pz => {
-                    if(pz.id !== action.pizza.id){
+                    if(pz.id !== action.id){
                         return pz;
                     } else {
                         return {...pz, quantity: pz.quantity+1}
@@ -67,8 +67,8 @@ const pizzasReducer = (state = initialState, action) => {
             return {
                 ...state,
                 order: state.order.map(pz => {
-                    if(pz.id === action.pizza.id){
-                        return {...pz, quantity: pz.quantity === 0 ? pz.quantity : pz.quantity -1}
+                    if(pz.id === action.id){
+                        return {...pz, quantity: pz.quantity === 1 ? pz.quantity : pz.quantity -1}
                     } else {
                         return pz
                     }
@@ -146,22 +146,37 @@ export const calculateOrder = () => {
         type: CALCULATE_TOTAL
     }
 };
+export const _increaseQuantity = (id) => {
+    return {
+        type: INCREASE_QUANTITY, id
+    }
+};
+export const _decreaseQuantity = (id) => {
+    return {
+        type: DECREASE_QUANTITY, id
+    }
+};
+export const _removeFromOrder = (id) => {
+    return {
+        type: DELETE_ORDER_ITEM, id
+    }
+};
 
 
 //EXTERNAL ACTIONS
-export const increaseQuantity = (pizza) => (dispatch) => {
-    dispatch({type: INCREASE_QUANTITY, pizza});
+export const increaseQuantity = (id) => (dispatch) => {
+    dispatch(_increaseQuantity(id));
     dispatch(calculateOrder());
 };
-export const decreaseQuantity = (pizza) => (dispatch) => {
-    dispatch({type: DECREASE_QUANTITY, pizza});
+export const decreaseQuantity = (id) => (dispatch) => {
+    dispatch(_decreaseQuantity(id));
     dispatch(calculateOrder());
 };
-export const removeFromOrder = (pizza) => {
-    return {
-        type: DELETE_ORDER_ITEM, pizza
-    }
+export const removeFromOrder = (id) => (dispatch) => {
+    dispatch(_removeFromOrder(id));
+    dispatch(calculateOrder());
 };
+
 const toggleIsFetching = (status) => {
     return {
         type: SET_IS_FETCHING, status
