@@ -1,9 +1,13 @@
 import axios from "axios";
 
+
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+// axios.defaults.withCredentials = true;
+
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
-    // withCredentials: true,
-//    headers: {"API-KEY": "0f32e29f-2408-4879-8199-f94cc9bd7861"},
 });
 
 export const pizzasAPI = {
