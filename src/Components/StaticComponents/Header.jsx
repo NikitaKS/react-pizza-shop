@@ -1,25 +1,40 @@
-import React, {Component} from 'react';
+import React from 'react';
 import style from './Header.module.css';
+import {NavLink} from "react-router-dom";
 
-class Main extends Component {
+function Header({totalQuantity, totalPrice}) {
 
-    render() {
+    return (
 
-        return (
-            <div>
+        <header className={style.headerWrapper}>
+            <h2>PIROZHOK!!!</h2>
+            <NavLink to="/cart" activeClassName={style.active}>
+            <span>
+                <p>CART : {totalQuantity}</p>
+                <p>price : {totalPrice}</p>
+            </span>
+            </NavLink>
 
-
-                <header>
-                    <div className={style.headerWrapper}>asd</div>
-                    <button onClick={this.piroshokGet}>pirozhok</button>
-                    <button onClick={this.filtersGet}>filters</button>
-                    <button onClick={()=>{this.newOrderPost(this.props.formDataExample)}}>post</button>
-
-                </header>
-
+            <div className={style.navContainer}>
+                <NavLink to="/about" activeClassName={style.active}>
+                    <div className={style.item}>
+                        Fake Order
+                    </div>
+                </NavLink>
+                <NavLink to="/catalog" activeClassName={style.active}>
+                    <div className={style.item}>
+                        Catalog
+                    </div>
+                </NavLink>
+                <NavLink to="/order" activeClassName={style.active}>
+                    <div className={style.item}>
+                        Order
+                    </div>
+                </NavLink>
             </div>
-        );
-    }
+
+        </header>
+    );
 }
 
-export default Main;
+export default Header;

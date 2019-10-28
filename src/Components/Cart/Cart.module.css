@@ -1,18 +1,20 @@
-.pizzaCardWrapper {
-
+.cartWrapper {
+    composes: container from './../../App.css';
 }
-.card{
+.tableRow{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    max-width: 30rem;
-    max-height: 44rem;
+    max-height: 15rem;
     padding: 5px;
     color: #999;
     font-size: 15px;
     margin-top: 5px;
     margin-bottom: 10px;
     border: 1px solid #999999;
+}
+.tableRow > * span {
+    font-size: 14px;
 }
 .pizzasContainer {
     min-height: 120vh;
@@ -24,5 +26,5 @@
     align-items: center;
 }
 .mainImg > img{
-    width: 300px;
+    width: 100px;
 }

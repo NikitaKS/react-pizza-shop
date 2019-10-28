@@ -1,7 +1,7 @@
-.item {
-
-}
 
 .container {
     composes: container from './../../App.css';
+}
+.pizzasContainer {
+    composes: container;
 }

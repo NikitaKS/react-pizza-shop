@@ -1,26 +1,60 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import style from './PizzaItem.module.css';
 
 
-const PizzaCard = (props) => {
-let filtersTitles = props.pizza.filter.map( f => <span>{f.name}</span>);
+const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
 
+    let filtersTitles = pizza.filter.map(f => <span>{f.name}</span>);
+    let [quantity, setQuantity] = useState(1);
+    let [addSucces, setAddSucces] = useState(false);
 
+    // useEffect( () => {
+    //     setCurrentInput(props.status);
+    // }, [props.status]);
+
+    const decreaseQuantity = () => {
+        if (quantity !== 1) {
+            setQuantity(quantity-1)
+        }
+    };
+
+    const onAddToCartClick = () => {
+        addPizzaToOrder(pizza, quantity);
+        calculateOrder();
+        setQuantity(1);
+        setAddSucces(true);
+    };
     return (
         <div className={style.card}>
-            <h2>{props.pizza.name}</h2>
-            <div className={style.mainImg}><img src={props.pizza.photo}/></div>
-            <h3>Price: {props.pizza.price}</h3>
-            <h4>size: {props.pizza.size}</h4>
+            <div className={style.mainImg}><img src={pizza.photo}/></div>
+            <h2>{pizza.name}</h2>
+            <span>size: {pizza.size}</span>
+            <span>FILTERS</span>
             <div>
-                <h5>FILTERS</h5>
                 {filtersTitles}
             </div>
             <div>
-                <h5>short discription: {props.pizza.text_short}</h5>
+                <span>short discription: {pizza.text_short}</span>
+            </div>
+            <hr />
+            <div>
+                <span>Вес 500гр</span>
             </div>
             <div>
-                <span>long discription: {props.pizza.text_long}</span>
+                <div>
+                    <div>
+                        <button onClick={decreaseQuantity}>-</button>
+                        <span>{quantity}</span>
+                        <button onClick={()=>{setQuantity(quantity+1)}}>+</button>
+                    </div>
+                    <div>
+                        <span>{pizza.price*quantity}</span>
+                        <span>BYN</span>
+                    </div>
+                </div>
+                <div>
+                    <button onClick={onAddToCartClick}>Добавить в корзину</button>
+                </div>
             </div>
         </div>
     )

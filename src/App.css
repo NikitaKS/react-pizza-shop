@@ -85,12 +85,14 @@
     }
 }
 button {
+    background-color: inherit;
+    color: inherit;
     display: inline-block;
     text-align: center;
     text-decoration: none;
-    margin: 2px 0;
-    border: solid 1px transparent;
-    border-radius: 1px;
+    margin: 0.5rem;
+    border: solid 1px #999999;
+    border-radius: 0.4rem;
     padding: 8px 20px;
     box-sizing: border-box;
     max-height: 3rem;

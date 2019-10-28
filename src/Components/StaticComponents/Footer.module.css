@@ -1,3 +1,4 @@
-.headerWrapper {
-
+.footerWrapper {
+    composes: container from './../../App.css';
+    background-color: #00004b;
 }

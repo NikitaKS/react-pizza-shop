@@ -1,14 +1,15 @@
 import React from 'react';
-import '../App.css';
 import style from './Footer.module.css';
 
 
 const Footer = (props) => {
 
     return (
-        <div className={style.footer}>
-            FOOTER
-        </div>
+        <footer>
+            <div className={style.footerWrapper}>
+                footer
+            </div>
+        </footer>
     )
 };
 

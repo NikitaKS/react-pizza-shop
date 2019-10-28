@@ -1,9 +1,10 @@
 import React from 'react';
-import preloader from "../../assets/images/Spinner.svg";
+import './../App.css'
+import preloader from "../assets/images/Spinner.svg";
 
 let Preloader = (props) => {
     return (
-        <div>
+        <div className='container'>
             <img src={preloader}/>
         </div>
     );
