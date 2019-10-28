@@ -8,11 +8,11 @@ const instance = axios.create({
 
 export const pizzasAPI = {
     getPizzas () {
-        return instance.get("pizza/?format=json")
+        debugger;
+        axios.get('http://127.0.0.1:8000/api/pizza/?format=json')
             .then(res => {
-                if (res.status === 200) {
-                    return res.data;
-                }
+                debugger;
+               return  res.data
             })
     },
     getFilters () {
@@ -23,4 +23,7 @@ export const pizzasAPI = {
                 }
             })
     },
+    putOrder (formData) {
+        return instance.post(`order/`, formData)
+    }
 };

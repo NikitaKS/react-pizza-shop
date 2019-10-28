@@ -9,11 +9,12 @@
     "react-dom": "^16.10.2",
     "react-redux": "^7.1.1",
     "react-reveal": "^1.2.2",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-scroll": "^1.7.14",
     "react-sticky": "^6.0.3",
     "redux": "^4.0.4",
-    "redux-forms": "^1.0.0-3",
+    "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

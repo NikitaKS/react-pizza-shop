@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import '../App.css';
 import axios from "axios";
 import style from './Main.module.css';
+import PizzaCard from "./PizzaItem/PizzaItem";
+import {Redirect, Route} from "react-router-dom";
+import Order from "./Order/Order";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {fechPizzas} from "../Redux/pizzasReducer";
 
 class Main extends Component {
 
@@ -42,7 +48,7 @@ state = {
             })
     };
     newOrderPost = (formData) => {
-        axios.post('http://127.0.0.1:8000/api/filter/?format=json', formData)
+        axios.post('http://127.0.0.1:8000/api/order/', formData)
             .then(res => {
                 this.setState({resOfOrder: res.data})
             })
@@ -61,7 +67,7 @@ state = {
                     return true;
                 }
             })
-            .map(p => <Pizza pizza={p}/>);
+            .map(p => <PizzaCard pizza={p}/>);
 
         let filters = this.state.filters.map(f => <button
             onClick={()=>{this.changeFilter(f.name)}}>{f.name}</button>);
@@ -89,9 +95,10 @@ state = {
 
                 <header>
                     <div>asd</div>
-                    <button onClick={this.piroshokGet}>pirozhok</button>
+                    <button onClick={this.props.fechPizzas}>pirozhok</button>
                     <button onClick={this.filtersGet}>filters</button>
                     <button onClick={()=>{this.newOrderPost(formDataExample)}}>post</button>
+                    <Route path="/order" render={() => <Order />}/>
 
                 </header>
                 <div>
@@ -107,26 +114,11 @@ state = {
     }
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+    return {
 
-const Pizza = (props) => {
-let filtersTitles = props.pizza.filter.map( f => <span>{f.name}</span>);
-    return (
-        <div className={style.card}>
-            <h2>{props.pizza.name}</h2>
-            <div className={style.mainImg}><img src={props.pizza.photo}/></div>
-            <h3>Price: {props.pizza.price}</h3>
-            <h4>size: {props.pizza.size}</h4>
-            <div>
-                <h5>FILTERS</h5>
-                {filtersTitles}
-            </div>
-            <div>
-                <h5>short discription: {props.pizza.text_short}</h5>
-            </div>
-            <div>
-                <span>long discription: {props.pizza.text_long}</span>
-            </div>
-        </div>
-    )
+    }
 };
+export default compose(
+    connect(mapStateToProps, {fechPizzas})
+)(Main);

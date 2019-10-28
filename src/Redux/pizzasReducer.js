@@ -119,6 +119,7 @@ export const addPizzaToOrder = (pizzaItem, quantity) => {
 
 //FETCH ACTIONS
 export const fechPizzas = () => (dispatch) => {
+    debugger;
     pizzasAPI.getPizzas()
         .then( data => {
             dispatch(setPizzasSuccess(data));
@@ -130,6 +131,9 @@ export const fechFilters = () => (dispatch) => {
             dispatch(setFiltersSuccess(data));
         });
 };
+export const submitOrder = (orderData) => async (dispatch) => {
+    const res = await pizzasAPI.putOrder()
 
+}
 
 export default pizzasReducer;

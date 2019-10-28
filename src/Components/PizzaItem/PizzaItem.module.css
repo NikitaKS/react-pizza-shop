@@ -1,0 +1,27 @@
+.pizzaCardWrapper {
+
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 19rem;
+    height: 25rem;
+    padding: 5px;
+    color: #999;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.pizzasContainer {
+    min-height: 120vh;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.mainImg > img{
+    width: 300px;
+}

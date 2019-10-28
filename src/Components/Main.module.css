@@ -2,18 +2,7 @@
     text-align: center;
     box-shadow: 0px 0px 5px 0px #00004b;
 }
-.card{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 19rem;
-    height: 25rem;
-    padding: 5px;
-    color: #999;
-    font-size: 15px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
+
 
 .banner {
     background-color: #1f1f20;
@@ -29,15 +18,7 @@
     overflow: hidden;
     min-height: 120vh;
 }
-.pizzasContainer {
-    min-height: 120vh;
-    position: relative;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-}
+
 
 .container {
     width: 100%;
@@ -50,9 +31,7 @@
     flex-wrap: wrap;
     box-sizing: border-box;
 }
-.mainImg > img{
-    width: 300px;
-}
+
 @media (min-width: 1151px) {
     .container {
         max-width: 1100px;
