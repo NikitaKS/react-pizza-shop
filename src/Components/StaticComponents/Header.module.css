@@ -18,9 +18,11 @@
     font-size: 1.4rem;
 }
 .active {
+    margin-right: 1rem;
     color: #e6e6e6;
 }
 .item {
+    margin-right: 1rem;
     border-bottom: 1px solid #8f857d;
 }
 .item:hover {

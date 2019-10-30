@@ -26,11 +26,13 @@ class Catalog extends Component {
                 }
             })
             .map(p => <PizzaCard pizza={p}
+                                 key={p.id}
                                  calculateOrder={ this.props.calculateOrder}
                                  addPizzaToOrder={this.props.addPizzaToOrder}/>);
 
 
         let filters = this.props.filters.map(f => <button
+            key={f.name}
             onClick={() => {
                 this.changeFilter(f.name)
             }}>{f.name}</button>);

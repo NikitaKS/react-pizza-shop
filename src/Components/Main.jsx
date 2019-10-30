@@ -24,10 +24,10 @@ class Main extends Component {
             <div>
                 <Header totalQuantity={this.props.totalQuantity} totalPrice={this.props.totalPrice}/>
 
-                <div className={style.mainWrapper}>
+                <div>
                     {this.props.isFetching ?
                         <Preloader/> :
-                        <div>
+                        <div className={style.mainWrapper}>
                             <Route exact path="/"
                                    render={()=> <Redirect to={"/catalog"}/>}/>
                             <Route path="/catalog" render={() => <Catalog/>}/>

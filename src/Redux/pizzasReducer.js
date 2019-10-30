@@ -200,7 +200,7 @@ export const fetchCatalog = () => async (dispatch) => {
 };
 
 export const submitOrder = (orderData) => async (dispatch) => {
-    const res = await pizzasAPI.putOrder()
+    const res = await pizzasAPI.postOrder(orderData)
 
 }
 

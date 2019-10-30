@@ -4,7 +4,7 @@ import style from './PizzaItem.module.css';
 
 const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
 
-    let filtersTitles = pizza.filter.map(f => <span>{f.name}</span>);
+    let filtersTitles = pizza.filter.map(f => <span key={f.name+'1'}>{f.name}</span>);
     let [quantity, setQuantity] = useState(1);
     let [addSucces, setAddSucces] = useState(false);
 
@@ -40,7 +40,7 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
             <div>
                 <span>Вес 500гр</span>
             </div>
-            <div>
+            <div className={style.row}>
                 <div>
                     <div>
                         <button onClick={decreaseQuantity}>-</button>

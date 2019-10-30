@@ -9,16 +9,14 @@ function Header({totalQuantity, totalPrice}) {
         <header className={style.headerWrapper}>
             <h2>PIROZHOK!!!</h2>
             <NavLink to="/cart" activeClassName={style.active}>
-            <span>
                 <p>CART : {totalQuantity}</p>
                 <p>price : {totalPrice}</p>
-            </span>
             </NavLink>
 
             <div className={style.navContainer}>
                 <NavLink to="/about" activeClassName={style.active}>
                     <div className={style.item}>
-                        Fake Order
+                        About
                     </div>
                 </NavLink>
                 <NavLink to="/catalog" activeClassName={style.active}>

@@ -28,3 +28,13 @@
 .mainImg > img{
     width: 100px;
 }
+.button {
+    text-decoration: none;
+}
+
+.item {
+    color: white;
+}
+.item:hover {
+    color: red;
+}

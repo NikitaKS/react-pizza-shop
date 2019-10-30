@@ -27,7 +27,19 @@ export const pizzasAPI = {
                 }
             })
     },
-    putOrder (formData) {
-        return instance.post(`order/`, formData)
+    postOrder (formData) {
+        return instance.post(`order/`, {
+            "phone": formData.phone,
+            "first_name": formData.first_name,
+            "delivery_date": formData.delivery_date,
+            "delivery_time": formData.delivery_time,
+            "address": formData.address,
+            "comment": formData.comment,
+            "payment": formData.payment
+        }, {withCredentials: true})
+            .then(res => {
+                debugger;
+                return res
+            })
     }
 };

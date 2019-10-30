@@ -3,6 +3,7 @@ import style from './Cart.module.css';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/pizzasReducer";
+import {NavLink} from "react-router-dom";
 
 
 const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}) => {
@@ -16,8 +17,22 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
 
 
     return (
+        <div>
         <div className={style.cartWrapper}>
             {orderItems}
+        </div>
+            <div>
+                <NavLink to="/catalog" activeClassName={style.button}>
+                    <button className={style.item}>
+                        To Menu
+                    </button>
+                </NavLink>
+                <NavLink to="/order" activeClassName={style.button}>
+                    <button className={style.item}>
+                        Order
+                    </button>
+                </NavLink>
+            </div>
         </div>
     )
 };
