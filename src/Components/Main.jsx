@@ -7,8 +7,8 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import Catalog from "./Catalog/Catalog";
 import Preloader from "../common/Preloader";
-import Header from "./StaticComponents/Header";
-import Footer from "./StaticComponents/Footer";
+import Header from "./Header/Header";
+import Footer from "./Footer/Footer";
 import About from "./About/About";
 import {fetchCatalog} from "../Redux/pizzasReducer";
 import Cart from "./Cart/Cart";
@@ -24,7 +24,7 @@ class Main extends Component {
             <div>
                 <Header totalQuantity={this.props.totalQuantity} totalPrice={this.props.totalPrice}/>
 
-                <div>
+                <div className={style.container}>
                     {this.props.isFetching ?
                         <Preloader/> :
                         <div className={style.mainWrapper}>

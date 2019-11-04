@@ -1,15 +1,15 @@
 .formControl input{
     padding: 5px;
-    background-color: rgba(0, 00, 01, 0.8);
-    color: white;
+    background-color: inherit;
+    color: inherit;
     grid-area: text;
     border-radius: 5px;
     border-spacing: 200px;
 }
 .formControl textarea{
     padding: 5px;
-    background-color: rgba(0, 00, 01, 0.8);
-    color: white;
+    background-color: inherit;
+    color: inherit;
     grid-area: text;
     border-radius: 5px;
     border-spacing: 200px;

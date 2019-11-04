@@ -1,27 +1,28 @@
 import React from 'react';
 import style from './Header.module.css';
 import {NavLink} from "react-router-dom";
+import CartBtn from "./CartBtn";
+import logoImg from "./../../assets/icons/logo.svg"
 
-function Header({totalQuantity, totalPrice}) {
+function Header(props) {
 
     return (
 
         <header className={style.headerWrapper}>
-            <h2>PIROZHOK!!!</h2>
-            <NavLink to="/cart" activeClassName={style.active}>
-                <p>CART : {totalQuantity}</p>
-                <p>price : {totalPrice}</p>
+            <NavLink to="/catalog">
+                <div className={style.label}>
+                    <img src={logoImg}/>
+                </div>
             </NavLink>
-
             <div className={style.navContainer}>
                 <NavLink to="/about" activeClassName={style.active}>
                     <div className={style.item}>
                         About
                     </div>
                 </NavLink>
-                <NavLink to="/catalog" activeClassName={style.active}>
+                <NavLink to="/wtf" activeClassName={style.active}>
                     <div className={style.item}>
-                        Catalog
+                        wtf
                     </div>
                 </NavLink>
                 <NavLink to="/order" activeClassName={style.active}>
@@ -30,7 +31,11 @@ function Header({totalQuantity, totalPrice}) {
                     </div>
                 </NavLink>
             </div>
-
+            <div className={style.inform}>
+                <span>Мы работаем с пн.-пт. с 8 до 19.00</span>
+                <span>+375 (33) 658-02-20</span>
+            </div>
+            <CartBtn {...props}/>
         </header>
     );
 }

@@ -26,7 +26,7 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
     };
     return (
         <div className={style.card}>
-            <div className={style.mainImg}><img src={pizza.photo}/></div>
+            <div className={style.mainImg}><img src={pizza.photo_thumbnail}/></div>
             <h2>{pizza.name}</h2>
             <span>size: {pizza.size}</span>
             <span>FILTERS</span>

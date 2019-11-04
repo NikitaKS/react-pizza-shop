@@ -21,6 +21,7 @@
 
 .container {
     composes: container from './../App.css';
+    margin-top: 3rem;
 
 }
 .mainWrapper {
