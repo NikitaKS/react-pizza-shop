@@ -2,16 +2,20 @@ import React, {Component} from 'react';
 import '../App.css';
 import style from './Main.module.css';
 import {Redirect, Route} from "react-router-dom";
-import Order from "./Order/Order";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import Catalog from "./Catalog/Catalog";
 import Preloader from "../common/Preloader";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import About from "./About/About";
 import {fetchCatalog} from "../Redux/pizzasReducer";
-import Cart from "./Cart/Cart";
+import {withSuspense} from "../hoc/withSuspense";
+
+const About = React.lazy(() => import('./About/About'));
+const Order = React.lazy(() => import('./Order/Order'));
+const Cart = React.lazy(() => import("./Cart/Cart"));
+
+
 
 class Main extends Component {
     componentDidMount() {
@@ -30,9 +34,9 @@ class Main extends Component {
                             <Route exact path="/"
                                    render={()=> <Redirect to={"/catalog"}/>}/>
                             <Route path="/catalog" render={() => <Catalog/>}/>
-                            <Route path="/order" render={() => <Order/>}/>
-                            <Route path="/cart" render={() => <Cart />}/>
-                            <Route path="/about" render={() => <About/>}/>
+                            <Route path="/order" render={withSuspense(Order)}/>
+                            <Route path="/cart" render={withSuspense(Cart)}/>
+                            <Route path="/about" render={withSuspense(About)}/>
                         </div>
                     }
                 </div>

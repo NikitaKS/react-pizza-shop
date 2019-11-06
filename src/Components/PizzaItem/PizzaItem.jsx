@@ -1,16 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import style from './PizzaItem.module.css';
+import PizzaImage from "./PizzaImage";
 
 
 const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
 
-    let filtersTitles = pizza.filter.map(f => <span key={f.name+'1'}>{f.name}</span>);
     let [quantity, setQuantity] = useState(1);
     let [addSucces, setAddSucces] = useState(false);
-
-    // useEffect( () => {
-    //     setCurrentInput(props.status);
-    // }, [props.status]);
 
     const decreaseQuantity = () => {
         if (quantity !== 1) {
@@ -26,7 +22,7 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
     };
     return (
         <div className={style.pizzaCardWrapper}>
-            <div className={style.mainImg}><img src={pizza.photo_thumbnail}/></div>
+            <PizzaImage imgUrl={pizza.photo} imgThumbnail={pizza.photo_thumbnail}/>
             <div className={style.container}>
                 <h5>{pizza.name}</h5>
             </div>

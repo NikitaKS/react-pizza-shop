@@ -7,59 +7,23 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {submitOrder} from "../../Redux/pizzasReducer";
+import OrderForm from "./../../common/FormControls/FormsControls"
 
 const Order = ({order, submitOrder}) => {
     const onSubmit = (formData) => {
         submitOrder(formData);
     };
     return (
-        <div className={style.container}>
+        <div className={style.pageWrapper}>
+            <h3>Подтвердить заказ</h3>
+
             {order ? <Redirect to={`/`}/>:
-                <div className={style.item}>
-                    <OrderReduxForm onSubmit={onSubmit}/>
+                <div className={style.container}>
+                    <span>Поля отмеченные * обязательны для заполнения</span>
+                    <OrderForm onSubmit={onSubmit}/>
 
                 </div>}
         </div>
-    );
-};
-
-const OrderForm = (props) => {
-
-    return (
-        <form onSubmit={props.handleSubmit}>
-            {createField('phone', "phone", [requiredField], Input)}
-            {createField('first_name',"first_name", [requiredField], Input)}
-            {createField('delivery_date',"delivery_date", [requiredField], Input, {type: "date"})}
-            {/*{createField('delivery_time',"delivery_time", [requiredField], Input)}*/}
-            <div>
-                <label>Tine</label>
-                <div>
-                    <Field name="delivery_time" component="select">
-                        <option></option>
-                        <option value="0">10-11</option>
-                        <option value="1">11-12</option>
-                        <option value="2">12-13</option>
-                    </Field>
-                </div>
-            </div>
-            {createField('address',"address", [requiredField], Input)}
-            {createField('comment',"comment", null, Textarea, {type: "textarea"})}
-
-            <div>
-                <label>payment</label>
-                <div>
-                    <label><Field name="payment" component="input" type="radio" value="0"/> cash</label>
-                    <label><Field name="payment" component="input" type="radio" value="1"/> card</label>
-                </div>
-            </div>
-
-            {props.error && <div>
-                <span className={style.error}>{props.error}</span>
-            </div>}
-            <div>
-                <button>ORDER</button>
-            </div>
-        </form>
     );
 };
 
@@ -68,8 +32,6 @@ const mapStateToProps = (state) => {
 
     }
 };
-
-const OrderReduxForm = reduxForm({form: 'order'})(OrderForm);
 
 export default compose(
     connect(mapStateToProps, {submitOrder})
