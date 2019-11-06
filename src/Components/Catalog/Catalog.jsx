@@ -4,11 +4,13 @@ import PizzaCard from "./../PizzaItem/PizzaItem";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {addPizzaToOrder, calculateOrder} from "../../Redux/pizzasReducer";
+import bgPict from "./../../assets/images/slide1.png"
 
 class Catalog extends Component {
 
     state = {
         selectedFilter: 'All',
+        bgPict: bgPict
     };
 
     changeFilter = (filterName) => {
@@ -33,6 +35,7 @@ class Catalog extends Component {
 
         let filters = this.props.filters.map(f => <button
             key={f.name}
+            className={style.filterBtn}
             onClick={() => {
                 this.changeFilter(f.name)
             }}>{f.name}</button>);
@@ -43,10 +46,21 @@ class Catalog extends Component {
             <div>
                     <div>
                         <div>
-                            <h5>FILTERS</h5>
-                            <div>{filters}</div>
+                            <div style={{
+                                backgroundImage: `url(${this.state.bgPict})`,
+                                backgroundPosition: 'center center',
+                                backgroundRepeat: 'no-repeat',
+                                height: `35rem`,
+                                backgroundSize: 'cover',
+                            }}
+                            className={style.caruselContent}>
+                                <h3>
+                                    Carusel Title
+                                </h3>
+                            </div>
+                            <div className={style.container}>{filters}</div>
                         </div>
-                        <h5>PIZZAS</h5>
+                        <hr/>
                         <div className={style.pizzasContainer}>
                             {pizzas}
                         </div>

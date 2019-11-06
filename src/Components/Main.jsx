@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../App.css';
 import style from './Main.module.css';
-import {NavLink, Redirect, Route} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 import Order from "./Order/Order";
 import {compose} from "redux";
 import {connect} from "react-redux";
@@ -23,11 +23,10 @@ class Main extends Component {
         return (
             <div>
                 <Header totalQuantity={this.props.totalQuantity} totalPrice={this.props.totalPrice}/>
-
-                <div className={style.container}>
+                <div className={style.mainWrapper}>
                     {this.props.isFetching ?
                         <Preloader/> :
-                        <div className={style.mainWrapper}>
+                        <div>
                             <Route exact path="/"
                                    render={()=> <Redirect to={"/catalog"}/>}/>
                             <Route path="/catalog" render={() => <Catalog/>}/>
@@ -36,10 +35,9 @@ class Main extends Component {
                             <Route path="/about" render={() => <About/>}/>
                         </div>
                     }
-
                 </div>
-
                 <Footer/>
+
             </div>
         );
     }

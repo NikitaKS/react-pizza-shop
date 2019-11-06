@@ -20,3 +20,10 @@
 .item {
     text-decoration: none;
 }
+.iconWrapper {
+    overflow: hidden;
+    height: 50px;
+}
+.iconWrapper > img {
+    border: 0;
+}

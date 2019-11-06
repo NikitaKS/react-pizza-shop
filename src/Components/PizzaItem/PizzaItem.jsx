@@ -25,35 +25,28 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
         setAddSucces(true);
     };
     return (
-        <div className={style.card}>
+        <div className={style.pizzaCardWrapper}>
             <div className={style.mainImg}><img src={pizza.photo_thumbnail}/></div>
-            <h2>{pizza.name}</h2>
-            <span>size: {pizza.size}</span>
-            <span>FILTERS</span>
-            <div>
-                {filtersTitles}
+            <div className={style.container}>
+                <h5>{pizza.name}</h5>
             </div>
-            <div>
-                <span>short discription: {pizza.text_short}</span>
-            </div>
-            <hr />
-            <div>
-                <span>Вес 500гр</span>
+            <div className={style.rowDiscr}>
+                <span>{pizza.text_short}</span>
             </div>
             <div className={style.row}>
-                <div>
-                    <div>
-                        <button onClick={decreaseQuantity}>-</button>
+                <div className={style.calculator}>
+                    <div className={style.row}>
+                        <button className={style.btnSmallMinus} onClick={decreaseQuantity}>-</button>
                         <span>{quantity}</span>
-                        <button onClick={()=>{setQuantity(quantity+1)}}>+</button>
+                        <button className={style.btnSmall} onClick={()=>{setQuantity(quantity+1)}}>+</button>
                     </div>
                     <div>
                         <span>{pizza.price*quantity}</span>
-                        <span>BYN</span>
+                        <span style={{marginLeft: '5px'}}>BYN</span>
                     </div>
                 </div>
                 <div>
-                    <button onClick={onAddToCartClick}>Добавить в корзину</button>
+                    <button className={style.btnAdd} onClick={onAddToCartClick}>Добавить в корзину</button>
                 </div>
             </div>
         </div>

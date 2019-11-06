@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import style from './About.module.css';
-import {AxiosInstance as axios} from "axios";
+import climbing from "../../assets/images/climbing.png";
 
 
 class About extends Component {
@@ -32,10 +32,14 @@ class About extends Component {
         //         },
         //     ]
         // };
+        let studentIconImg = climbing;
         return (
                 <div className={style.headerWrapper}>
                     <h2>FAKE POST!!!</h2>
 
+                    <div className={style.iconWrapper}>
+                        <img style={{ backgroundColor: `red`}} src={studentIconImg}/>
+                    </div>
                     {/*<button onClick={() => {*/}
                     {/*    this.newOrderPost(formDataExample)*/}
                     {/*}}>post*/}

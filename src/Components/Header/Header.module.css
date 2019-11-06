@@ -12,10 +12,10 @@
 .label > img {
     position: absolute;
     text-align: center;
-    left: -10px;
-    top: -6px;
-    height: 6rem;
-    width: 8rem;
+    left: -21px;
+    top: -8px;
+    height: 7.3rem;
+    width: 10.3rem;
     padding: 0;
     box-shadow: 0 8px 10px rgba(159, 90, 12, 0.13);
     box-sizing: content-box;
@@ -41,7 +41,7 @@
     flex-wrap: wrap;
 }
 .inform > span{
-    font-size: 1rem;
+    margin: 0 15px;
 }
 .active {
     font-weight: 700;
