@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import style from './About.module.css';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
+import {fetchOrders} from "../../Redux/pizzasReducer";
+import {connect} from "react-redux";
+import {compose} from "redux";
 
 class About extends Component {
 
@@ -12,6 +15,11 @@ class About extends Component {
             image: '',
         }
     }
+    componentDidMount() {
+        if (!this.props.orders)
+        this.props.fetchOrders();
+    }
+
     handleImageLoaded() {
         this.setState({ image: 'loaded' });
     }
@@ -32,5 +40,10 @@ class About extends Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    return{
+        orders: state.orders,
+    }
+};
 
-export default About;
+export default compose(connect(mapStateToProps,{fetchOrders}))(About);

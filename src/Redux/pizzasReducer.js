@@ -7,7 +7,9 @@ const INCREASE_QUANTITY = 'PIZZAS/INCREASE_QUANTITY';
 const DECREASE_QUANTITY = 'PIZZAS/DECREASE_QUANTITY';
 const ADD_PIZZA_TO_ORDER = 'ORDER/ADD_PIZZA_TO_ORDER';
 const DELETE_ORDER_ITEM = 'ORDER/DELETE_ORDER_ITEM';
+const SET_ORDER_SUCCESS = 'ORDER/SET_ORDER_SUCCESS';
 const SET_IS_FETCHING = 'COMMON/SET_IS_FETCHING';
+const SET_ORDERS = 'COMMON/SET_ORDERS';
 
 const persistedState = localStorage.getItem('order') ? JSON.parse(localStorage.getItem('order')) : {};
 const initialState = {
@@ -29,6 +31,7 @@ const initialState = {
     totalQuantity: persistedState.totalQuantity ? persistedState.totalQuantity : 0,
     isFetching: false,
     filters: [{name: 'one'}],
+    orderSuccess: false,
 };
 
 const pizzasReducer = (state = initialState, action) => {
@@ -46,6 +49,11 @@ const pizzasReducer = (state = initialState, action) => {
                 pizzas: action.pizzas.filter( pz => (pz.active || pz.active === undefined )&& pz)
             };
         //adding feched filters to state
+        case SET_ORDERS:
+            return {
+                ...state,
+                orders: action.orders
+            };
         case SET_FILTERS:
             return {
                 ...state,
@@ -127,6 +135,11 @@ const pizzasReducer = (state = initialState, action) => {
                 totalPrice: price,
                 totalQuantity: quantity,
             };
+        case SET_ORDER_SUCCESS:
+            return {
+                ...state,
+                orderSuccess: action.status,
+            };
         default:
             return state;
     }
@@ -136,6 +149,11 @@ const pizzasReducer = (state = initialState, action) => {
 export const setPizzasSuccess = (pizzas) => {
     return {
         type: SET_PIZZAS, pizzas
+    }
+};
+export const setOrdersSuccess = (orders) => {
+    return {
+        type: SET_ORDERS, orders
     }
 };
 export const setFiltersSuccess = (filters) => {
@@ -163,7 +181,11 @@ export const _removeFromOrder = (id) => {
         type: DELETE_ORDER_ITEM, id
     }
 };
-
+export const _orderSuccess = (status) => {
+    return{
+        type: SET_ORDER_SUCCESS, status
+    }
+}
 
 //EXTERNAL ACTIONS
 export const increaseQuantity = (id) => (dispatch) => {
@@ -201,9 +223,15 @@ export const fetchCatalog = () => async (dispatch) => {
     dispatch(toggleIsFetching(false));
 };
 
-export const submitOrder = (orderData) => async (dispatch) => {
-    const res = await pizzasAPI.postOrder(orderData)
-
-}
-
+export const submitOrder = (orderData) => async (dispatch, getState) => {
+    const order = getState().reducer.order.map( oi => ({quantity: oi.quantity, pizza_obj: oi.id}));
+    const res = await pizzasAPI.postOrder(orderData, order);
+    if (res)
+    dispatch(_orderSuccess(true));
+    setTimeout(dispatch(_orderSuccess(false)), 1000);
+};
+export const fetchOrders = () => async (dispatch) => {
+    const orders = await pizzasAPI.getOrders();
+    dispatch(setOrdersSuccess(orders));
+};
 export default pizzasReducer;

@@ -23,14 +23,14 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
         </div>
     </div>
 );
-//
-// const renderDateTimePicker = ({ input: { onChange, value }, showTime }) =>
-//     <DateTimePicker
-//         onChange={onChange}
-//         format="DD MMM YYYY"
-//         time={showTime}
-//         value={!value ? null : new Date(value)}
-//     />
+
+const renderDateTimePicker = ({ input: { onChange, value }, showTime }) =>
+    <DateTimePicker
+        onChange={onChange}
+        format="DD MMM YYYY"
+        time={showTime}
+        value={!value ? null : new Date(value)}
+    />
 
 class DropDownSelect extends React.Component {
 
@@ -39,6 +39,7 @@ class DropDownSelect extends React.Component {
     );
 
     render() {
+        const { meta: {touched, error, warning} } = this.props;
         const {input, label} = this.props;
         return (
             <div>
@@ -48,6 +49,9 @@ class DropDownSelect extends React.Component {
                         <option value="">Select</option>
                         {this.props.times.map(this.renderSelectOptions)}
                     </select>
+                    {touched &&
+                    ((error && <span className={style.errorMessage}>{error}</span>)
+                        || (warning && <span className={style.errorMessage}>{warning}</span>))}
                 </div>
             </div>
         );
