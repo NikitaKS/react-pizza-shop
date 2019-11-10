@@ -1,15 +1,13 @@
-import React from 'react';
-import {Field, reduxForm} from "redux-form";
-import style from './Order.module.css'
-import {createField, Input, Textarea} from "../../common/FormControls/FormsControls";
-import {requiredField} from "../../utils/validators";
+import React, {useEffect} from 'react';
+import style from './Order.module.css';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {submitOrder} from "../../Redux/pizzasReducer";
+import {submitOrder, fetchOrders} from "../../Redux/pizzasReducer";
 import OrderForm from "./../../common/FormControls/FormsControls"
 
-const Order = ({order, submitOrder}) => {
+const Order = ({order, submitOrder, fetchOrders}) => {
+    useEffect(fetchOrders,[]);
     const onSubmit = (formData) => {
         submitOrder(formData);
     };
@@ -34,5 +32,5 @@ const mapStateToProps = (state) => {
 };
 
 export default compose(
-    connect(mapStateToProps, {submitOrder})
+    connect(mapStateToProps, {submitOrder, fetchOrders})
 )(Order);

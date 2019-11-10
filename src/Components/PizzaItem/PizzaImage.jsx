@@ -17,9 +17,9 @@ class PizzaImage extends Component {
     render() {
 
         return (
-                <div className={style.mainImg}>
+                <div className={style.mainImg} onClick={this.props.openPopup}>
                     {this.state.image &&
-                        <div><img src={this.props.imgThumbnail}/></div>}
+                        <div ><img src={this.props.imgThumbnail}/></div>}
                     <img src={this.props.imgUrl} onLoad={this.handleImageLoaded.bind(this)}/>
                 </div>
         );

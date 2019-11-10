@@ -5,14 +5,31 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {addPizzaToOrder, calculateOrder} from "../../Redux/pizzasReducer";
 import bgPict from "./../../assets/images/slide1.png"
+import PopupWrapper from "../../common/PopupWrapper";
 
 class Catalog extends Component {
 
     state = {
         selectedFilter: 'All',
-        bgPict: bgPict
+        bgPict: bgPict,
+        isPopupOpen: false,
+        popupPizza: {
+            filter: [{name: 'big'}],
+            id: 123,
+            name: "123",
+            photo: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
+            photo_thumbnail: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
+            price: "22.00",
+            size: "2",
+            text_long: "ng",
+            text_short: "da",
+        },
     };
 
+    setPopupOpen = (pizza, option) => {
+        this.setState({popupPizza: pizza});
+        this.setState({isPopupOpen: option});
+    };
     changeFilter = (filterName) => {
         this.setState({selectedFilter: filterName})
     };
@@ -28,6 +45,7 @@ class Catalog extends Component {
                 }
             })
             .map(p => <PizzaCard pizza={p}
+                                 openPopup={()=>{this.setPopupOpen(p, true)}}
                                  key={p.id}
                                  calculateOrder={ this.props.calculateOrder}
                                  addPizzaToOrder={this.props.addPizzaToOrder}/>);
@@ -43,7 +61,10 @@ class Catalog extends Component {
 
         return (
 
+
             <div>
+                {this.state.isPopupOpen&&<PopupWrapper pizza={this.state.popupPizza}
+                                                       setPopupOpen={()=>{this.setPopupOpen(null, false)}}/>}
                     <div>
                         <div>
                             <div style={{

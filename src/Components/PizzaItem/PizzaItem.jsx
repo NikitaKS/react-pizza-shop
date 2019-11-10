@@ -3,7 +3,7 @@ import style from './PizzaItem.module.css';
 import PizzaImage from "./PizzaImage";
 
 
-const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
+const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}) => {
 
     let [quantity, setQuantity] = useState(1);
     let [addSucces, setAddSucces] = useState(false);
@@ -22,7 +22,7 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder}) => {
     };
     return (
         <div className={style.pizzaCardWrapper}>
-            <PizzaImage imgUrl={pizza.photo} imgThumbnail={pizza.photo_thumbnail}/>
+            <PizzaImage imgUrl={pizza.photo} openPopup={openPopup} imgThumbnail={pizza.photo_thumbnail}/>
             <div className={style.container}>
                 <h5>{pizza.name}</h5>
             </div>

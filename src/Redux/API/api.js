@@ -10,7 +10,7 @@ const instance = axios.create({
 
 export const pizzasAPI = {
     getPizzas () {
-        return axios.get('http://127.0.0.1:8000/api/pizza/?format=json')
+        return instance.get('pizza/?format=json')
             .then(res => {
                 if(res.status === 200) {
                     return res.data

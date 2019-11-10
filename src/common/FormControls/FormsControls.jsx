@@ -34,8 +34,8 @@ const renderDateTimePicker = ({ input: { onChange, value }, showTime }) =>
 
 class DropDownSelect extends React.Component {
 
-    renderSelectOptions = (option) => (
-        <option key={option} value={option}>{option}</option>
+    renderSelectOptions = (option, index) => (
+        <option key={option} value={index}>{option}</option>
     );
 
     render() {
