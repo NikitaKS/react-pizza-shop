@@ -6,7 +6,7 @@ import { createTextMask } from 'redux-form-input-masks';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 // import moment from 'moment';
 // import momentLocaliser from 'react-widgets/lib/localizers/moment';
-import 'react-widgets/dist/css/react-widgets.css'
+import 'react-widgets/dist/css/react-widgets.css';
 
 const phoneMask = createTextMask({
     pattern: '8-(099) 999-9999',
@@ -64,25 +64,26 @@ const OrderReduxForm = (props) => {
     const times = ['', '10', '11', '12'];
     return (
         <form className={style.formControl} onSubmit={handleSubmit}>
+
             <Field name="phone"
                    type="text"
                    component={renderField}
                    {...phoneMask}
                    label="Номер телефона *"
-                   validate={[required, number]}
+            //       validate={[required, number]}
             />
             <Field name="first_name"
                    type="text"
                    component={renderField}
                    label="Name"
-                   validate={[required]}
-                   warn={required}
+          //         validate={[required]}
+          //         warn={required}
             />
             <Field name="delivery_date"
                    type="date"
                    component={renderField}
                    label="date"
-                   validate={[required]}
+       //            validate={[required]}
                    warn={required}
             />
             <Field name="delivery_time"
@@ -90,15 +91,15 @@ const OrderReduxForm = (props) => {
                    component={DropDownSelect}
                    label="time"
                    times={times}
-                   validate={[required, number]}
+                   validate={[number]}
                    warn={required}
             />
             <Field name="address"
                    type="text"
                    component={renderField}
                    label="address"
-                   validate={[required]}
-                   warn={required}
+           //        validate={[required]}
+           //        warn={required}
             />
             <div className={style.fieldWrapper}>
                 <label>comment</label>
@@ -111,7 +112,7 @@ const OrderReduxForm = (props) => {
             </div>
             <div>
                 <label>payment</label>
-                <div>
+                <div className={style.row}>
                     <label><Field name="payment" component="input" type="radio" value="0"/> cash</label>
                     <label><Field name="payment" component="input" type="radio" value="1"/> card</label>
                     <label><Field name="payment" component="input" type="radio" value="3"/> online</label>

@@ -20,3 +20,8 @@
 .errorMessage {
     color: red;
 }
+.row
+{
+    display: flex;
+    flex-direction: row;
+}
