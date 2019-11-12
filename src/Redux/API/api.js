@@ -1,8 +1,7 @@
 import axios from "axios";
 
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
-// axios.defaults.withCredentials = true;
 
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
@@ -42,7 +41,7 @@ export const pizzasAPI = {
             })
     },
     getOrders () {
-        return axios.get('http://127.0.0.1:8000/api/order/?format=json')
+        return instance.get('order/?format=json')
             .then(res => {
                 if(res.status === 200) {
                     return res.data
