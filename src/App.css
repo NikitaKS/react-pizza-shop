@@ -79,6 +79,8 @@
 .mainBtn:hover
 {
     border-color: rgba(196, 67, 0, 0.99);
+    background-color: rgba(255, 85, 0, .99);
+    color: white;
     font-weight: 600;
 }
 .mainBtn:active
