@@ -46,7 +46,7 @@ const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}) 
         <div className={style.tableRow}>
             <div className={style.row}>
                 <div className={style.mainImg}>
-                    <img src={pizza.photo}/>
+                    <img src={pizza.photo_thumbnail}/>
                 </div>
 
             </div>
@@ -80,7 +80,7 @@ const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}) 
                     </button>
                 </div>
                 <div className={style.calculator}>
-                    <span>{pizza.price * pizza.quantity}</span>
+                    <span>{(pizza.price * pizza.quantity).toFixed(2)}</span>
                     <span><b>BYN</b></span>
 
                 </div>

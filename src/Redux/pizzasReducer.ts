@@ -56,11 +56,7 @@ const pizzasReducer = (state:IAppState = initialState, action:any) => {
         case SET_PIZZAS:
             return {
                 ...state,
-                pizzas: action.pizzas.filter( (pz:any) => (pz.active || pz.active === undefined )&& {
-                    ...pz,
-                    price: + pz.price,
-                    size: + pz.size,
-                })
+                pizzas: action.pizzas
             };
         //adding feched filters to state
         case SET_ORDERS:
@@ -118,8 +114,8 @@ const pizzasReducer = (state:IAppState = initialState, action:any) => {
                     id: action.pizzaItem.id,
                     name: action.pizzaItem.name,
                     photo_thumbnail: action.pizzaItem.photo_thumbnail,
-                    price: +action.pizzaItem.price,
-                    size: +action.pizzaItem.size,
+                    price: Number(action.pizzaItem.price),
+                    size: Number(action.pizzaItem.size),
                     text_short: action.pizzaItem.text_short,
                     quantity: action.quantity
                 };
@@ -263,11 +259,15 @@ export const addPizzaToOrder = (pizzaItem: IPizzaItem, quantity: number) => {
 export const fetchCatalog = () => async (dispatch: any) => {
     dispatch(toggleIsFetching(true));
     const pizzas = await pizzasAPI.getPizzas();
-    dispatch(setPizzasSuccess(pizzas.filter( (pz:any) => (pz.active || pz.active === undefined )&& {
-        ...pz,
-        price: + pz.price,
-        size: + pz.size,
-    })));
+    dispatch(setPizzasSuccess(
+        pizzas.map( (pz:any) => {
+            return {
+            ...pz,
+                price: parseFloat(pz.price),
+                size: parseFloat(pz.size)
+            }
+        }
+    )));
     const filters = await pizzasAPI.getFilters();
     dispatch(setFiltersSuccess(filters));
     dispatch(toggleIsFetching(false));

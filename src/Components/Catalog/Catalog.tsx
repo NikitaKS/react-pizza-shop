@@ -1,15 +1,33 @@
 import React, {Component} from 'react';
 import style from './Catalog.module.css';
-import PizzaCard from "./../PizzaItem/PizzaItem";
+import PizzaCard from "../PizzaItem/PizzaItem";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {addPizzaToOrder, calculateOrder} from "../../Redux/pizzasReducer.ts";
+import {addPizzaToOrder, calculateOrder} from "../../Redux/pizzasReducer";
 import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
+import {IFilterItem, IPizzaItem} from "../../types/types";
+import {AppStateType} from "../../Redux/Store";
 
-class Catalog extends Component {
 
-    state = {
+interface IConnectProps {
+    pizzas: Array<IPizzaItem>,
+    filters: Array<IFilterItem>,
+}
+
+interface LinkDispatchProps {
+    addPizzaToOrder: (pizzaItem: IPizzaItem, quantity: number) => void;
+    calculateOrder: () => void;
+}
+interface IState {
+    selectedFilter: string
+    bgPict: string
+    isPopupOpen: boolean
+    popupPizza: IPizzaItem
+}
+class Catalog extends Component<IConnectProps & LinkDispatchProps> {
+
+    state:IState = {
         selectedFilter: 'All',
         bgPict: bgPict,
         isPopupOpen: false,
@@ -19,18 +37,18 @@ class Catalog extends Component {
             name: "123",
             photo: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
             photo_thumbnail: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
-            price: "22.00",
-            size: "2",
+            price: 22.00,
+            size: 2,
             text_long: "ng",
             text_short: "da",
         },
     };
 
-    setPopupOpen = (pizza, option) => {
+    setPopupOpen = (pizza:IPizzaItem, option:boolean) => {
         this.setState({popupPizza: pizza});
         this.setState({isPopupOpen: option});
     };
-    changeFilter = (filterName) => {
+    changeFilter = (filterName:string) => {
         this.setState({selectedFilter: filterName})
     };
 
@@ -64,7 +82,7 @@ class Catalog extends Component {
 
             <div>
                 {this.state.isPopupOpen&&<PopupWrapper pizza={this.state.popupPizza}
-                                                       setPopupOpen={()=>{this.setPopupOpen(null, false)}}/>}
+                                                       setPopupOpen={this.setPopupOpen}/>}
                     <div>
                         <div>
                             <div style={{
@@ -91,7 +109,7 @@ class Catalog extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:AppStateType):IConnectProps => {
     return {
         pizzas: state.reducer.pizzas,
         filters: state.reducer.filters,

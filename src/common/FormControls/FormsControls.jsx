@@ -70,20 +70,20 @@ const OrderReduxForm = (props) => {
                    component={renderField}
                    {...phoneMask}
                    label="Номер телефона *"
-            //       validate={[required, number]}
+                   validate={[required, number]}
             />
             <Field name="first_name"
                    type="text"
                    component={renderField}
                    label="Name"
-          //         validate={[required]}
-          //         warn={required}
+                   validate={[required]}
+                   warn={required}
             />
             <Field name="delivery_date"
                    type="date"
                    component={renderField}
                    label="date"
-       //            validate={[required]}
+                   validate={[required]}
                    warn={required}
             />
             <Field name="delivery_time"
@@ -98,8 +98,8 @@ const OrderReduxForm = (props) => {
                    type="text"
                    component={renderField}
                    label="address"
-           //        validate={[required]}
-           //        warn={required}
+                   validate={[required]}
+                   warn={required}
             />
             <div className={style.fieldWrapper}>
                 <label>comment</label>

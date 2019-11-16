@@ -4,13 +4,13 @@ import style from './Main.module.css';
 import {Redirect, Route} from "react-router-dom";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import Catalog from "./Catalog/Catalog";
 import Preloader from "../common/Preloader";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import {fetchCatalog} from "../Redux/pizzasReducer";
 import {withSuspense} from "../hoc/withSuspense";
 import {AppStateType} from "../Redux/Store";
+import Catalog from "./Catalog/Catalog";
 
 const About = React.lazy(() => import('./About/About'));
 const Order = React.lazy(() => import('./Order/Order'));
