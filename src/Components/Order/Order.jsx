@@ -3,7 +3,7 @@ import style from './Order.module.css';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {submitOrder, fetchOrders} from "../../Redux/pizzasReducer";
+import {submitOrder, fetchOrders} from "../../Redux/pizzasReducer.ts";
 import OrderForm from "./../../common/FormControls/FormsControls"
 
 const Order = ({order, submitOrder, fetchOrders}) => {

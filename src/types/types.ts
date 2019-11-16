@@ -1,4 +1,3 @@
-import store from "../Redux/Store";
 
 export interface IOrderItem {
     id: number,

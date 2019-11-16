@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import style from './About.module.css';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
-import {fetchOrders} from "../../Redux/pizzasReducer";
+import {fetchOrders} from "../../Redux/pizzasReducer.ts";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import axios from "axios";

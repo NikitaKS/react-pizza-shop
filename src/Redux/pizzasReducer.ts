@@ -1,7 +1,6 @@
 import {pizzasAPI} from "./API/api";
-import {IAppState, IFilterItem, IOrderItem, IPizzaItem, IPostOrderItem} from "../types/types";
+import {IAppState, IFilterItem, IOrderItem, IOrderLocalStorage, IPizzaItem, IPostOrderItem} from "../types/types";
 import {Dispatch} from "redux";
-import {persistedState} from "./localStorage";
 
 const SET_PIZZAS = 'MAIN_PAGE/ADD_LIST';
 const SET_FILTERS = 'MAIN_PAGE/SET_FILTERS';
@@ -13,6 +12,15 @@ const DELETE_ORDER_ITEM = 'ORDER/DELETE_ORDER_ITEM';
 const SET_ORDER_SUCCESS = 'ORDER/SET_ORDER_SUCCESS';
 const SET_IS_FETCHING = 'COMMON/SET_IS_FETCHING';
 const SET_ORDERS = 'COMMON/SET_ORDERS';
+
+const persistedState:IOrderLocalStorage =
+    localStorage.getItem('order')!== null&& localStorage.getItem('order')!== undefined ?
+        // @ts-ignore
+        JSON.parse(localStorage.getItem('order')) : {
+            order: [],
+            totalPrice: 0,
+            totalQuantity: 0,
+        };
 
 const initialState:IAppState = {
     pizzas: [
@@ -36,7 +44,7 @@ const initialState:IAppState = {
     orderSuccess: false,
 };
 
-const pizzasReducer = (state = initialState, action:any) => {
+const pizzasReducer = (state:IAppState = initialState, action:any) => {
     switch (action.type) {
         //setting fetching status
         case SET_IS_FETCHING:
@@ -156,32 +164,31 @@ interface InterfaceSetPizzasSuccess {
     pizzas: Array<IPizzaItem>
 }
 interface IsetOrdersSuccess {
-    type: typeof SET_PIZZAS,
-    pizzas: Array<IPizzaItem>
+    type: typeof SET_ORDERS,
+    orders: any
 }
 interface IsetFiltersSuccess {
-    type: typeof SET_PIZZAS,
-    pizzas: Array<IPizzaItem>
+    type: typeof SET_FILTERS,
+    filters: Array<IFilterItem>
 }
 interface IcalculateOrder {
-    type: typeof SET_PIZZAS,
-    pizzas: Array<IPizzaItem>
+    type: typeof CALCULATE_TOTAL,
 }
 interface I_increaseQuantity {
-    type: typeof SET_PIZZAS,
-    pizzas: Array<IPizzaItem>
+    type: typeof INCREASE_QUANTITY,
+    id: number
 }
 interface I_decreaseQuantity {
-    type: typeof SET_PIZZAS,
-    pizzas: Array<IPizzaItem>
+    type: typeof DECREASE_QUANTITY,
+    id: number
 }
 interface I_removeFromOrder {
-    type: typeof SET_PIZZAS,
-    pizzas: Array<IPizzaItem>
+    type: typeof DELETE_ORDER_ITEM,
+    id: number
 }
 interface I_orderSuccess {
-    type: typeof SET_PIZZAS,
-    pizzas: Array<IPizzaItem>
+    type: typeof SET_ORDER_SUCCESS,
+    status: boolean
 }
 
 //LOCAL ACTIONS
@@ -190,37 +197,37 @@ export const setPizzasSuccess = (pizzas:Array<IPizzaItem>): InterfaceSetPizzasSu
         type: SET_PIZZAS, pizzas
     }
 };
-export const setOrdersSuccess = (orders:any) => {
+export const setOrdersSuccess = (orders:any):IsetOrdersSuccess => {
     return {
         type: SET_ORDERS, orders
     }
 };
-export const setFiltersSuccess = (filters:IFilterItem) => {
+export const setFiltersSuccess = (filters:Array<IFilterItem>):IsetFiltersSuccess => {
     return {
         type: SET_FILTERS, filters
     }
 };
-export const calculateOrder = () => {
+export const calculateOrder = ():IcalculateOrder => {
     return {
         type: CALCULATE_TOTAL
     }
 };
-export const _increaseQuantity = (id:number) => {
+export const _increaseQuantity = (id:number):I_increaseQuantity => {
     return {
         type: INCREASE_QUANTITY, id
     }
 };
-export const _decreaseQuantity = (id:number) => {
+export const _decreaseQuantity = (id:number):I_decreaseQuantity => {
     return {
         type: DECREASE_QUANTITY, id
     }
 };
-export const _removeFromOrder = (id:number) => {
+export const _removeFromOrder = (id:number):I_removeFromOrder => {
     return {
         type: DELETE_ORDER_ITEM, id
     }
 };
-export const _orderSuccess = (status:boolean) => {
+export const _orderSuccess = (status:boolean):I_orderSuccess => {
     return{
         type: SET_ORDER_SUCCESS, status
     }

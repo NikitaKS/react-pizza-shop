@@ -10,14 +10,27 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import {fetchCatalog} from "../Redux/pizzasReducer";
 import {withSuspense} from "../hoc/withSuspense";
+import {AppStateType} from "../Redux/Store";
 
 const About = React.lazy(() => import('./About/About'));
 const Order = React.lazy(() => import('./Order/Order'));
 const Cart = React.lazy(() => import("./Cart/Cart"));
 
 
+interface IProps {
+    title: string
+}
+interface IConnectProps {
+    isFetching: boolean,
+    totalQuantity: number,
+    totalPrice: number,
+}
 
-class Main extends Component {
+interface LinkDispatchProps {
+    fetchCatalog: () => void;
+}
+
+class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
     componentDidMount() {
         this.props.fetchCatalog();
     }
@@ -47,7 +60,7 @@ class Main extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:AppStateType):IConnectProps => {
     return {
         isFetching: state.reducer.isFetching,
         totalQuantity: state.reducer.totalQuantity,

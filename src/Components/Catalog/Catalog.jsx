@@ -3,7 +3,7 @@ import style from './Catalog.module.css';
 import PizzaCard from "./../PizzaItem/PizzaItem";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {addPizzaToOrder, calculateOrder} from "../../Redux/pizzasReducer";
+import {addPizzaToOrder, calculateOrder} from "../../Redux/pizzasReducer.ts";
 import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
 

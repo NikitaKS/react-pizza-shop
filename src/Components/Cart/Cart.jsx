@@ -2,7 +2,7 @@ import React from 'react';
 import style from './Cart.module.css';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/pizzasReducer";
+import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/pizzasReducer.ts";
 import {NavLink} from "react-router-dom";
 
 
