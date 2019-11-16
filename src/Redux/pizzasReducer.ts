@@ -1,4 +1,7 @@
 import {pizzasAPI} from "./API/api";
+import {IAppState, IFilterItem, IOrderItem, IPizzaItem, IPostOrderItem} from "../types/types";
+import {Dispatch} from "redux";
+import {persistedState} from "./localStorage";
 
 const SET_PIZZAS = 'MAIN_PAGE/ADD_LIST';
 const SET_FILTERS = 'MAIN_PAGE/SET_FILTERS';
@@ -11,8 +14,7 @@ const SET_ORDER_SUCCESS = 'ORDER/SET_ORDER_SUCCESS';
 const SET_IS_FETCHING = 'COMMON/SET_IS_FETCHING';
 const SET_ORDERS = 'COMMON/SET_ORDERS';
 
-const persistedState = localStorage.getItem('order') ? JSON.parse(localStorage.getItem('order')) : {};
-const initialState = {
+const initialState:IAppState = {
     pizzas: [
         {
             filter: [{name: 'big'}],
@@ -20,8 +22,8 @@ const initialState = {
             name: "123",
             photo: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
             photo_thumbnail: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
-            price: "22.00",
-            size: "2",
+            price: 22.00,
+            size: 2,
             text_long: "ng",
             text_short: "da",
         },
@@ -34,7 +36,7 @@ const initialState = {
     orderSuccess: false,
 };
 
-const pizzasReducer = (state = initialState, action) => {
+const pizzasReducer = (state = initialState, action:any) => {
     switch (action.type) {
         //setting fetching status
         case SET_IS_FETCHING:
@@ -46,7 +48,11 @@ const pizzasReducer = (state = initialState, action) => {
         case SET_PIZZAS:
             return {
                 ...state,
-                pizzas: action.pizzas.filter( pz => (pz.active || pz.active === undefined )&& pz)
+                pizzas: action.pizzas.filter( (pz:any) => (pz.active || pz.active === undefined )&& {
+                    ...pz,
+                    price: + pz.price,
+                    size: + pz.size,
+                })
             };
         //adding feched filters to state
         case SET_ORDERS:
@@ -63,11 +69,11 @@ const pizzasReducer = (state = initialState, action) => {
         case INCREASE_QUANTITY:
             return {
                 ...state,
-                order: state.order.map(pz => {
-                    if(pz.id !== action.id){
-                        return pz;
+                order: state.order.map((oi:IOrderItem) => {
+                    if(oi.id !== action.id){
+                        return oi;
                     } else {
-                        return {...pz, quantity: pz.quantity+1}
+                        return {...oi, quantity: oi.quantity+1}
                     }
                 }),
             };
@@ -75,38 +81,37 @@ const pizzasReducer = (state = initialState, action) => {
         case DECREASE_QUANTITY:
             return {
                 ...state,
-                order: state.order.map(pz => {
-                    if(pz.id === action.id){
-                        return {...pz, quantity: pz.quantity === 1 ? pz.quantity : pz.quantity -1}
+                order: state.order.map((oi:IOrderItem) => {
+                    if(oi.id === action.id){
+                        return {...oi, quantity: oi.quantity === 1 ? oi.quantity : oi.quantity -1}
                     } else {
-                        return pz
+                        return oi
                     }
                 }),
             };
             //adding pizza item to order
         case ADD_PIZZA_TO_ORDER:
-            if (state.order.some( i => i.id === action.pizzaItem.id)) {
+            if (state.order.some( (oi:IOrderItem) => oi.id === action.pizzaItem.id)) {
                 return {
                     ...state,
-                    order: state.order.map( i => {
-                        if (i.id === action.pizzaItem.id) {
+                    order: state.order.map( (oi:IOrderItem) => {
+                        if (oi.id === action.pizzaItem.id) {
                             return {
-                                ...i,
-                                quantity: i.quantity + action.quantity
+                                ...oi,
+                                quantity: oi.quantity + action.quantity
                             }
                         } else {
-                            return i
+                            return oi
                         }
                     })
                 }
             } else {
-                let orderItem = {
+                let orderItem:IOrderItem = {
                     id: action.pizzaItem.id,
                     name: action.pizzaItem.name,
-                    photo: action.pizzaItem.photo,
                     photo_thumbnail: action.pizzaItem.photo_thumbnail,
-                    price: action.pizzaItem.price,
-                    size: action.pizzaItem.size,
+                    price: +action.pizzaItem.price,
+                    size: +action.pizzaItem.size,
                     text_short: action.pizzaItem.text_short,
                     quantity: action.quantity
                 };
@@ -121,14 +126,14 @@ const pizzasReducer = (state = initialState, action) => {
         case DELETE_ORDER_ITEM:
             return {
                 ...state,
-                order: state.order.filter(i=> i.id !== action.id)
+                order: state.order.filter((oi:IOrderItem)=> oi.id !== action.id)
             };
         case CALCULATE_TOTAL:
             let price = 0;
             let quantity = 0;
-            state.order.forEach( i => {
-                price += i.quantity * i.price;
-                quantity += i.quantity;
+            state.order.forEach( (oi:IOrderItem) => {
+                price += oi.quantity * oi.price;
+                quantity += oi.quantity;
             });
             return {
                 ...state,
@@ -145,18 +150,52 @@ const pizzasReducer = (state = initialState, action) => {
     }
 };
 
+//interfaces
+interface InterfaceSetPizzasSuccess {
+    type: typeof SET_PIZZAS,
+    pizzas: Array<IPizzaItem>
+}
+interface IsetOrdersSuccess {
+    type: typeof SET_PIZZAS,
+    pizzas: Array<IPizzaItem>
+}
+interface IsetFiltersSuccess {
+    type: typeof SET_PIZZAS,
+    pizzas: Array<IPizzaItem>
+}
+interface IcalculateOrder {
+    type: typeof SET_PIZZAS,
+    pizzas: Array<IPizzaItem>
+}
+interface I_increaseQuantity {
+    type: typeof SET_PIZZAS,
+    pizzas: Array<IPizzaItem>
+}
+interface I_decreaseQuantity {
+    type: typeof SET_PIZZAS,
+    pizzas: Array<IPizzaItem>
+}
+interface I_removeFromOrder {
+    type: typeof SET_PIZZAS,
+    pizzas: Array<IPizzaItem>
+}
+interface I_orderSuccess {
+    type: typeof SET_PIZZAS,
+    pizzas: Array<IPizzaItem>
+}
+
 //LOCAL ACTIONS
-export const setPizzasSuccess = (pizzas) => {
+export const setPizzasSuccess = (pizzas:Array<IPizzaItem>): InterfaceSetPizzasSuccess => {
     return {
         type: SET_PIZZAS, pizzas
     }
 };
-export const setOrdersSuccess = (orders) => {
+export const setOrdersSuccess = (orders:any) => {
     return {
         type: SET_ORDERS, orders
     }
 };
-export const setFiltersSuccess = (filters) => {
+export const setFiltersSuccess = (filters:IFilterItem) => {
     return {
         type: SET_FILTERS, filters
     }
@@ -166,47 +205,47 @@ export const calculateOrder = () => {
         type: CALCULATE_TOTAL
     }
 };
-export const _increaseQuantity = (id) => {
+export const _increaseQuantity = (id:number) => {
     return {
         type: INCREASE_QUANTITY, id
     }
 };
-export const _decreaseQuantity = (id) => {
+export const _decreaseQuantity = (id:number) => {
     return {
         type: DECREASE_QUANTITY, id
     }
 };
-export const _removeFromOrder = (id) => {
+export const _removeFromOrder = (id:number) => {
     return {
         type: DELETE_ORDER_ITEM, id
     }
 };
-export const _orderSuccess = (status) => {
+export const _orderSuccess = (status:boolean) => {
     return{
         type: SET_ORDER_SUCCESS, status
     }
 }
 
 //EXTERNAL ACTIONS
-export const increaseQuantity = (id) => (dispatch) => {
+export const increaseQuantity = (id:number) => (dispatch: Dispatch) => {
     dispatch(_increaseQuantity(id));
     dispatch(calculateOrder());
 };
-export const decreaseQuantity = (id) => (dispatch) => {
+export const decreaseQuantity = (id:number) => (dispatch: Dispatch) => {
     dispatch(_decreaseQuantity(id));
     dispatch(calculateOrder());
 };
-export const removeFromOrder = (id) => (dispatch) => {
+export const removeFromOrder = (id:number) => (dispatch: Dispatch) => {
     dispatch(_removeFromOrder(id));
     dispatch(calculateOrder());
 };
 
-const toggleIsFetching = (status) => {
+const toggleIsFetching = (status:boolean) => {
     return {
         type: SET_IS_FETCHING, status
     }
 };
-export const addPizzaToOrder = (pizzaItem, quantity) => {
+export const addPizzaToOrder = (pizzaItem: IPizzaItem, quantity: number) => {
     return {
         type: ADD_PIZZA_TO_ORDER, pizzaItem, quantity
     }
@@ -214,23 +253,28 @@ export const addPizzaToOrder = (pizzaItem, quantity) => {
 
 
 //FETCH ACTIONS
-export const fetchCatalog = () => async (dispatch) => {
+export const fetchCatalog = () => async (dispatch: any) => {
     dispatch(toggleIsFetching(true));
     const pizzas = await pizzasAPI.getPizzas();
-    dispatch(setPizzasSuccess(pizzas));
+    dispatch(setPizzasSuccess(pizzas.filter( (pz:any) => (pz.active || pz.active === undefined )&& {
+        ...pz,
+        price: + pz.price,
+        size: + pz.size,
+    })));
     const filters = await pizzasAPI.getFilters();
     dispatch(setFiltersSuccess(filters));
     dispatch(toggleIsFetching(false));
 };
 
-export const submitOrder = (orderData) => async (dispatch, getState) => {
-    const order = getState().reducer.order.map( oi => ({quantity: oi.quantity, pizza_id: oi.id}));
-    const res = await pizzasAPI.postOrder(orderData, order);
-    if (res)
-    dispatch(_orderSuccess(true));
-    setTimeout(dispatch(_orderSuccess(false)), 1000);
+export const submitOrder = (orderData: any) => async (dispatch : any, getState: any) => {
+    const order:Array<IPostOrderItem> = getState().reducer.order.map( (oi:IOrderItem) => ({quantity: oi.quantity, pizza_id: oi.id}));
+        const res = await pizzasAPI.postOrder(orderData, order);
+        if (res)
+            //setting status to block buttons or redirect to payment page
+            dispatch(_orderSuccess(true));
+        setTimeout(dispatch(_orderSuccess(false)), 1000);
 };
-export const fetchOrders = () => async (dispatch) => {
+export const fetchOrders = () => async (dispatch: any) => {
     const orders = await pizzasAPI.getOrders();
     dispatch(setOrdersSuccess(orders));
 };

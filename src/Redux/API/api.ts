@@ -1,4 +1,5 @@
 import axios from "axios";
+import {IPostOrderItem} from "../../types/types";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -12,7 +13,7 @@ export const pizzasAPI = {
         return instance.get('pizza/?format=json')
             .then(res => {
                 if(res.status === 200) {
-                    return res.data
+                    return res.data;
                 }
             })
     },
@@ -24,7 +25,7 @@ export const pizzasAPI = {
                 }
             })
     },
-    postOrder (formData, order) {
+    postOrder (formData:any, order: Array<IPostOrderItem>) {
         return instance.post(`order/`, {
             "phone": formData.phone,
             "first_name": formData.first_name,
