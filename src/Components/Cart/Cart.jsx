@@ -15,7 +15,6 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
         removeFromOrder={removeFromOrder}
     />);
 
-
     return (
         <div>
             <div className={style.tableRow}>
@@ -59,7 +58,7 @@ const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}) 
                     <span>{pizza.text_short}</span>
                     <span>Вес 500гр</span>
                 </div>
-                </div>
+            </div>
 
             <div className={style.rowCalc}>
                 <div className={style.col}>

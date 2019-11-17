@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import '../App.css';
-import style from './Main.module.css';
 import {Redirect, Route} from "react-router-dom";
 import {compose} from "redux";
 import {connect} from "react-redux";
@@ -11,15 +9,17 @@ import {fetchCatalog} from "../Redux/pizzasReducer";
 import {withSuspense} from "../hoc/withSuspense";
 import {AppStateType} from "../Redux/Store";
 import Catalog from "./Catalog/Catalog";
+import '../App.css';
+import style from './Main.module.css';
 
 const About = React.lazy(() => import('./About/About'));
 const Order = React.lazy(() => import('./Order/Order'));
 const Cart = React.lazy(() => import("./Cart/Cart"));
 
-
 interface IProps {
     title: string
 }
+
 interface IConnectProps {
     isFetching: boolean,
     totalQuantity: number,
@@ -36,7 +36,6 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
     }
 
     render() {
-
         return (
             <div>
                 <Header totalQuantity={this.props.totalQuantity} totalPrice={this.props.totalPrice}/>
@@ -45,8 +44,8 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
                         <Preloader/> :
                         <div>
                             <Route exact path="/"
-                                   render={()=> <Redirect to={"/catalog"}/>}/>
-                            <Route path="/catalog" render={() => <Catalog/>}/>
+                                   render={() => <Redirect to={"/catalog"}/>}/>
+                            <Route path="/catalog" component={Catalog}/>
                             <Route path="/order" render={withSuspense(Order)}/>
                             <Route path="/cart" render={withSuspense(Cart)}/>
                             <Route path="/about" render={withSuspense(About)}/>
@@ -60,7 +59,7 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
     }
 }
 
-const mapStateToProps = (state:AppStateType):IConnectProps => {
+const mapStateToProps = (state: AppStateType): IConnectProps => {
     return {
         isFetching: state.reducer.isFetching,
         totalQuantity: state.reducer.totalQuantity,

@@ -13,7 +13,7 @@ class PopupWrapper extends Component {
     }
 
     handleImageLoaded() {
-        this.setState({ image: 'loaded' });
+        this.setState({image: 'loaded'});
     }
 
     render() {
@@ -29,7 +29,7 @@ class PopupWrapper extends Component {
 
                     <div className={style.mainImg}>
                         {!this.state.image &&
-                        <Preloader />
+                        <Preloader/>
                         }
                         <img src={pizza.photo} onLoad={this.handleImageLoaded.bind(this)}/>
                     </div>

@@ -7,28 +7,28 @@ import {IPizzaItem} from "../../types/types";
 
 interface IProps {
     pizza: IPizzaItem,
-    addPizzaToOrder: (pizza:IPizzaItem, quantity:number) => void
+    addPizzaToOrder: (pizza: IPizzaItem, quantity: number) => void
     calculateOrder: () => void
-    openPopup: ()=> void
+    openPopup: () => void
 }
 
-const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}:IProps) => {
+const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}: IProps) => {
 
     let [quantity, setQuantity] = useState(1);
     let [addSucces, setAddSucces] = useState(false);
 
     const decreaseQuantity = () => {
         if (quantity !== 1) {
-            setQuantity(quantity-1)
+            setQuantity(quantity - 1)
         }
     };
 
-    const onAddToCartClick = () => {
+    const onAddToCart = () => {
         addPizzaToOrder(pizza, quantity);
         calculateOrder();
         setQuantity(1);
         setAddSucces(true);
-        setTimeout(()=>{
+        setTimeout(() => {
             setAddSucces(false);
         }, 500)
     };
@@ -51,7 +51,10 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}:IProps) =
                     <div className={style.row}>
                         <button className={style.btnSmallMinus} onClick={decreaseQuantity}>-</button>
                         <span>{quantity}</span>
-                        <button className={style.btnSmall} onClick={()=>{setQuantity(quantity+1)}}>+</button>
+                        <button className={style.btnSmall} onClick={() => {
+                            setQuantity(quantity + 1)
+                        }}>+
+                        </button>
                     </div>
                     <div>
                         <span>{(pizza.price * quantity).toFixed(2)}</span>
@@ -61,8 +64,9 @@ const PizzaCard = ({pizza, addPizzaToOrder, calculateOrder, openPopup}:IProps) =
                 <div>
                     <button className={classNameForbtnAdd}
                             disabled={addSucces}
-                            onClick={onAddToCartClick}
-                    >Добавить в корзину</button>
+                            onClick={onAddToCart}
+                    >Добавить в корзину
+                    </button>
                 </div>
             </div>
         </div>

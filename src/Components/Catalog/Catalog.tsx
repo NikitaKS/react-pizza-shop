@@ -19,15 +19,17 @@ interface LinkDispatchProps {
     addPizzaToOrder: (pizzaItem: IPizzaItem, quantity: number) => void;
     calculateOrder: () => void;
 }
+
 interface IState {
     selectedFilter: string
     bgPict: string
     isPopupOpen: boolean
     popupPizza: IPizzaItem
 }
+
 class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
-    state:IState = {
+    state: IState = {
         selectedFilter: 'All',
         bgPict: bgPict,
         isPopupOpen: false,
@@ -44,11 +46,11 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         },
     };
 
-    setPopupOpen = (pizza:IPizzaItem, option:boolean) => {
+    setPopupOpen = (pizza: IPizzaItem, option: boolean) => {
         this.setState({popupPizza: pizza});
         this.setState({isPopupOpen: option});
     };
-    changeFilter = (filterName:string) => {
+    changeFilter = (filterName: string) => {
         this.setState({selectedFilter: filterName})
     };
 
@@ -62,59 +64,67 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
                     return true;
                 }
             })
-            .map(p => <PizzaCard pizza={p}
-                                 openPopup={()=>{this.setPopupOpen(p, true)}}
-                                 key={p.id}
-                                 calculateOrder={ this.props.calculateOrder}
-                                 addPizzaToOrder={this.props.addPizzaToOrder}/>);
+            .map(p => (
+                <PizzaCard pizza={p}
+                           openPopup={() => {
+                               this.setPopupOpen(p, true)
+                           }}
+                           key={p.id}
+                           calculateOrder={this.props.calculateOrder}
+                           addPizzaToOrder={this.props.addPizzaToOrder}
+                />
+            ));
 
-
-        let filters = this.props.filters.map(f => <button
-            key={f.name}
-            className={style.filterBtn}
-            onClick={() => {
-                this.changeFilter(f.name)
-            }}>{f.name}</button>);
-
+        let filters = this.props.filters
+            .map(f => (
+                <button
+                    key={f.name}
+                    className={style.filterBtn}
+                    onClick={() => {
+                        this.changeFilter(f.name)
+                    }}
+                >
+                    {f.name}
+                </button>
+            ));
 
         return (
-
-
             <div>
-                {this.state.isPopupOpen&&<PopupWrapper pizza={this.state.popupPizza}
-                                                       setPopupOpen={this.setPopupOpen}/>}
+                {this.state.isPopupOpen && <PopupWrapper pizza={this.state.popupPizza}
+                                                         setPopupOpen={this.setPopupOpen}
+                />}
+                <div>
                     <div>
-                        <div>
-                            <div style={{
-                                backgroundImage: `url(${this.state.bgPict})`,
-                                backgroundPosition: 'center center',
-                                backgroundRepeat: 'no-repeat',
-                                height: `35rem`,
-                                backgroundSize: 'cover',
-                            }}
-                            className={style.caruselContent}>
-                                <h3>
-                                    Carusel Title
-                                </h3>
-                            </div>
-                            <div className={style.container}>{filters}</div>
+                        <div style={{
+                            backgroundImage: `url(${this.state.bgPict})`,
+                            backgroundPosition: 'center center',
+                            backgroundRepeat: 'no-repeat',
+                            height: `35rem`,
+                            backgroundSize: 'cover',
+                        }}
+                             className={style.caruselContent}>
+                            <h3>
+                                Carusel Title
+                            </h3>
                         </div>
-                        <hr/>
-                        <div className={style.pizzasContainer}>
-                            {pizzas}
-                        </div>
+                        <div className={style.container}>{filters}</div>
                     </div>
+                    <hr/>
+                    <div className={style.pizzasContainer}>
+                        {pizzas}
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-const mapStateToProps = (state:AppStateType):IConnectProps => {
+const mapStateToProps = (state: AppStateType): IConnectProps => {
     return {
         pizzas: state.reducer.pizzas,
         filters: state.reducer.filters,
     }
 };
 export default compose(
-    connect(mapStateToProps, { addPizzaToOrder, calculateOrder})
+    connect(mapStateToProps, {addPizzaToOrder, calculateOrder})
 )(Catalog);
