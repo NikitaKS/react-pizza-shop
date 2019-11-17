@@ -11,7 +11,7 @@ function Header(props) {
         <header className={style.headerWrapper}>
             <NavLink to="/catalog">
                 <div className={style.label}>
-                    <img src={logoImg}/>
+                    <img src={logoImg} alt={"Pekarnya Pechorin"}/>
                 </div>
             </NavLink>
             <div className={style.navContainer}>

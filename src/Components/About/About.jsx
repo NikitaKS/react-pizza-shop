@@ -25,7 +25,7 @@ class About extends Component {
             <div className={style.aboutWrapper}>
                 <div>
                     {!this.state.imageLoaded && <Preloader/>}
-                    <img src={slide} onLoad={this.handleImageLoaded.bind(this)}/>
+                    <img src={slide} onLoad={this.handleImageLoaded.bind(this)} alt={"Pechorin Bulki"}/>
                 </div>
             </div>
         );

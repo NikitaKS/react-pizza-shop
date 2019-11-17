@@ -1,14 +1,34 @@
 import React from 'react';
-import style from './Cart.module.css';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/pizzasReducer.ts";
+import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/pizzasReducer";
 import {NavLink} from "react-router-dom";
+import {IOrderItem} from "../../types/types";
+import {getOrder, getTotalPrice, getTotalQuantity} from "../../Redux/selectors";
+import {AppStateType} from "../../Redux/Store";
+import style from './Cart.module.css';
 
-
-const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}) => {
+interface IConnectProps {
+    order: Array<IOrderItem>,
+    totalQuantity: number,
+    totalPrice: number
+}
+interface IDispatchProps {
+    decreaseQuantity: (id:number)=> void;
+    increaseQuantity: (id:number)=> void;
+    removeFromOrder: (id:number)=> void;
+    calculateOrder: ()=> void;
+}
+interface ICartItemProps {
+    pizza: IOrderItem,
+    decreaseQuantity: (id:number)=> void;
+    increaseQuantity: (id:number)=> void;
+    removeFromOrder: (id:number)=> void;
+}
+const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}:IDispatchProps&IConnectProps) => {
 
     let orderItems = order.map(i => <CartItem
+        key={i.id}
         pizza={i}
         decreaseQuantity={decreaseQuantity}
         increaseQuantity={increaseQuantity}
@@ -39,13 +59,14 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
     )
 };
 
-const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}) => {
+
+const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}:ICartItemProps) => {
     return (
 
         <div className={style.tableRow}>
             <div className={style.row}>
                 <div className={style.mainImg}>
-                    <img src={pizza.photo_thumbnail}/>
+                    <img src={pizza.photo_thumbnail} alt={pizza.text_short}/>
                 </div>
 
             </div>
@@ -96,11 +117,11 @@ const CartItem = ({pizza, decreaseQuantity, increaseQuantity, removeFromOrder}) 
     )
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
     return {
-        order: state.reducer.order,
-        totalQuantity: state.reducer.totalQuantity,
-        totalPrice: state.reducer.totalPrice,
+        order: getOrder(state),
+        totalQuantity: getTotalQuantity(state),
+        totalPrice: getTotalPrice(state),
     }
 };
 

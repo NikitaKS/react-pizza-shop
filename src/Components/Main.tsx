@@ -11,6 +11,7 @@ import {AppStateType} from "../Redux/Store";
 import Catalog from "./Catalog/Catalog";
 import '../App.css';
 import style from './Main.module.css';
+import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
 
 const About = React.lazy(() => import('./About/About'));
 const Order = React.lazy(() => import('./Order/Order'));
@@ -61,9 +62,9 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
 
 const mapStateToProps = (state: AppStateType): IConnectProps => {
     return {
-        isFetching: state.reducer.isFetching,
-        totalQuantity: state.reducer.totalQuantity,
-        totalPrice: state.reducer.totalPrice,
+        isFetching: getIsFetching(state),
+        totalQuantity: getTotalQuantity(state),
+        totalPrice: getTotalPrice(state),
     }
 };
 export default compose(
