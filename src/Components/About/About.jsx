@@ -29,7 +29,6 @@ class About extends Component {
                     <img src={slide} onLoad={this.handleImageLoaded.bind(this)} alt={"Pechorin Bulki"}/>
                 </div>
 
-                <DatepickerRU />
             </div>
         );
     }

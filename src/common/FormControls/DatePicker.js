@@ -20,7 +20,7 @@ export class DatepickerRU extends React.Component {
     }
 
     render() {
-        const { meta: { touched, error } } = this.props.field;
+     //   const { meta: { touched, error } } = this.props.field;
         const { selectedDay } = this.state;
         const past = {
             before: new Date(),

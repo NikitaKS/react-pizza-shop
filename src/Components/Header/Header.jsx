@@ -17,12 +17,12 @@ function Header(props) {
             <div className={style.navContainer}>
                 <NavLink to="/about" activeClassName={style.active}>
                     <div className={style.item}>
-                        About
+                        TestPage
                     </div>
                 </NavLink>
-                <NavLink to="/wtf" activeClassName={style.active}>
+                <NavLink to="/some" activeClassName={style.active}>
                     <div className={style.item}>
-                        wtf
+                        somePage
                     </div>
                 </NavLink>
                 <NavLink to="/order" activeClassName={style.active}>
