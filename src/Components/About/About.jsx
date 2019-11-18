@@ -5,6 +5,7 @@ import {fetchOrders} from "../../Redux/pizzasReducer.ts";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './About.module.css';
+import {DatepickerRU} from "../../common/FormControls/DatePicker";
 
 class About extends Component {
     constructor(props) {
@@ -27,6 +28,8 @@ class About extends Component {
                     {!this.state.imageLoaded && <Preloader/>}
                     <img src={slide} onLoad={this.handleImageLoaded.bind(this)} alt={"Pechorin Bulki"}/>
                 </div>
+
+                <DatepickerRU />
             </div>
         );
     }

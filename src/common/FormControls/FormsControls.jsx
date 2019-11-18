@@ -2,14 +2,11 @@ import React from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {aol, email, maxLength15, number, required, tooOld} from "../../utils/validators";
 import {createTextMask} from 'redux-form-input-masks';
-import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import moment from 'moment';
-import momentLocalizer from "react-widgets-moment";
+import {renderDateTimePicker} from "./DatePicker";
 
 import 'react-widgets/dist/css/react-widgets.css';
 import style from './FormControl.module.css';
 
-let today = Date(momentLocalizer(moment));
 
 const phoneMask = createTextMask({
     pattern: '8-(099) 999-9999',
@@ -27,24 +24,7 @@ const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
     </div>
 );
 
-const renderDateTimePicker = ({input: {onChange, value}, showTime, label, meta: {touched, error, warning}}) => (
-    <div>
-        <label>{label}</label>
-        <div className={style.fieldWrapper + ' ' + (error && touched ? style.error : '')}>
-            <DateTimePicker
-                onChange={onChange}
-                format="DD MMM YYYY"
-                time={showTime}
-                min={new Date(today)}
-                value={!value ? null : new Date(value)}
-                showYearDropdown={false}
-            />
-            {touched &&
-            ((error && <span className={style.errorMessage}>{error}</span>)
-                || (warning && <span className={style.errorMessage}>{warning}</span>))}
-        </div>
-    </div>
-)
+
 
 class DropDownSelect extends React.Component {
 
