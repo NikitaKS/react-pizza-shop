@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect, Route} from "react-router-dom";
+import {Redirect, Route, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {connect} from "react-redux";
 import Preloader from "../common/Preloader";
@@ -34,8 +34,14 @@ interface LinkDispatchProps {
 class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
     componentDidMount() {
         this.props.fetchCatalog();
+        window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors());
     }
-
+    catchAllUnhandledErrors = (promiseRejectionEvent?:any):any => {
+        console.log('some error occured');
+    };
+    componentWillUnmount() {
+        window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors())
+    }
     render() {
         return (
             <div>
@@ -68,5 +74,6 @@ const mapStateToProps = (state: AppStateType): IConnectProps => {
     }
 };
 export default compose(
+    withRouter,
     connect(mapStateToProps, {fetchCatalog})
 )(Main);

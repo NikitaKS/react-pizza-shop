@@ -2,7 +2,12 @@ import React from 'react';
 import style from './Header.module.css';
 import {NavLink} from "react-router-dom";
 
-function CartBtn({totalQuantity, totalPrice}) {
+interface IProps {
+    totalQuantity: number,
+    totalPrice: number
+}
+
+function CartBtn({totalQuantity, totalPrice}:IProps) {
 
     return (
 

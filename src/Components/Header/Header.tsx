@@ -4,12 +4,15 @@ import {NavLink} from "react-router-dom";
 import CartBtn from "./CartBtn";
 import logoImg from "./../../assets/icons/logo.svg"
 
-function Header(props) {
-
+interface IProps {
+    totalQuantity: number,
+    totalPrice: number
+}
+function Header(props:IProps) {
     return (
 
         <header className={style.headerWrapper}>
-            <NavLink to="/catalog">
+            <NavLink to="/">
                 <div className={style.label}>
                     <img src={logoImg} alt={"Pekarnya Pechorin"}/>
                 </div>

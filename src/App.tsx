@@ -11,7 +11,8 @@ function App() {
         <div className="App">
             <HashRouter basename={process.env.PUBLIC_URL}>
                 <Provider store={store}>
-                    <Main/>
+                    // @ts-ignore
+                    <Main />
                 </Provider>
             </HashRouter>
         </div>
