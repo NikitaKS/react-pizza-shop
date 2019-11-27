@@ -42,6 +42,22 @@ class DropDownSelect extends React.Component {
         );
     }
 }
+const UploadFile = (props) => {
+    let mainPhotoSelected = (e) => {
+        if (e.target.files.length) {
+            props.saveAvatar(e.target.files[0]);
+        }
+    };
+
+    return (
+        <div className={style.item}>
+            Settings
+            <div>
+                {props.authorizedId&&<input onChange={mainPhotoSelected} type={"file"}/>}
+            </div>
+        </div>
+    );
+};
 
 const AddPizzaReduxForm = (props) => {
     const {handleSubmit, pristine, reset, submitting} = props;
@@ -62,20 +78,18 @@ const AddPizzaReduxForm = (props) => {
                    label="name *"
                    validate={[required, maxLength15]}
             />
-            <Field name="photo"
-                   type="text"
-                   component={renderField}
-                   label="photo"
-                   validate={[required]}
-                   warn={required}
-            />
+            {/*<Field name="photo"*/}
+            {/*       type="text"*/}
+            {/*       component={renderField}*/}
+            {/*       label="photo"*/}
+            {/*       validate={[required]}*/}
+            {/*       warn={required}*/}
+            {/*/>*/}
             <Field
-                name="photo_thumbnail"
-                showTime={false}
+                name="photo"
+                type="file"
                 component={renderField}
-                validate={[required]}
-                warn={required}
-                label="photo_thumbnail"
+                label="photo"
             />
             <Field name="price"
                    type="number"
