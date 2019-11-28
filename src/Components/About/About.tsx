@@ -1,4 +1,4 @@
-import React, {Component, useRef} from 'react';
+import React, {Component, useRef, useState} from 'react';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
 import {fetchOrders} from "../../Redux/pizzasReducer";
@@ -20,22 +20,28 @@ interface IState {
 
 const PizzaForm:any = ({onSubmit}:any) => {
     const userNameRef = useRef(null);
+    let [image, setImage] = useState(null);
     // @ts-ignore
-    let mainPhotoSelected = (e) => {
-        if (e.target.files.length) {
-            let formData = new FormData();
-            formData.append('image', e.target.files[0]);
-            axios.put(`profile/photo`, formData, {
-                headers: {
-                    'Content-type': 'multipart/form-data'
-                }
-            })
-        }
+    const addNewPizza = async (obj) => {
+        let formData = new FormData();
+        // @ts-ignore
+        formData.append('image', image);
+        formData.append("name", obj.name);
+        await axios.post("http://127.0.0.1:8000/pizzas", formData, {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        });
     };
     const createPizza = () => {
         // @ts-ignore
-        let name = userNameRef.current.value !== null ? userNameRef.current.value : 'asd';
-        onSubmit(name)
+        let obj = {name: userNameRef.current.value};
+        addNewPizza(obj);
+    };
+    let mainPhotoSelected = (e:any) => {
+        if (e.target.files.length) {
+            setImage(e.target.files[0]);
+        }
     };
 
     return (
@@ -50,21 +56,17 @@ const PizzaForm:any = ({onSubmit}:any) => {
 }
 
 class About extends Component<IProps> {
-    state:IState = {
+    state:any = {
         imageLoaded: false,
-        pizzas: []
+        pizzas: [{id: 'asd', name: 'ssww'}],
     };
 
-    componentDidMount(): void {
-        axios.get("http://127.0.0.1:8000/pizzas")
-            .then((res)=>{
-                debugger;
-                this.setState({pizzas: res.data})
-            })
-    }
+    fetchPizzas = async() => {
+        let asd = await axios.get("http://127.0.0.1:8000/pizzas");
+        this.setState({pizzas: asd.data.pizzas});
+    };
 
     onSubmit = (formData:any) => {
-        debugger;
         axios.post("http://127.0.0.1:8000/pizzas", {formData});
     };
     handleImageLoaded() {
@@ -94,6 +96,7 @@ class About extends Component<IProps> {
                 <div>
                     <PizzaForm onSubmit={this.onSubmit}/>
                 </div>
+                <button onClick={this.fetchPizzas}>fetch-pizzas</button>
                 {displayPizzas}
             </div>
         );
