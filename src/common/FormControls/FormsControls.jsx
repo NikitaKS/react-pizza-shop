@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
-import {aol, email, maxLength15, number, required, tooOld} from "../../utils/validators";
+import { number, required} from "../../utils/validators";
 import {createTextMask} from 'redux-form-input-masks';
 import {renderDateTimePicker} from "./DatePicker";
 

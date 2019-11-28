@@ -68,4 +68,4 @@ export const testPissas = [
 ];
 export const testFilters = [
     {name: 'big'}, {name: 'small'}
-    ]
+    ];
