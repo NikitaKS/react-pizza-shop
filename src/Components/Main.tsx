@@ -12,6 +12,7 @@ import Catalog from "./Catalog/Catalog";
 import '../App.css';
 import style from './Main.module.css';
 import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
+import Test from "./TestPage/Test";
 
 const About = React.lazy(() => import('./About/About'));
 const Order = React.lazy(() => import('./Order/Order'));
@@ -60,6 +61,7 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
                             <Route path="/order" render={withSuspense(Order)}/>
                             <Route path="/cart" render={withSuspense(Cart)}/>
                             <Route path="/about" render={withSuspense(About)}/>
+                            <Route path="/test" component={Test}/>
                         </div>
                     }
                 </div>

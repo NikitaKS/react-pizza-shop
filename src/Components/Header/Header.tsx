@@ -20,12 +20,12 @@ function Header(props:IProps) {
             <div className={style.navContainer}>
                 <NavLink to="/about" activeClassName={style.active}>
                     <div className={style.item}>
-                        TestPage
+                        About
                     </div>
                 </NavLink>
-                <NavLink to="/some" activeClassName={style.active}>
+                <NavLink to="/test" activeClassName={style.active}>
                     <div className={style.item}>
-                        somePage
+                        testPage
                     </div>
                 </NavLink>
                 <NavLink to="/order" activeClassName={style.active}>

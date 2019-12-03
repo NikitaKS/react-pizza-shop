@@ -4,20 +4,13 @@
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    overflow: hidden;
 }
+
 
 .navContainer {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-}
-.row
-{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    box-sizing: content-box;
 }
 
 .active {

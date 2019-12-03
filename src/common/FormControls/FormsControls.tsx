@@ -7,55 +7,62 @@ import {renderDateTimePicker} from "./DatePicker";
 import 'react-widgets/dist/css/react-widgets.css';
 import style from './FormControl.module.css';
 
-
 const phoneMask = createTextMask({
     pattern: '8-(099) 999-9999',
 });
 
-const renderField = ({input, label, type, meta: {touched, error, warning}}) => (
+interface IrenderFieldProps {
+    input:any
+    label: string
+    type: string
+    meta: any
+}
+const renderField = ({input, label, type, meta: {touched, error, warning}}:IrenderFieldProps) => {
+    let classForField = () => {
+        if(touched) {
+            return style.fieldWrapper + ' ' + (error && touched ? style.error : style.success)
+        } else {
+            return style.fieldWrapper;
+        }
+    };
+    return (
     <div>
         <label>{label}</label>
-        <div className={style.fieldWrapper + ' ' + (error && touched ? style.error : '')}>
-            <input {...input} placeholder={label} type={type}/>
+        <div className={classForField()}>
+            <input {...input} type={type}/>
             {touched &&
             ((error && <span className={style.errorMessage}>{error}</span>)
                 || (warning && <span className={style.errorMessage}>{warning}</span>))}
         </div>
     </div>
-);
+)};
 
+const DropDownSelect = ({input, label, times, meta: {touched, error, warning}}: any) => {
 
-
-class DropDownSelect extends React.Component {
-
-    renderSelectOptions = (option, index) => (
+    const renderSelectOptions = (option: string, index: number) => (
         <option key={option} value={index}>{option}</option>
     );
 
-    render() {
-        const {meta: {touched, error, warning}} = this.props;
-        const {input, label} = this.props;
-        return (
-            <div>
-                <label>{label}</label>
-                <div className={style.fieldWrapper}>
-                    <select {...input}>
-                        <option value="">Select</option>
-                        {this.props.times.map(this.renderSelectOptions)}
-                    </select>
-                    {touched &&
-                    ((error && <span className={style.errorMessage}>{error}</span>)
-                        || (warning && <span className={style.errorMessage}>{warning}</span>))}
-                </div>
+    return (
+        <div>
+            <label>{label}</label>
+            <div className={style.fieldWrapper}>
+                <select {...input}>
+                    <option value="">Select</option>
+                    {times.map(renderSelectOptions)}
+                </select>
+                {touched &&
+                ((error && <span className={style.errorMessage}>{error}</span>)
+                    || (warning && <span className={style.errorMessage}>{warning}</span>))}
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
-
-const OrderReduxForm = (props) => {
+const OrderReduxForm = (props:any) => {
     const {handleSubmit, pristine, reset, submitting} = props;
     const times = ['', '10', '11', '12'];
+
     return (
         <form className={style.formControl} onSubmit={handleSubmit}>
 
@@ -63,6 +70,7 @@ const OrderReduxForm = (props) => {
                    type="text"
                    component={renderField}
                    {...phoneMask}
+                // @ts-ignore
                    label="Номер телефона *"
                    validate={[required, number]}
             />
@@ -118,7 +126,7 @@ const OrderReduxForm = (props) => {
                 <span className={style.error}>{props.error}</span>
             </div>}
             <div>
-                <button type="submit" disabled={submitting}>Order</button>
+                <button type="submit" disabled={pristine || submitting}>Order</button>
                 <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
             </div>
         </form>
