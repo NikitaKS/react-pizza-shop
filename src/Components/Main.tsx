@@ -13,6 +13,7 @@ import '../App.css';
 import style from './Main.module.css';
 import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
 import Test from "./TestPage/Test";
+import CartButtonStickyWrapper from "./CartButtonStickyWrapper";
 
 const About = React.lazy(() => import('./About/About'));
 const Order = React.lazy(() => import('./Order/Order'));
@@ -55,6 +56,7 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
                     {this.props.isFetching ?
                         <Preloader/> :
                         <div>
+                            <CartButtonStickyWrapper />
                             <Route exact path="/"
                                    render={() => <Redirect to={"/catalog"}/>}/>
                             <Route path="/catalog" component={Catalog}/>

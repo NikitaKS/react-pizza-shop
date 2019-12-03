@@ -43,6 +43,11 @@
 .inform > span{
     margin: 0 15px;
 }
+@media(max-width: 550px) {
+    .inform {
+        display: none;
+    }
+}
 .active {
     font-weight: 700;
 }

@@ -25,3 +25,14 @@
 .mainWrapper {
     min-height: 120vh;
 }
+.stickyWrapper {
+    position: fixed;
+    position: -webkit-sticky;
+    width: 100%;
+    top: 0;
+}
+@media (min-width: 1200px){
+    .stickyWrapper{
+        max-width: 1280px;
+    }
+}
