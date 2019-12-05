@@ -27,7 +27,9 @@ const PizzaForm:any = ({onSubmit}:any) => {
         // @ts-ignore
         formData.append('image', image);
         formData.append("name", obj.name);
+        await axios.get("http://127.0.0.1:8000/", {withCredentials: true});
         await axios.post("http://127.0.0.1:8000/pizzas", formData, {
+            withCredentials: true,
             headers: {
                 'Content-type': 'multipart/form-data'
             }
@@ -62,7 +64,8 @@ class Test extends Component<IProps> {
     };
 
     fetchPizzas = async() => {
-        let asd = await axios.get("http://127.0.0.1:8000/pizzas");
+        debugger;
+        let asd = await axios.get("http://127.0.0.1:8000/pizzas", {withCredentials: true});
         this.setState({pizzas: asd.data.pizzas});
     };
 

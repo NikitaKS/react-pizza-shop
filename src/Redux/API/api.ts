@@ -3,7 +3,8 @@ import {IPostOrderItem} from "../../types/types";
 import {testFilters, testPissas} from "./TestApi";
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
-axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfCookieName = "_csrftoken";
+
 
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
