@@ -1,37 +1,34 @@
 import axios from "axios";
 import {IPostOrderItem} from "../../types/types";
 import {testFilters, testPissas} from "./TestApi";
-
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
-axios.defaults.xsrfCookieName = "_csrftoken";
-
+//
+// axios.defaults.xsrfHeaderName = "X-CSRFToken";
+// axios.defaults.xsrfCookieName = "csrftoken";
 
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
 });
 
 export const productsAPI = {
-    getProducts () {
-        return instance.get('pizza/?format=json')
-            .then(res => {
-                if(res.status === 200) {
-                    return res.data;
-                }
-            })
-            .catch( ()=> {
-                return testPissas;
-            })
+    async getProducts () {
+        try {
+            let res = await instance.get('pizza/?format=json');
+            if(res.status === 200) {
+                return res.data;
+            }
+        } catch {
+            return testPissas;
+        }
     },
-    getFilters () {
-        return instance.get(`filter/?format=json`)
-            .then(res => {
-                if(res.status === 200) {
-                    return res.data;
-                }
-            })
-            .catch( ()=> {
-                return testFilters;
-            })
+    async getFilters () {
+        try {
+            let res = await instance.get(`filter/?format=json`);
+            if(res.status === 200) {
+                return res.data;
+            }
+        } catch (e) {
+            return testFilters;
+        }
     },
     postOrder (formData:any, order: Array<IPostOrderItem>) {
         return instance.post(`order/`, {

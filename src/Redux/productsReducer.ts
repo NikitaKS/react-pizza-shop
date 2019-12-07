@@ -1,6 +1,8 @@
 import {productsAPI} from "./API/api";
 import {IAppState, IFilterItem, IOrderItem, IOrderLocalStorage, IProductItem, IPostOrderItem} from "../types/types";
-import {Dispatch} from "redux";
+import {AnyAction, Dispatch} from "redux";
+import {ThunkDispatch} from "redux-thunk";
+import {AppStateType} from "./Store";
 
 const SET_PRODUCTS = 'MAIN_PAGE/ADD_LIST';
 const SET_FILTERS = 'MAIN_PAGE/SET_FILTERS';
@@ -14,8 +16,8 @@ const SET_ORDER_SUCCESS = 'ORDER/SET_ORDER_SUCCESS';
 const SET_IS_FETCHING = 'COMMON/SET_IS_FETCHING';
 const SET_ORDERS = 'COMMON/SET_ORDERS';
 
-const persistedState:IOrderLocalStorage =
-    localStorage.getItem('order')!== null&& localStorage.getItem('order')!== undefined ?
+const persistedState: IOrderLocalStorage =
+    localStorage.getItem('order') !== null && localStorage.getItem('order') !== undefined ?
         // @ts-ignore
         JSON.parse(localStorage.getItem('order')) : {
             order: [],
@@ -23,7 +25,7 @@ const persistedState:IOrderLocalStorage =
             totalQuantity: 0,
         };
 
-const initialState:IAppState = {
+const initialState: IAppState = {
     products: [
         {
             filter: [{name: 'big'}],
@@ -37,7 +39,7 @@ const initialState:IAppState = {
             text_short: "da",
         },
     ],
-    order: persistedState.order ? persistedState.order :[],
+    order: persistedState.order ? persistedState.order : [],
     totalPrice: persistedState.totalPrice ? persistedState.totalPrice : 0,
     totalQuantity: persistedState.totalQuantity ? persistedState.totalQuantity : 0,
     isFetching: false,
@@ -46,7 +48,7 @@ const initialState:IAppState = {
     orderSuccess: false,
 };
 
-const productsReducer = (state:IAppState = initialState, action:any) => {
+const productsReducer = (state: IAppState = initialState, action: ReducerActions) => {
     switch (action.type) {
         //setting fetching status
         case SET_IS_FETCHING:
@@ -80,11 +82,11 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
         case INCREASE_QUANTITY:
             return {
                 ...state,
-                order: state.order.map((oi:IOrderItem) => {
-                    if(oi.id !== action.id){
+                order: state.order.map((oi: IOrderItem) => {
+                    if (oi.id !== action.id) {
                         return oi;
                     } else {
-                        return {...oi, quantity: oi.quantity+1}
+                        return {...oi, quantity: oi.quantity + 1}
                     }
                 }),
             };
@@ -92,20 +94,20 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
         case DECREASE_QUANTITY:
             return {
                 ...state,
-                order: state.order.map((oi:IOrderItem) => {
-                    if(oi.id === action.id){
-                        return {...oi, quantity: oi.quantity === 1 ? oi.quantity : oi.quantity -1}
+                order: state.order.map((oi: IOrderItem) => {
+                    if (oi.id === action.id) {
+                        return {...oi, quantity: oi.quantity === 1 ? oi.quantity : oi.quantity - 1}
                     } else {
                         return oi
                     }
                 }),
             };
-            //adding product item to order
+        //adding product item to order
         case ADD_PRODUCT_TO_ORDER:
-            if (state.order.some( (oi:IOrderItem) => oi.id === action.productItem.id)) {
+            if (state.order.some((oi: IOrderItem) => oi.id === action.productItem.id)) {
                 return {
                     ...state,
-                    order: state.order.map( (oi:IOrderItem) => {
+                    order: state.order.map((oi: IOrderItem) => {
                         if (oi.id === action.productItem.id) {
                             return {
                                 ...oi,
@@ -117,7 +119,7 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
                     })
                 }
             } else {
-                let orderItem:IOrderItem = {
+                let orderItem: IOrderItem = {
                     id: action.productItem.id,
                     name: action.productItem.name,
                     photo_thumbnail: action.productItem.photo_thumbnail,
@@ -137,12 +139,12 @@ const productsReducer = (state:IAppState = initialState, action:any) => {
         case DELETE_ORDER_ITEM:
             return {
                 ...state,
-                order: state.order.filter((oi:IOrderItem)=> oi.id !== action.id)
+                order: state.order.filter((oi: IOrderItem) => oi.id !== action.id)
             };
         case CALCULATE_TOTAL:
             let price = 0;
             let quantity = 0;
-            state.order.forEach( (oi:IOrderItem) => {
+            state.order.forEach((oi: IOrderItem) => {
                 price += oi.quantity * oi.price;
                 quantity += oi.quantity;
             });
@@ -166,104 +168,135 @@ interface InterfaceSetProductsSuccess {
     type: typeof SET_PRODUCTS,
     products: Array<IProductItem>
 }
+
 interface IsetOrdersSuccess {
     type: typeof SET_ORDERS,
     orders: any
 }
+
 interface IsetFiltersSuccess {
     type: typeof SET_FILTERS,
     filters: Array<IFilterItem>
 }
+
 interface IcalculateOrder {
     type: typeof CALCULATE_TOTAL,
 }
+
 interface I_increaseQuantity {
     type: typeof INCREASE_QUANTITY,
     id: string
 }
+
 interface I_decreaseQuantity {
     type: typeof DECREASE_QUANTITY,
     id: string
 }
+
 interface I_removeFromOrder {
     type: typeof DELETE_ORDER_ITEM,
     id: string
 }
+
 interface I_orderSuccess {
     type: typeof SET_ORDER_SUCCESS,
     status: boolean
 }
+
 interface I_setSortFilter {
     type: typeof SET_SORT_FILTER,
     filter: string
 }
+
+interface I_setIsFetching {
+    type: typeof SET_IS_FETCHING,
+    status: boolean
+}
+
+interface I_addProductToOrder {
+    type: typeof ADD_PRODUCT_TO_ORDER,
+    productItem: IProductItem,
+    quantity: number
+}
+
+//Type for actions
+type ReducerActions =
+    I_orderSuccess | I_setSortFilter |
+    I_removeFromOrder | I_decreaseQuantity |
+    I_increaseQuantity | IcalculateOrder |
+    InterfaceSetProductsSuccess | IsetOrdersSuccess |
+    IsetFiltersSuccess | I_setIsFetching |
+    I_addProductToOrder
+type GetStateType = () => AppStateType
+
+
 //LOCAL ACTIONS
-export const setProductsSuccess = (products:Array<IProductItem>): InterfaceSetProductsSuccess => {
+export const setProductsSuccess = (products: Array<IProductItem>): InterfaceSetProductsSuccess => {
     return {
         type: SET_PRODUCTS, products
     }
 };
-export const setOrdersSuccess = (orders:any):IsetOrdersSuccess => {
+export const setOrdersSuccess = (orders: any): IsetOrdersSuccess => {
     return {
         type: SET_ORDERS, orders
     }
 };
-export const setFiltersSuccess = (filters:Array<IFilterItem>):IsetFiltersSuccess => {
+export const setFiltersSuccess = (filters: Array<IFilterItem>): IsetFiltersSuccess => {
     return {
         type: SET_FILTERS, filters
     }
 };
-export const setSortFilter = (filter:string):I_setSortFilter => {
+export const setSortFilter = (filter: string): I_setSortFilter => {
     return {
         type: SET_SORT_FILTER, filter
     }
 };
-export const calculateOrder = ():IcalculateOrder => {
+export const calculateOrder = (): IcalculateOrder => {
     return {
         type: CALCULATE_TOTAL
     }
 };
-export const _increaseQuantity = (id:string):I_increaseQuantity => {
+export const _increaseQuantity = (id: string): I_increaseQuantity => {
     return {
         type: INCREASE_QUANTITY, id
     }
 };
-export const _decreaseQuantity = (id:string):I_decreaseQuantity => {
+export const _decreaseQuantity = (id: string): I_decreaseQuantity => {
     return {
         type: DECREASE_QUANTITY, id
     }
 };
-export const _removeFromOrder = (id:string):I_removeFromOrder => {
+export const _removeFromOrder = (id: string): I_removeFromOrder => {
     return {
         type: DELETE_ORDER_ITEM, id
     }
 };
-export const _orderSuccess = (status:boolean):I_orderSuccess => {
-    return{
+export const _orderSuccess = (status: boolean): I_orderSuccess => {
+    return {
         type: SET_ORDER_SUCCESS, status
     }
 };
 
 //EXTERNAL ACTIONS
-export const increaseQuantity = (id:string) => (dispatch: Dispatch) => {
+export const increaseQuantity = (id: string) => (dispatch: ThunkDispatch<{}, {}, ReducerActions>) => {
     dispatch(_increaseQuantity(id));
     dispatch(calculateOrder());
 };
-export const decreaseQuantity = (id:string) => (dispatch: Dispatch) => {
+export const decreaseQuantity = (id: string) => (dispatch: ThunkDispatch<{}, {}, ReducerActions>) => {
     dispatch(_decreaseQuantity(id));
     dispatch(calculateOrder());
 };
-export const removeFromOrder = (id:string) => (dispatch: Dispatch) => {
+export const removeFromOrder = (id: string) => (dispatch: ThunkDispatch<{}, {}, ReducerActions>) => {
     dispatch(_removeFromOrder(id));
     dispatch(calculateOrder());
 };
 
-const toggleIsFetching = (status:boolean) => {
+const toggleIsFetching = (status: boolean): I_setIsFetching => {
     return {
         type: SET_IS_FETCHING, status
     }
 };
-export const addProductToOrder = (productItem: IProductItem, quantity: number) => {
+export const addProductToOrder = (productItem: IProductItem, quantity: number): I_addProductToOrder => {
     return {
         type: ADD_PRODUCT_TO_ORDER, productItem, quantity
     }
@@ -271,32 +304,38 @@ export const addProductToOrder = (productItem: IProductItem, quantity: number) =
 
 
 //FETCH ACTIONS
-export const fetchCatalog = () => async (dispatch: any) => {
+export const fetchCatalog = () => async (dispatch: ThunkDispatch<{}, {}, ReducerActions>) => {
     dispatch(toggleIsFetching(true));
     const products = await productsAPI.getProducts();
     dispatch(setProductsSuccess(
-        products.map( (pz:any) => {
-            return {
-            ...pz,
-                price: parseFloat(pz.price),
-                size: parseFloat(pz.size)
+        products.map((pz: any) => {
+                return {
+                    ...pz,
+                    price: parseFloat(pz.price),
+                    size: parseFloat(pz.size)
+                }
             }
-        }
-    )));
+        )));
     const filters = await productsAPI.getFilters();
     dispatch(setFiltersSuccess(filters));
     dispatch(toggleIsFetching(false));
 };
 
-export const submitOrder = (orderData: any) => async (dispatch : any, getState: any) => {
-    const order:Array<IPostOrderItem> = getState().reducer.order.map( (oi:IOrderItem) => ({quantity: oi.quantity, product_id: oi.id}));
-        const res = await productsAPI.postOrder(orderData, order);
-        if (res)
-            //setting status to block buttons or redirect to payment page
-            dispatch(_orderSuccess(true));
-        setTimeout(dispatch(_orderSuccess(false)), 1000);
+export const submitOrder = (orderData: any) =>
+    async (dispatch: ThunkDispatch<{}, {}, ReducerActions>, getState: GetStateType) => {
+    const order: Array<IPostOrderItem> = getState().reducer.order.map((oi: IOrderItem) => ({
+        quantity: oi.quantity,
+        product_id: oi.id
+    }));
+    const res = await productsAPI.postOrder(orderData, order);
+    if (res)
+    //setting status to block buttons or redirect to payment page
+        dispatch(_orderSuccess(true));
+    setTimeout(() => {
+        dispatch(_orderSuccess(false))
+    }, 1000);
 };
-export const fetchOrders = () => async (dispatch: any) => {
+export const fetchOrders = () => async (dispatch: ThunkDispatch<{}, {}, ReducerActions>) => {
     const orders = await productsAPI.getOrders();
     dispatch(setOrdersSuccess(orders));
 };

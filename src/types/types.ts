@@ -25,7 +25,7 @@ export interface IFilterItem {
 }
 
 export interface IPostOrderItem {
-    pizza_id: number,
+    product_id: string,
     quantity: number,
 }
 
