@@ -57,6 +57,33 @@ const PizzaForm:any = ({onSubmit}:any) => {
     )
 };
 
+const UserForm:any = ({onSubmit}:any) => {
+    const phoneRef = useRef(null);
+    const passwordRef = useRef(null);
+
+    const logIn = async (obj:any) => {
+        debugger
+        await axios.post("http://127.0.0.1:8000/users/login", obj, {
+            withCredentials: true,
+        });
+    };
+    const createPizza = () => {
+        // @ts-ignore
+        let obj = {phone: phoneRef.current.value, password: passwordRef.current.value};
+        logIn(obj);
+    };
+
+    return (
+        <div>
+            <div>
+                <input ref={phoneRef}/>
+                <input ref={passwordRef}/>
+                <button onClick={createPizza}>newUser</button>
+            </div>
+        </div>
+    )
+};
+
 class Test extends Component<IProps> {
     state:any = {
         imageLoaded: false,
@@ -72,6 +99,10 @@ class Test extends Component<IProps> {
     onSubmit = (formData:any) => {
         axios.post("http://127.0.0.1:8000/pizzas", {formData});
     };
+    onUserSubmit = (formData:any) => {
+        axios.post("http://127.0.0.1:8000/pizzas", {formData});
+    };
+
     handleImageLoaded() {
         this.setState({imageLoaded: true});
     }
@@ -98,6 +129,9 @@ class Test extends Component<IProps> {
 
                 <div>
                     <PizzaForm onSubmit={this.onSubmit}/>
+                </div>
+                <div>
+                    <UserForm onSubmit={this.onUserSubmit}/>
                 </div>
                 <button onClick={this.fetchPizzas}>fetch-pizzas</button>
                 {displayPizzas}
