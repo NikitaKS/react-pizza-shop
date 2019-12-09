@@ -57,14 +57,15 @@ const PizzaForm:any = ({onSubmit}:any) => {
     )
 };
 
-const UserForm:any = ({onSubmit}:any) => {
+const UserForm:any = ({onSubmit, setCookie}:any) => {
     const phoneRef = useRef(null);
     const passwordRef = useRef(null);
 
     const logIn = async (obj:any) => {
-        await axios.post("http://127.0.0.1:8000/users/login", obj, {
+        let response = await axios.post("http://127.0.0.1:8000/users/login", obj, {
             withCredentials: true,
         });
+        setCookie(response.data.token);
     };
     const createPizza = () => {
         // @ts-ignore
@@ -87,6 +88,7 @@ class Test extends Component<IProps> {
     state:any = {
         imageLoaded: false,
         pizzas: [{id: 'asd', name: 'ssww'}],
+        cookie: null,
     };
 
     fetchPizzas = async() => {
@@ -94,8 +96,14 @@ class Test extends Component<IProps> {
         this.setState({pizzas: asd.data.pizzas});
     };
 
+    setCookie = (cookie:string) => {
+        if (cookie) {
+            this.setState({cookie: cookie})
+        }
+    };
     onSubmit = (formData:any) => {
-        axios.post("http://127.0.0.1:8000/pizzas", {formData});
+        axios.post("http://127.0.0.1:8000/pizzas", {formData},
+            { headers: {"Authorization" : `Bearer ${this.state.cookie}`}, withCredentials: true });
     };
     onUserSubmit = (formData:any) => {
         axios.post("http://127.0.0.1:8000/pizzas", {formData});
