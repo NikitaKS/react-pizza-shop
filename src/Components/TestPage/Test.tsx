@@ -62,7 +62,6 @@ const UserForm:any = ({onSubmit}:any) => {
     const passwordRef = useRef(null);
 
     const logIn = async (obj:any) => {
-        debugger
         await axios.post("http://127.0.0.1:8000/users/login", obj, {
             withCredentials: true,
         });
@@ -78,7 +77,7 @@ const UserForm:any = ({onSubmit}:any) => {
             <div>
                 <input ref={phoneRef}/>
                 <input ref={passwordRef}/>
-                <button onClick={createPizza}>newUser</button>
+                <button onClick={createPizza}>login</button>
             </div>
         </div>
     )
@@ -91,7 +90,6 @@ class Test extends Component<IProps> {
     };
 
     fetchPizzas = async() => {
-
         let asd = await axios.get("http://localhost:8000/pizzas", {withCredentials: true});
         this.setState({pizzas: asd.data.pizzas});
     };
