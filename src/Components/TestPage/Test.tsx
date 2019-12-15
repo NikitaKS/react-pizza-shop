@@ -1,6 +1,7 @@
 import React, {Component, useRef, useState} from 'react';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
+import AddPizzaReduxForm from "../../common/FormControls/Forms/AddPizzaForm";
 import {fetchOrders} from "../../Redux/productsReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
@@ -89,21 +90,33 @@ class Test extends Component<IProps> {
         imageLoaded: false,
         pizzas: [{id: 'asd', name: 'ssww'}],
         cookie: null,
+        image: null
     };
 
     fetchPizzas = async() => {
         let asd = await axios.get("http://localhost:8000/pizzas", {withCredentials: true});
-        this.setState({pizzas: asd.data.pizzas});
+        this.setState({pizzas: asd.data.products});
     };
-
+    setImage = (image:any) => {
+        this.setState({image: image})
+    };
     setCookie = (cookie:string) => {
         if (cookie) {
             this.setState({cookie: cookie})
         }
     };
-    onSubmit = (formData:any) => {
-        axios.post("http://127.0.0.1:8000/pizzas", {formData},
-            { headers: {"Authorization" : `Bearer ${this.state.cookie}`}, withCredentials: true });
+    onSubmit = async (formData: any) => {
+        if (this.state.image) {alert("no Image")}
+        formData.append('image', this.state.image);
+        await axios.get("http://127.0.0.1:8000/", {withCredentials: true});
+        await axios.post("http://127.0.0.1:8000/pizzas", formData, {
+            withCredentials: true,
+            headers: {
+                'Content-type': 'multipart/form-data',
+            //    "Authorization": `Bearer ${this.state.cookie}`
+            }
+        });
+
     };
     onUserSubmit = (formData:any) => {
         axios.post("http://127.0.0.1:8000/pizzas", {formData});
@@ -126,6 +139,8 @@ class Test extends Component<IProps> {
                 </button>
             </div>
         );
+
+
         return (
             <div className={style.aboutWrapper}>
                 <div>
@@ -134,10 +149,11 @@ class Test extends Component<IProps> {
                 </div>
 
                 <div>
-                    <PizzaForm onSubmit={this.onSubmit}/>
+                    //@ts-ignore
+                    <AddPizzaReduxForm onSubmit={this.onSubmit} setImage={this.setImage}/>
                 </div>
                 <div>
-                    <UserForm onSubmit={this.onUserSubmit}/>
+                    <UserForm onSubmit={this.onUserSubmit} setCookie={this.setCookie}/>
                 </div>
                 <button onClick={this.fetchPizzas}>fetch-pizzas</button>
                 {displayPizzas}

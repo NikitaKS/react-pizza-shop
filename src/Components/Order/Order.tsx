@@ -3,7 +3,7 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
 import {submitOrder, fetchOrders} from "../../Redux/productsReducer";
-import OrderForm from "../../common/FormControls/FormsControls";
+import OrderForm from "../../common/FormControls/Forms/OrderForm";
 import style from './Order.module.css';
 import {getTotalQuantity} from "../../Redux/selectors";
 import {AppStateType} from "../../Redux/Store";
