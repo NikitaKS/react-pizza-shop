@@ -126,7 +126,7 @@ class Test extends Component<IProps> {
         this.setState({imageLoaded: true});
     }
     deletePizza = (id:number) => {
-        axios.delete(`http://127.0.0.1:8000/pizzas/${id}`);
+        axios.delete(`http://127.0.0.1:8000/pizzas/${id}`, {withCredentials: true});
     };
     render() {
         let pizzas = this.state.pizzas;
