@@ -1,7 +1,7 @@
 import React, {Component, useRef, useState} from 'react';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
-import AddPizzaReduxForm from "../../common/FormControls/Forms/AddPizzaForm";
+import AddPizzaReduxForm, {UploadFile} from "../../common/FormControls/Forms/AddPizzaForm";
 import {fetchOrders} from "../../Redux/productsReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
@@ -9,6 +9,7 @@ import style from './Test.module.css';
 import {AppStateType} from "../../Redux/Store";
 import axios from "axios";
 import {IFilterItem, IProductItem} from "../../types/types";
+import {Field} from "redux-form";
 
 interface IProps {
     filters: Array<IFilterItem>,
@@ -28,7 +29,6 @@ const PizzaForm:any = ({onSubmit}:any) => {
         // @ts-ignore
         formData.append('image', image);
         formData.append("name", obj.name);
-        await axios.get("http://127.0.0.1:8000/", {withCredentials: true});
         await axios.post("http://127.0.0.1:8000/pizzas", formData, {
             withCredentials: true,
             headers: {
@@ -97,8 +97,14 @@ class Test extends Component<IProps> {
         let asd = await axios.get("http://localhost:8000/pizzas", {withCredentials: true});
         this.setState({pizzas: asd.data.products});
     };
-    setImage = (image:any) => {
-        this.setState({image: image})
+    logout = async() => {
+        let asd = await axios.delete("http://localhost:8000/users/logout", {withCredentials: true})
+        console.log(asd);
+    };
+    setImage = (e:any) => {
+        if (e.target.files.length) {
+            this.setState({image: e.target.files[0]});
+        }
     };
     setCookie = (cookie:string) => {
         if (cookie) {
@@ -106,17 +112,21 @@ class Test extends Component<IProps> {
         }
     };
     onSubmit = async (formData: any) => {
-        if (this.state.image) {alert("no Image")}
-        formData.append('image', this.state.image);
-        await axios.get("http://127.0.0.1:8000/", {withCredentials: true});
-        await axios.post("http://127.0.0.1:8000/pizzas", formData, {
+        if (!this.state.image) {alert("no Image")}
+        let sendData = new FormData();
+
+        //converting redux-forms data to FormData
+        Object.keys(formData).forEach(key => sendData.append(key, formData[key]));
+        sendData.append('image', this.state.image);
+
+        //Sending Post Request
+        axios.post("http://127.0.0.1:8000/pizzas", sendData, {
             withCredentials: true,
             headers: {
                 'Content-type': 'multipart/form-data',
             //    "Authorization": `Bearer ${this.state.cookie}`
             }
         });
-
     };
     onUserSubmit = (formData:any) => {
         axios.post("http://127.0.0.1:8000/pizzas", {formData});
@@ -150,12 +160,14 @@ class Test extends Component<IProps> {
 
                 <div>
                     //@ts-ignore
-                    <AddPizzaReduxForm onSubmit={this.onSubmit} setImage={this.setImage}/>
+                    <AddPizzaReduxForm onSubmit={this.onSubmit}/>
+                    <input onChange={this.setImage} type={"file"}/>
                 </div>
                 <div>
                     <UserForm onSubmit={this.onUserSubmit} setCookie={this.setCookie}/>
                 </div>
                 <button onClick={this.fetchPizzas}>fetch-pizzas</button>
+                <button onClick={this.logout}>LOGOUT</button>
                 {displayPizzas}
             </div>
         );

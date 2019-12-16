@@ -8,23 +8,21 @@ import { renderField } from '../FormsControls';
 
 
 export const UploadFile = (props:any) => {
-
     return (
         <div className={style.item}>
-            Settings
             <div>
-                <input onChange={props.mainPhotoSelected} type={"file"}/>
+                <input type={"file"}/>
             </div>
         </div>
     );
 };
 
 const AddPizzaReduxForm = (props: any) => {
-    const {handleSubmit, pristine, reset, submitting, setImage} = props;
+    const {handleSubmit, pristine, reset, submitting} = props;
     const filters = [{name: "Big"},{name: "All"}];
 
     const mainPhotoSelected = (image:any) => {
-        setImage(image);
+      //  setImage(image);
     };
     return (
         <form className={style.formControl} onSubmit={handleSubmit}>
@@ -41,13 +39,6 @@ const AddPizzaReduxForm = (props: any) => {
                    component={renderField}
                    label="name *"
                    validate={[required, maxLength15]}
-            />
-            <Field
-                name="photo"
-                type="file"
-                mainPhotoSelected={mainPhotoSelected}
-                component={UploadFile}
-                label="photo"
             />
             <Field name="price"
                    type="number"
@@ -79,7 +70,7 @@ const AddPizzaReduxForm = (props: any) => {
             />
 
             <div>
-                <button type="submit" disabled={submitting}>addPizza</button>
+                <button type="submit" >addPizza</button>
                 <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
             </div>
         </form>
