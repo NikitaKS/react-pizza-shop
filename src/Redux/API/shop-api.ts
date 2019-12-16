@@ -1,6 +1,6 @@
 import axios from "axios";
 import {IPostOrderItem} from "../../types/types";
-import {testFilters, testPissas} from "./TestApi";
+import {testFilters, testPissas} from "./fake-products";
 //
 // axios.defaults.xsrfHeaderName = "X-CSRFToken";
 // axios.defaults.xsrfCookieName = "csrftoken";

@@ -1,4 +1,4 @@
-import {productsAPI} from "./API/api";
+import {productsAPI} from "./API/shop-api";
 import {IAppState, IFilterItem, IOrderItem, IOrderLocalStorage, IProductItem, IPostOrderItem} from "../types/types";
 import {AnyAction, Dispatch} from "redux";
 import {ThunkDispatch} from "redux-thunk";
