@@ -58,32 +58,7 @@ const PizzaForm:any = ({onSubmit}:any) => {
     )
 };
 
-const UserForm:any = ({onSubmit, setCookie}:any) => {
-    const phoneRef = useRef(null);
-    const passwordRef = useRef(null);
 
-    const logIn = async (obj:any) => {
-        let response = await axios.post("http://127.0.0.1:8000/users/login", obj, {
-            withCredentials: true,
-        });
-        setCookie(response.data.token);
-    };
-    const createPizza = () => {
-        // @ts-ignore
-        let obj = {phone: phoneRef.current.value, password: passwordRef.current.value};
-        logIn(obj);
-    };
-
-    return (
-        <div>
-            <div>
-                <input ref={phoneRef}/>
-                <input ref={passwordRef}/>
-                <button onClick={createPizza}>login</button>
-            </div>
-        </div>
-    )
-};
 
 class Test extends Component<IProps> {
     state:any = {
@@ -163,9 +138,7 @@ class Test extends Component<IProps> {
                     <AddPizzaReduxForm onSubmit={this.onSubmit}/>
                     <input onChange={this.setImage} type={"file"}/>
                 </div>
-                <div>
-                    <UserForm onSubmit={this.onUserSubmit} setCookie={this.setCookie}/>
-                </div>
+
                 <button onClick={this.fetchPizzas}>fetch-pizzas</button>
                 <button onClick={this.logout}>LOGOUT</button>
                 {displayPizzas}

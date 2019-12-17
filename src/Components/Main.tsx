@@ -2,22 +2,25 @@ import React, {Component} from 'react';
 import {Redirect, Route, withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import Preloader from "../common/Preloader";
-import Header from "./Header/Header";
-import Footer from "./Footer/Footer";
 import {fetchCatalog} from "../Redux/productsReducer";
 import {withSuspense} from "../hoc/withSuspense";
 import {AppStateType} from "../Redux/Store";
-import Catalog from "./Catalog/Catalog";
+import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
+import CartButtonStickyWrapper from "./CartButtonStickyWrapper";
+//Styles
 import '../App.css';
 import style from './Main.module.css';
-import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
+//Components
+import Preloader from "../common/Preloader";
+import Header from "./Header/Header";
+import Footer from "./Footer/Footer";
+import Catalog from "./Catalog/Catalog";
+import Order from "./Order/Order";
+import Cart from "./Cart/Cart";
+import About from "./About/About";
 import Test from "./TestPage/Test";
-import CartButtonStickyWrapper from "./CartButtonStickyWrapper";
 
-const About = React.lazy(() => import('./About/About'));
-const Order = React.lazy(() => import('./Order/Order'));
-const Cart = React.lazy(() => import("./Cart/Cart"));
+const Admin = React.lazy(() => import('./Admin/Admin'));
 
 interface IProps {
     title: string
@@ -60,10 +63,11 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
                             <Route exact path="/"
                                    render={() => <Redirect to={"/catalog"}/>}/>
                             <Route path="/catalog" component={Catalog}/>
-                            <Route path="/order" render={withSuspense(Order)}/>
-                            <Route path="/cart" render={withSuspense(Cart)}/>
-                            <Route path="/about" render={withSuspense(About)}/>
+                            <Route path="/order" component={Order}/>
+                            <Route path="/cart" component={Cart}/>
+                            <Route path="/about" component={About}/>
                             <Route path="/test" component={Test}/>
+                            <Route path="/admin" render={withSuspense(Admin)}/>
                         </div>
                     }
                 </div>

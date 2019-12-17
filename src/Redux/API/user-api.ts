@@ -6,7 +6,7 @@ const instance = axios.create({
     withCredentials: true
 });
 
-export const adminLogIn = {
+export const authorisationAPI = {
     async logIn() {
         try {
             let res = await instance.get('/login');
