@@ -1,13 +1,14 @@
 import React from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {calculateOrder, decreaseQuantity, increaseQuantity, removeFromOrder} from "../../Redux/productsReducer";
 import {NavLink} from "react-router-dom";
 import {IOrderItem, IProductItem} from "../../types/types";
-import {getOrder, getProducts, getTotalPrice, getTotalQuantity} from "../../Redux/selectors";
+import {getOrder, getProducts} from "../../Redux/selectors";
 import {AppStateType} from "../../Redux/Store";
 import style from './Admin.module.css';
 import ButtonMain from "../../common/Buttons/ButtonMain";
+import {logIn, logOut} from "../../Redux/userReducer";
+import LoginPage from "../Login/Login";
 
 interface IConnectProps {
     isAuth: boolean,
@@ -16,51 +17,47 @@ interface IConnectProps {
 }
 
 interface IDispatchProps {
-    decreaseQuantity: (id:string)=> void;
-    increaseQuantity: (id:string)=> void;
-    removeFromOrder: (id:string)=> void;
-    calculateOrder: ()=> void;
+    logIn: (data: any) => void;
+    logOut: () => void;
 }
 
 interface IAdminItemProps {
     product: IOrderItem,
-    decreaseQuantity: (id:string)=> void;
-    increaseQuantity: (id:string)=> void;
-    removeFromOrder: (id:string)=> void;
+    removeFromOrder: (id: string) => void;
 }
 
-const Admin = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calculateOrder}:IDispatchProps&IConnectProps) => {
+const Admin = (
+    {
+        order, isAuth, products,
+        logIn, logOut,
 
-    let orderItems = order.map(i => <AdminItem
-        key={i.id}
-        product={i}
-        decreaseQuantity={decreaseQuantity}
-        increaseQuantity={increaseQuantity}
-        removeFromOrder={removeFromOrder}
-    />);
+    }: IDispatchProps & IConnectProps) => {
 
-    return (
-        <div>
-            <div className={style.tableRow}>
-                <h3>Items in your CART</h3>
+    if (isAuth) {
+        return (
+            <div>
+                <div className={style.tableRow}>
+                    <h3>Hello Admin</h3>
+                </div>
+                <div className={style.cartWrapper}>
+
+                </div>
+                <div className={style.rowBetween}>
+                    <NavLink to="/catalog">
+                        <ButtonMain buttonText={"To Menu"}/>
+                    </NavLink>
+                    <NavLink to="/order">
+                        <ButtonMain buttonText={"Order"}/>
+                    </NavLink>
+                </div>
             </div>
-            <div className={style.cartWrapper}>
-                {orderItems}
-            </div>
-            <div className={style.rowBetween}>
-                <NavLink to="/catalog">
-                    <ButtonMain buttonText={"To Menu"}/>
-                </NavLink>
-                <NavLink to="/order">
-                    <ButtonMain buttonText={"Order"}/>
-                </NavLink>
-            </div>
-        </div>
-    )
+        )
+    } else {
+        return <LoginPage logIn={logIn}/>
+    }
 };
 
-
-const AdminItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder}:IAdminItemProps) => {
+const AdminItem = ({product}: IAdminItemProps) => {
     return (
         <div className={style.tableRow}>
             <div className={style.row}>
@@ -84,7 +81,7 @@ const AdminItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder
                 <div className={style.col}>
                     <button
                         onClick={() => {
-                            increaseQuantity(product.id)
+                            alert(product.id)
                         }}
                         className={style.btnSmall}
                     >+
@@ -92,7 +89,7 @@ const AdminItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder
                     <span><b>{product.quantity}</b></span>
                     <button
                         onClick={() => {
-                            decreaseQuantity(product.id)
+                            alert(product.id)
                         }}
                         className={style.btnSmallMinus}
                     >-
@@ -106,7 +103,7 @@ const AdminItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder
             </div>
             <button
                 onClick={() => {
-                    removeFromOrder(product.id)
+                    alert(product.id)
                 }}
                 className={style.btnSmallClose}
             >X
@@ -125,5 +122,5 @@ const mapStateToProps = (state: AppStateType) => {
 };
 
 export default compose(
-    connect(mapStateToProps, {increaseQuantity, decreaseQuantity, removeFromOrder, calculateOrder})
+    connect(mapStateToProps, {logIn, logOut})
 )(Admin);

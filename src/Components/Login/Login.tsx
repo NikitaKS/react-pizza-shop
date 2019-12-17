@@ -1,19 +1,13 @@
-import React, {useRef} from "react";
-import axios from "axios";
+import React, {Component, useRef} from "react";
 
 const LoginUserForm:any = ({onSubmit}:any) => {
     const phoneRef = useRef(null);
     const passwordRef = useRef(null);
 
-    const logIn = async (obj:any) => {
-        let response = await axios.post("http://127.0.0.1:8000/users/login", obj, {
-            withCredentials: true,
-        });
-    };
-    const createPizza = () => {
+    const logIn = () => {
         // @ts-ignore
         let obj = {phone: phoneRef.current.value, password: passwordRef.current.value};
-        logIn(obj);
+        onSubmit(obj);
     };
 
     return (
@@ -21,14 +15,17 @@ const LoginUserForm:any = ({onSubmit}:any) => {
             <div>
                 <input ref={phoneRef}/>
                 <input ref={passwordRef}/>
-                <button onClick={createPizza}>login</button>
+                <button onClick={logIn}>login</button>
             </div>
         </div>
     )
 };
 
-const LoginPage: React.FC = () => {
-    const onUserSubmit = () => {};
+interface I_LoginPage {
+    logIn: (data:any)=> void
+}
+const LoginPage = ({logIn}:I_LoginPage) => {
+    const onUserSubmit = (data:any) => {logIn(data)};
 
     return (
         <div>
