@@ -69,11 +69,11 @@ class Test extends Component<IProps> {
     };
 
     fetchPizzas = async() => {
-        let asd = await axios.get("http://localhost:8000/pizzas", {withCredentials: true});
+        let asd = await axios.get("http://localhost:8000/api/pizzas", {withCredentials: true});
         this.setState({pizzas: asd.data.products});
     };
     logout = async() => {
-        let asd = await axios.delete("http://localhost:8000/users/logout", {withCredentials: true})
+        let asd = await axios.delete("http://localhost:8000/api/users/logout", {withCredentials: true})
         console.log(asd);
     };
     setImage = (e:any) => {
@@ -95,7 +95,7 @@ class Test extends Component<IProps> {
         sendData.append('image', this.state.image);
 
         //Sending Post Request
-        axios.post("http://127.0.0.1:8000/pizzas", sendData, {
+        axios.post("http://127.0.0.1:8000/api/pizzas", sendData, {
             withCredentials: true,
             headers: {
                 'Content-type': 'multipart/form-data',
@@ -111,7 +111,7 @@ class Test extends Component<IProps> {
         this.setState({imageLoaded: true});
     }
     deletePizza = (id:number) => {
-        axios.delete(`http://127.0.0.1:8000/pizzas/${id}`, {withCredentials: true});
+        axios.delete(`http://127.0.0.1:8000/api/pizzas/${id}`, {withCredentials: true});
     };
     render() {
         let pizzas = this.state.pizzas;

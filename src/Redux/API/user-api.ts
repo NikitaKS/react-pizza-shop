@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:8000/users",
+    baseURL: "http://127.0.0.1:8000/api/users",
     withCredentials: true
 });
 
@@ -11,10 +11,8 @@ export const authorisationAPI = {
         try {
             let res = await instance.post('/login', data);
             if (res.status >= 200) {
-                alert('asd')
+                return res.data;
             }
-            debugger;
-            return res.data;
         } catch {
             return null;
         }

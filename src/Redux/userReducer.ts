@@ -6,7 +6,7 @@ const LOGOUT_SUCCESS = 'users/LOGOUT_SUCCESS';
 
 
 interface I_UserInfo {
-    userId: null | string,
+    userId?: null | string,
     userName: null | string,
 }
 interface I_UserState extends I_UserInfo{
@@ -38,7 +38,8 @@ const authorisationReducer = (state: I_UserState = initialState, action: usersRe
             return {
                 ...state,
                 isAuth: action.status,
-            };
+                userName: action.userInfo.userName ? action.userInfo.userName : null
+    };
         case LOGOUT_SUCCESS:
             return {
                 ...state,
@@ -67,9 +68,8 @@ export const logOut = () => async (dispatch: ThunkDispatch<{}, {}, usersReducerA
     dispatch(_logOutSuccess());
 };
 export const logIn = (data:any) => async (dispatch: ThunkDispatch<{}, {}, usersReducerActions>) => {
-    let userInfo = await authorisationAPI.logIn(data);
-    debugger;
-    if(userInfo)dispatch(_authorisationSuccess(true, userInfo));
+    let res = await authorisationAPI.logIn(data);
+    if(res.userInfo)dispatch(_authorisationSuccess(true, res.userInfo));
 };
 
 export default authorisationReducer;

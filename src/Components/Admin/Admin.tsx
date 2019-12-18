@@ -12,6 +12,7 @@ import LoginPage from "../Login/Login";
 
 interface IConnectProps {
     isAuth: boolean,
+    userName?: string | null,
     order: Array<IOrderItem>,
     products: Array<IProductItem>,
 }
@@ -29,7 +30,7 @@ interface IAdminItemProps {
 const Admin = (
     {
         order, isAuth, products,
-        logIn, logOut,
+        logIn, logOut, userName
 
     }: IDispatchProps & IConnectProps) => {
 
@@ -37,7 +38,7 @@ const Admin = (
         return (
             <div>
                 <div className={style.tableRow}>
-                    <h3>Hello Admin</h3>
+                    <h3>Hello Admin {userName ? userName : 'noname'}</h3>
                 </div>
                 <div className={style.cartWrapper}>
 
@@ -116,6 +117,7 @@ const AdminItem = ({product}: IAdminItemProps) => {
 const mapStateToProps = (state: AppStateType) => {
     return {
         isAuth: state.auth.isAuth,
+        userName: state.auth.userName,
         products: getProducts(state),
         order: getOrder(state),
     }

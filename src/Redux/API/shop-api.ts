@@ -12,9 +12,9 @@ const instance = axios.create({
 export const productsAPI = {
     async getProducts () {
         try {
-            let res = await instance.get('pizza/?format=json');
+            let res = await instance.get('pizzas');
             if(res.status === 200) {
-                return res.data;
+                return res.data.products;
             }
         } catch {
             return testPissas;
