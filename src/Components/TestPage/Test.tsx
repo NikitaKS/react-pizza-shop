@@ -8,8 +8,7 @@ import {compose} from "redux";
 import style from './Test.module.css';
 import {AppStateType} from "../../Redux/Store";
 import axios from "axios";
-import {IFilterItem, IProductItem} from "../../types/types";
-import {Field} from "redux-form";
+import {IFilterItem, IProductItem} from "../../../../Core/products-types";
 
 interface IProps {
     filters: Array<IFilterItem>,
@@ -57,8 +56,6 @@ const PizzaForm:any = ({onSubmit}:any) => {
         </div>
     )
 };
-
-
 
 class Test extends Component<IProps> {
     state:any = {

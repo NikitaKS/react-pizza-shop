@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Preloader from "./Preloader";
-import {IProductItem} from "../types/types";
 import style from './PopupWrapper.module.css';
+import {IProductItem} from "../../../Core/products-types";
 
 interface IProps {
     product: IProductItem

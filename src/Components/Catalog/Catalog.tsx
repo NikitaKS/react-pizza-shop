@@ -6,9 +6,9 @@ import {connect} from "react-redux";
 import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
-import {IFilterItem, IProductItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
 import {getFilters, getProducts, getSelectedFilter} from "../../Redux/selectors";
+import {IFilterItem, IProductItem} from "../../../../Core/products-types";
 
 
 interface IConnectProps {

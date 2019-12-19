@@ -1,7 +1,9 @@
 import {productsAPI} from "./API/shop-api";
-import {IAppState, IFilterItem, IOrderItem, IOrderLocalStorage, IProductItem, IPostOrderItem} from "../types/types";
+import {IAppState, IOrderItem, IOrderLocalStorage} from "../types/types";
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./Store";
+import {IFilterItem, IProductItem} from "../../../Core/products-types";
+import {IPostOrderItem} from "../../../Core/orders-types";
 
 const SET_PRODUCTS = 'MAIN_PAGE/ADD_LIST';
 const SET_FILTERS = 'MAIN_PAGE/SET_FILTERS';
@@ -119,12 +121,7 @@ const productsReducer = (state: IAppState = initialState, action: ReducerActions
                 }
             } else {
                 let orderItem: IOrderItem = {
-                    id: action.productItem.id,
-                    name: action.productItem.name,
-                    photo_thumbnail: action.productItem.photo_thumbnail,
-                    price: Number(action.productItem.price),
-                    size: Number(action.productItem.size),
-                    text_short: action.productItem.text_short,
+                    ...action.productItem,
                     quantity: action.quantity
                 };
                 return {

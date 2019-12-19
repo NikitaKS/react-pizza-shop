@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import style from './ProductItem.module.css';
 import ProductImage from "./ProductImage";
-import {IProductItem} from "../../types/types";
 import ButtonMain from "../../common/Buttons/ButtonMain";
+import {IProductItem} from "../../../../Core/products-types";
 
 interface IProps {
     product: IProductItem,
@@ -35,7 +35,7 @@ const ProductCard = ({product, addProductToOrder, calculateOrder, openPopup}: IP
                 imgUrl={product.photo}
                 altText={product.text_short}
                 openPopup={openPopup}
-                imgThumbnail={product.photo_thumbnail}
+                imgThumbnail={product.photo_thumbnail ? product.photo_thumbnail : product.photo}
             />
             <div className={style.container}>
                 <h5>{product.name}</h5>

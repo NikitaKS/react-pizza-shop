@@ -21,9 +21,6 @@ const AddPizzaReduxForm = (props: any) => {
     const {handleSubmit, pristine, reset, submitting} = props;
     const filters = [{name: "Big"},{name: "All"}];
 
-    const mainPhotoSelected = (image:any) => {
-      //  setImage(image);
-    };
     return (
         <form className={style.formControl} onSubmit={handleSubmit}>
             {/*<Field name="filter"*/}

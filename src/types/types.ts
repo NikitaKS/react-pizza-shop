@@ -1,33 +1,15 @@
-export interface IOrderItem {
-    id: string,
-    name: string,
-    photo_thumbnail: string,
-    price: number,
-    size: number,
-    text_short: string,
+import {IFilterItem, IProductItem} from "../../../Core/products-types";
+
+export interface IOrderItem extends IProductItem {
     quantity: number
 }
 
-export interface IProductItem {
-    filter: Array<IFilterItem>;
-    id: string,
-    name: string,
-    photo: string,
-    photo_thumbnail: string,
-    price: number,
-    size: number,
-    text_long: string,
-    text_short: string,
-
-}
-export interface IFilterItem {
-    name: string
+export interface IOrderLocalStorage {
+    order: Array<IOrderItem>,
+    totalPrice?: number,
+    totalQuantity: number,
 }
 
-export interface IPostOrderItem {
-    product_id: string,
-    quantity: number,
-}
 
 export interface IAppState {
     products: Array<IProductItem>,
@@ -38,19 +20,4 @@ export interface IAppState {
     filters: Array<IFilterItem>,
     selectedFilter: string,
     orderSuccess: boolean,
-}
-export interface IOrderToPost {
-    phone: string,
-    first_name: string,
-    "delivery_date": string,
-    "delivery_time": number,
-    "address": string,
-    "comment": string,
-    "payment": number,
-    "order_items": Array<IPostOrderItem>
-}
-export interface IOrderLocalStorage {
-    order: Array<IOrderItem>,
-    totalPrice: number,
-    totalQuantity: number,
 }

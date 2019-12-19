@@ -1,6 +1,6 @@
 import {ThunkDispatch} from "redux-thunk";
-import {IProductItem} from "../types/types";
 import {adminProductsAPI} from "./API/admin-products-api";
+import {IProductItem} from "../../../Core/products-types";
 
 const DELETE_PRODUCT = 'admin/DELETE_PRODUCT';
 const CREATE_PRODUCT = 'admin/CREATE_PRODUCT';

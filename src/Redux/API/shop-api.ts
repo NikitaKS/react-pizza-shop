@@ -1,6 +1,6 @@
 import axios from "axios";
-import {IPostOrderItem} from "../../types/types";
 import {testFilters, testPissas} from "./fake-products";
+import {I_UserInfoToOrder, IPostOrderItem} from "../../../../Core/orders-types";
 //
 // axios.defaults.xsrfHeaderName = "X-CSRFToken";
 // axios.defaults.xsrfCookieName = "csrftoken";
@@ -30,7 +30,7 @@ export const productsAPI = {
             return testFilters;
         }
     },
-    postOrder (formData:any, order: Array<IPostOrderItem>) {
+    postOrder (formData:I_UserInfoToOrder, order: Array<IPostOrderItem>) {
         return instance.post(`order/`, {
             "phone": formData.phone,
             "first_name": formData.first_name,
