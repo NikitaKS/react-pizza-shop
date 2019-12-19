@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {NavLink, Redirect, Route} from "react-router-dom";
@@ -11,65 +11,67 @@ import LoginPage from "../Login/Login";
 import AdminProducts from "./pages/AdminProducts";
 import {IProductItem} from "../../../../Core/products-types";
 import {IOrderItem} from "../../types/types";
+import {fetchCatalog} from "../../Redux/productsReducer";
 
 
 interface IConnectProps {
     isAuth: boolean,
     userName?: string | null,
     order: Array<IOrderItem>,
-    products: Array<IProductItem>,
 }
 
 interface IDispatchProps {
     logIn: (data: any) => void;
     logOut: () => void;
+    fetchCatalog: () => void
 }
 
-const Admin = (
-    {
-        order, isAuth, products,
-        logIn, logOut, userName
+class Admin extends Component<IDispatchProps & IConnectProps> {
 
-    }: IDispatchProps & IConnectProps) => {
+    render() {
+        let {
+            order, isAuth,
+            logIn, logOut, userName,
+        } = this.props;
 
-    if (isAuth) {
-        return (
-            <div>
-                <div className={style.tableRow}>
-                    <h3>Hello Admin {userName ? userName : 'noname'}</h3>
-                </div>
-                <div className={style.cartWrapper}>
-
-                </div>
-                <div className={style.col}>
-                    <NavLink to="/admin/products">
-                        <ButtonMain buttonText={"Products"}/>
-                    </NavLink>
-                    <NavLink to="/admin/order">
-                        <ButtonMain buttonText={"Orders"}/>
-                    </NavLink>
-                </div>
+        if (isAuth) {
+            return (
                 <div>
+                    <div className={style.tableRow}>
+                        <h3>Hello Admin {userName ? userName : 'noname'}</h3>
+                    </div>
+                    <div className={style.cartWrapper}>
+
+                    </div>
+                    <div className={style.col}>
+                        <NavLink to="/admin/products">
+                            <ButtonMain buttonText={"Products"}/>
+                        </NavLink>
+                        <NavLink to="/admin/order">
+                            <ButtonMain buttonText={"Orders"}/>
+                        </NavLink>
+                    </div>
                     <div>
-                        <AdminProducts products={products}/>
+                        <div>
+                            <Route path="/admin/products" component={AdminProducts}/>
+                        </div>
                     </div>
                 </div>
-            </div>
-        )
-    } else {
-        return <LoginPage logIn={logIn}/>
+            )
+        } else {
+            return <LoginPage logIn={logIn}/>
+        }
     }
-};
+}
 
 const mapStateToProps = (state: AppStateType) => {
     return {
         isAuth: state.auth.isAuth,
         userName: state.auth.userName,
-        products: getProducts(state),
         order: getOrder(state),
     }
 };
 
 export default compose(
-    connect(mapStateToProps, {logIn, logOut})
+    connect(mapStateToProps, {logIn, logOut, fetchCatalog})
 )(Admin);
