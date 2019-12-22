@@ -101,8 +101,8 @@ export const deleteProduct = (productId: string) => async (dispatch: ThunkDispat
     dispatch(_deleteProductSuccess(productId));
 };
 export const updateProduct = (product: IProductItem) => async (dispatch: ThunkDispatch<{}, {}, adminReducerActions>) => {
-    debugger
     let result = await adminProductsAPI.putProduct(product);
     dispatch(_updateProductSuccess(result))
 };
+
 export default adminReducer;

@@ -35,7 +35,7 @@ class Admin extends Component<IDispatchProps & IConnectProps> {
 
     render() {
         let {
-            order, isAuth,
+            fetchCatalog, isAuth,
             logIn, logOut, userName,
         } = this.props;
 
@@ -55,6 +55,7 @@ class Admin extends Component<IDispatchProps & IConnectProps> {
                         <NavLink to="/admin/order">
                             <ButtonMain buttonText={"Orders"}/>
                         </NavLink>
+                        <ButtonMain buttonText={"Fetch Pizzas"} onClickCallback={fetchCatalog} />
                     </div>
                     <div>
                         <div>

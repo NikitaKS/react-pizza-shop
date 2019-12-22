@@ -6,7 +6,7 @@ import {I_UserInfoToOrder, IPostOrderItem} from "../../../../Core/orders-types";
 // axios.defaults.xsrfCookieName = "csrftoken";
 
 const instance = axios.create({
-    baseURL: "http://127.0.0.1:8000/api/",
+    baseURL: "http://127.0.0.1:8000/api/", withCredentials: true
 });
 
 export const productsAPI = {
