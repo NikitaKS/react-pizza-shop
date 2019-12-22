@@ -78,11 +78,6 @@ class Test extends Component<IProps> {
             this.setState({image: e.target.files[0]});
         }
     };
-    setCookie = (cookie:string) => {
-        if (cookie) {
-            this.setState({cookie: cookie})
-        }
-    };
     onSubmit = async (formData: any) => {
         if (!this.state.image) {alert("no Image")}
         let sendData = new FormData();

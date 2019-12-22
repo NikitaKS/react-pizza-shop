@@ -69,7 +69,8 @@ export const logOut = () => async (dispatch: ThunkDispatch<{}, {}, usersReducerA
 };
 export const logIn = (data:any) => async (dispatch: ThunkDispatch<{}, {}, usersReducerActions>) => {
     let res = await authorisationAPI.logIn(data);
-    if(res.userInfo)dispatch(_authorisationSuccess(true, res.userInfo));
+    if(res.userInfo)dispatch(_authorisationSuccess(true, res.userInfo))
+    else dispatch(_logOutSuccess());
 };
 
 export default authorisationReducer;

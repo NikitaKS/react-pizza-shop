@@ -1,5 +1,6 @@
 import axios from "axios";
 import {testFilters, testPissas} from "./fake-products";
+import {IProductItem} from "../../../../Core/products-types";
 
 const instance = axios.create({
     baseURL: "http://127.0.0.1:8000/api/pizzas",
@@ -11,7 +12,7 @@ export const adminProductsAPI = {
         try {
             let res = await instance.get('/');
             if(res.status === 200) {
-                return res.data;
+                return res.data.products;
             }
         } catch {
             return testPissas;
@@ -36,15 +37,15 @@ export const adminProductsAPI = {
                 return res.data
             })
     },
-    putProduct (productId: string) {
-        return instance.put(`/${productId}`)
+    putProduct (product: IProductItem) {
+        return instance.put(`/`, product)
             .then(res => {
                 if(res.status >= 200) {
                     return res.data
                 }
             })
-            .catch(()=>{
-                return testFilters;
+            .catch((e)=>{
+                return alert(e.message? e.message : 'update error');
             })
     },
 
@@ -55,8 +56,8 @@ export const adminProductsAPI = {
                     return res.data
                 }
             })
-            .catch(()=>{
-                return testFilters;
+            .catch((e)=>{
+                return alert(e.message? e.message : 'delete error');
             })
     },
 };

@@ -7,9 +7,18 @@ import EditForm from "./EditForm";
 interface IAdminItemProps {
     product: IProductItem,
     remove: (itemId: string) => void;
+    updateProduct: (product: IProductItem)=> void
 }
 
-const AdminProductItem = ({product, remove}: IAdminItemProps) => {
+const AdminProductItem = ({product, remove, updateProduct}: IAdminItemProps) => {
+
+    let submitUpdate = (commonData:any) => {
+        let newProduct = {
+            ...product,
+            ...commonData
+        };
+        updateProduct(newProduct);
+    };
     return (
         <div className={style.tableRow}>
             <div className={style.row}>
@@ -19,16 +28,25 @@ const AdminProductItem = ({product, remove}: IAdminItemProps) => {
                 </div>
             </div>
             <div className={style.row}>
-                <EditForm title={'Name'} commonValue={product.name} type={"input"} applyChange={()=>{}}/>
-                <EditForm title={'price'} commonValue={product.price} type={"number"} applyChange={()=>{}}/>
-                <EditForm title={'size'} commonValue={product.size} type={"number"} applyChange={()=>{}}/>
-                <EditForm title={'Short Text'} commonValue={product.text_short} type={"input"} applyChange={()=>{}}/>
-                <EditForm title={'Long Text'} commonValue={product.text_long} type={"input"} applyChange={()=>{}}/>
+                <EditForm title={'Name'} commonValue={product.name} type={"input"}
+                          applyChange={(val)=>{submitUpdate({name: val})}}/>
+
+                <EditForm title={'price'} commonValue={product.price} type={"number"}
+                          applyChange={(val)=>{submitUpdate({price: val})}}/>
+
+                <EditForm title={'size'} commonValue={product.size} type={"number"}
+                          applyChange={(val)=>{submitUpdate({size: val})}}/>
+
+                <EditForm title={'Short Text'} commonValue={product.text_short} type={"input"}
+                          applyChange={(val)=>{submitUpdate({text_short: val})}}/>
+
+                <EditForm title={'Long Text'} commonValue={product.text_long} type={"input"}
+                          applyChange={(val)=>{submitUpdate({text_long: val})}}/>
             </div>
 
             <button
                 onClick={() => {
-                    alert(product.id)
+                    remove(product.id)
                 }}
                 className={style.btnSmallClose}
             >X

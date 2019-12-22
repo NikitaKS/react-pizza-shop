@@ -12,6 +12,7 @@ import AdminProducts from "./pages/AdminProducts";
 import {IProductItem} from "../../../../Core/products-types";
 import {IOrderItem} from "../../types/types";
 import {fetchCatalog} from "../../Redux/productsReducer";
+import {_setProducts} from "../../Redux/adminReducer";
 
 
 interface IConnectProps {
@@ -28,6 +29,10 @@ interface IDispatchProps {
 
 class Admin extends Component<IDispatchProps & IConnectProps> {
 
+    componentDidMount(): void {
+
+    }
+
     render() {
         let {
             order, isAuth,
@@ -38,7 +43,7 @@ class Admin extends Component<IDispatchProps & IConnectProps> {
             return (
                 <div>
                     <div className={style.tableRow}>
-                        <h3>Hello Admin {userName ? userName : 'noname'}</h3>
+                        <h3>Hello Admin 1{userName ? userName : 'noname'}</h3>
                     </div>
                     <div className={style.cartWrapper}>
 

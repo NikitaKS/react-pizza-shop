@@ -18,7 +18,8 @@ const EditForm = ({commonValue, type, applyChange, title}: IEditFormProps) => {
         if (!changedValue || changedValue === '') {
             console.log("error")
         } else {
-            applyChange(changedValue)
+            applyChange(changedValue);
+            setEtitable(false)
         }
     };
 

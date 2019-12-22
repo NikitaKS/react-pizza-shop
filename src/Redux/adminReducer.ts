@@ -1,26 +1,34 @@
 import {ThunkDispatch} from "redux-thunk";
 import {adminProductsAPI} from "./API/admin-products-api";
-import {IProductItem} from "../../../Core/products-types";
+import {IProductItem, IProductToCreate} from "../../../Core/products-types";
 
+const SET_PRODUCTS = 'admin/SET_PRODUCTS';
 const DELETE_PRODUCT = 'admin/DELETE_PRODUCT';
 const CREATE_PRODUCT = 'admin/CREATE_PRODUCT';
+const UPDATE_PRODUCT = 'admin/UPDATE_PRODUCT';
 
 
-interface I_UserInfo {
-    userId: null | string,
-    userName: null | string,
-}
-interface I_UserState extends I_UserInfo{
-    isAuth: boolean,
+interface I_AdminProductsState {
+    products: Array<IProductItem>
 }
 
-const initialState: I_UserState = {
-    isAuth: false,
-    userId: null,
-    userName: null,
+const initialState: I_AdminProductsState = {
+    products: [
+        {
+            filter: [{name: 'big'}],
+            id: "123",
+            name: "123",
+            photo: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
+            photo_thumbnail: "http://93.85.88.35/media/images/%D1%80%D1%8B%D0%B1%D0%BD%D1%8B%D0%B9.jpg",
+            price: 22.00,
+            size: 2,
+            text_long: "ng",
+            text_short: "da",
+        },
+    ],
 };
 
-type usersReducerActions = I_deleteProductSuccess | I_createProductSuccess
+type adminReducerActions = I_deleteProductSuccess | I_createProductSuccess | I_updateProductSuccess | I_setProducts
 
 interface I_deleteProductSuccess {
     type: typeof DELETE_PRODUCT,
@@ -28,24 +36,36 @@ interface I_deleteProductSuccess {
 }
 interface I_createProductSuccess {
     type: typeof CREATE_PRODUCT,
+    product: IProductToCreate
+}
+interface I_updateProductSuccess {
+    type: typeof UPDATE_PRODUCT,
     product: IProductItem
 }
+interface I_setProducts {
+    type: typeof SET_PRODUCTS,
+    products: Array<IProductItem>
+}
 
-
-const adminReducer = (state: I_UserState = initialState, action: usersReducerActions) => {
+const adminReducer = (state: I_AdminProductsState = initialState, action: adminReducerActions) => {
     switch (action.type) {
-        //setting fetching status
+        case SET_PRODUCTS:
+            return {
+                ...state,
+                products: action.products
+            };
         case DELETE_PRODUCT:
             return {
                 ...state,
-                isAuth: action.productId,
+                products: state.products ? state.products.filter( pr => pr.id !== action.productId) : [],
             };
         case CREATE_PRODUCT:
             return {
+                ...state
+            };
+        case UPDATE_PRODUCT:
+            return {
                 ...state,
-                isAuth: false,
-                userId: null,
-                userName: null,
             };
         default:
             return state;
@@ -62,14 +82,27 @@ export const _createProductSuccess = (product: IProductItem): I_createProductSuc
         type: CREATE_PRODUCT, product
     }
 };
-
-export const createProduct = (sendData:any) => async (dispatch: ThunkDispatch<{}, {}, usersReducerActions>) => {
+export const _updateProductSuccess = (product: IProductItem): I_updateProductSuccess => {
+    return {
+        type: UPDATE_PRODUCT, product
+    }
+};
+export const _setProducts = (products: Array<IProductItem>): I_setProducts => {
+    return {
+        type: SET_PRODUCTS, products
+    }
+};
+export const createProduct = (sendData:any) => async (dispatch: ThunkDispatch<{}, {}, adminReducerActions>) => {
     let created = await adminProductsAPI.postProduct(sendData);
     dispatch(_createProductSuccess(created));
 };
-export const deleteProduct = (productId: string) => async (dispatch: ThunkDispatch<{}, {}, usersReducerActions>) => {
+export const deleteProduct = (productId: string) => async (dispatch: ThunkDispatch<{}, {}, adminReducerActions>) => {
     let deleted = await adminProductsAPI.deleteProduct(productId);
     dispatch(_deleteProductSuccess(productId));
 };
-
+export const updateProduct = (product: IProductItem) => async (dispatch: ThunkDispatch<{}, {}, adminReducerActions>) => {
+    debugger
+    let result = await adminProductsAPI.putProduct(product);
+    dispatch(_updateProductSuccess(result))
+};
 export default adminReducer;
