@@ -14,29 +14,31 @@ const EditForm = ({commonValue, type, applyChange, title}: IEditFormProps) => {
     let change = (e: any) => {
         changeValue(e.target.value)
     };
+
     let submit = () => {
         if (!changedValue || changedValue === '') {
             console.log("error")
         } else {
-            applyChange(changedValue);
+            if(changedValue !== commonValue) {
+                applyChange(changedValue);
+            }
             setEtitable(false)
         }
     };
 
-    const changeMode = () => { setEtitable(true)};
+    const changeMode = () => {
+        setEtitable(true)
+    };
 
-    if (editable)
-        return (
-            <div>
-                <input type={type} value={changedValue} autoFocus={true} onChange={change} onBlur={submit}/>
-            </div>
-        );
-    else return (
-        <div className={style.col}>
+    return (
+        <div>
             <title>{title}</title>
-            <span onDoubleClick={changeMode}>{commonValue}</span>
+            {editable ? <input type={type} value={changedValue} autoFocus={true} onChange={change}
+                               onBlur={submit} className={style.input}/> :
+                <span onDoubleClick={changeMode} className={style.value}>{commonValue}</span>
+            }
         </div>
-    )
+    );
 };
 
 export default EditForm

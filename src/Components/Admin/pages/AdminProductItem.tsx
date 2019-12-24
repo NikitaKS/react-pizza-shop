@@ -27,22 +27,20 @@ const AdminProductItem = ({product, remove, updateProduct}: IAdminItemProps) => 
                          alt={product.text_short}/>
                 </div>
             </div>
-            <div className={style.row}>
-                <EditForm title={'Name'} commonValue={product.name} type={"input"}
-                          applyChange={(val)=>{submitUpdate({name: val})}}/>
+            <EditForm title={'Name'} commonValue={product.name} type={"input"}
+                      applyChange={(val)=>{submitUpdate({name: val})}}/>
 
-                <EditForm title={'price'} commonValue={product.price} type={"number"}
-                          applyChange={(val)=>{submitUpdate({price: val})}}/>
+            <EditForm title={'price'} commonValue={product.price} type={"number"}
+                      applyChange={(val)=>{submitUpdate({price: val})}}/>
 
-                <EditForm title={'size'} commonValue={product.size} type={"number"}
-                          applyChange={(val)=>{submitUpdate({size: val})}}/>
+            <EditForm title={'size'} commonValue={product.size} type={"number"}
+                      applyChange={(val)=>{submitUpdate({size: val})}}/>
 
-                <EditForm title={'Short Text'} commonValue={product.text_short} type={"input"}
-                          applyChange={(val)=>{submitUpdate({text_short: val})}}/>
+            <EditForm title={'Short Text'} commonValue={product.text_short} type={"input"}
+                      applyChange={(val)=>{submitUpdate({text_short: val})}}/>
 
-                <EditForm title={'Long Text'} commonValue={product.text_long} type={"input"}
-                          applyChange={(val)=>{submitUpdate({text_long: val})}}/>
-            </div>
+            <EditForm title={'Long Text'} commonValue={product.text_long} type={"input"}
+                      applyChange={(val)=>{submitUpdate({text_long: val})}}/>
 
             <button
                 onClick={() => {

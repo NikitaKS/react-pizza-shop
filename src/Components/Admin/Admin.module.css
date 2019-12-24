@@ -4,18 +4,25 @@
 .container {
     composes: container from './../../App.css';
 }
+.input {
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #1f1f20;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 0;
+    width: min-content;
+    text-align: center;
+}
+
 .row {
     display: flex;
     flex-direction: row;
     padding: 0;
     flex-wrap: wrap;
     height: 100%;
-}
-.rowCalc {
-    composes: row;
-    width: 2rem;
-    height: 100%;
-    flex-wrap: nowrap;
 }
 .col {
     display: flex;
@@ -41,7 +48,11 @@
     border-bottom: 1px solid #999999;
 }
 .tableRow > * span {
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.tableRow > div {
+    max-width: 22%;
 }
 .mainImg {
     display: flex;
