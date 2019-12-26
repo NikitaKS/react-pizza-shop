@@ -4,12 +4,10 @@ import { reducer as formReducer } from "redux-form";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {IOrderLocalStorage} from "../types/types";
-import authorisationReducer from "./userReducer";
 
 
 const rootReducer = combineReducers({
     reducer: productsReducer,
-    auth: authorisationReducer,
     form: formReducer,
 });
 

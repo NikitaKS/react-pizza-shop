@@ -20,8 +20,6 @@ import Cart from "./Cart/Cart";
 import About from "./About/About";
 import Test from "./TestPage/Test";
 
-const Admin = React.lazy(() => import('./Admin/Admin'));
-
 interface IProps {
     title: string
 }
@@ -67,7 +65,6 @@ class Main extends Component<IProps & IConnectProps & LinkDispatchProps> {
                             <Route path="/cart" component={Cart}/>
                             <Route path="/about" component={About}/>
                             <Route path="/test" component={Test}/>
-                            <Route path="/admin" render={withSuspense(Admin)}/>
                         </div>
                     }
                 </div>

@@ -14,48 +14,6 @@ interface IProps {
     filters: Array<IFilterItem>,
     pizzas: Array<IProductItem>
 }
-interface IState {
-    imageLoaded: boolean
-    pizzas: any
-}
-
-const PizzaForm:any = ({onSubmit}:any) => {
-    const userNameRef = useRef(null);
-    let [image, setImage] = useState(null);
-    // @ts-ignore
-    const addNewPizza = async (obj) => {
-        let formData = new FormData();
-        // @ts-ignore
-        formData.append('image', image);
-        formData.append("name", obj.name);
-        await axios.post("http://127.0.0.1:8000/pizzas", formData, {
-            withCredentials: true,
-            headers: {
-                'Content-type': 'multipart/form-data'
-            }
-        });
-    };
-    const createPizza = () => {
-        // @ts-ignore
-        let obj = {name: userNameRef.current.value};
-        addNewPizza(obj);
-    };
-    let mainPhotoSelected = (e:any) => {
-        if (e.target.files.length) {
-            setImage(e.target.files[0]);
-        }
-    };
-
-    return (
-        <div>
-            <div>
-                <input onChange={mainPhotoSelected} type={"file"}/>
-                <input ref={userNameRef}/>
-                <button onClick={createPizza}>newUser</button>
-            </div>
-        </div>
-    )
-};
 
 class Test extends Component<IProps> {
     state:any = {
@@ -94,9 +52,6 @@ class Test extends Component<IProps> {
             //    "Authorization": `Bearer ${this.state.cookie}`
             }
         });
-    };
-    onUserSubmit = (formData:any) => {
-        axios.post("http://127.0.0.1:8000/pizzas", {formData});
     };
 
     handleImageLoaded() {
