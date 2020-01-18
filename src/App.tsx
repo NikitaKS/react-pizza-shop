@@ -10,8 +10,6 @@ const App: React.FC = () => {
         <div className="App">
             <HashRouter basename={process.env.PUBLIC_URL}>
                 <Provider store={store}>
-                    {/*
-                    // @ts-ignore*/}
                     <Main key={"MAIN"}/>
                 </Provider>
             </HashRouter>

@@ -298,7 +298,6 @@ export const addProductToOrder = (productItem: IProductItem, quantity: number): 
     }
 };
 
-
 //FETCH ACTIONS
 export const fetchCatalog = () => async (dispatch: ThunkDispatch<{}, {}, ReducerActions>) => {
     dispatch(toggleIsFetching(true));
