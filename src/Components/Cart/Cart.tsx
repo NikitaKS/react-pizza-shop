@@ -31,21 +31,27 @@ const Cart = ({order, decreaseQuantity, increaseQuantity, removeFromOrder, calcu
         increaseQuantity={increaseQuantity}
         removeFromOrder={removeFromOrder}
     />);
-
+    console.log('Cart render');
     return (
-        <div>
-            <div className={style.tableRow}>
-                <h3>Items in your CART</h3>
-            </div>
-            <div className={style.cartWrapper}>
+        <div className={style.cartWrapper}>
+            <h2>Items in your CART</h2>
+
+            <div className={style.container}>
+                <div className={style.tableRow}>
+                    <span> </span>
+                    <span className={style.description}>Товар</span>
+                    <span className={style.description}>Описание</span>
+                    <span>шт.</span>
+                    <span>Цена</span>
+                </div>
                 {orderItems}
             </div>
             <div className={style.rowBetween}>
                 <NavLink to="/catalog">
-                    <ButtonMain buttonText={"To Menu"}/>
+                    <ButtonMain buttonText={"В Меню"}/>
                 </NavLink>
                 <NavLink to="/order">
-                    <ButtonMain buttonText={"Order"}/>
+                    <ButtonMain buttonText={"Заказать"}/>
                 </NavLink>
             </div>
         </div>

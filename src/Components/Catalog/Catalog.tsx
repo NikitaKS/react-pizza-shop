@@ -9,7 +9,22 @@ import PopupWrapper from "../../common/PopupWrapper";
 import {AppStateType} from "../../Redux/Store";
 import {getFilters, getProducts, getSelectedFilter} from "../../Redux/selectors";
 import {IFilterItem, IProductItem} from "../../../../Core/products-types";
+import Slider from "../../common/Slider";
 
+let commonCarusel = {"front_image": [
+        {
+            "image_name": "carousel asdasdasd image 1",
+            "image": bgPict
+        },
+        {
+            "image_name": "Общество с ограниченной ответственностью «Печь Орин» image 2",
+            "image": bgPict
+        },
+        {
+            "image_name": "Общество с ограниченной ответственностью «Печь Орин» image 2",
+            "image": bgPict
+        }
+    ]};
 
 interface IConnectProps {
     products: Array<IProductItem>,
@@ -83,18 +98,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
                 <div>
                     <div>
-                        <div style={{
-                            backgroundImage: `url(${this.state.bgPict})`,
-                            backgroundPosition: 'center center',
-                            backgroundRepeat: 'no-repeat',
-                            height: `35rem`,
-                            backgroundSize: 'cover',
-                        }}
-                             className={style.caruselContent}>
-                            <h3>
-                                Carusel Title
-                            </h3>
-                        </div>
+                        <Slider commonImages={commonCarusel.front_image} />
                         <div className={style.container}>{filters}</div>
                     </div>
                     <hr/>
