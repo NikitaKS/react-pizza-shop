@@ -5,11 +5,11 @@ import './antdComponents.css'
 
 
 interface I_props {
-    commonImages: Array<{image_name: string, image: string}>
+    commonImages: Array<{ image_name: string, image: string }>
 }
 
 let Slider = ({commonImages}: I_props) => {
-    let items = commonImages.map((i)=>{
+    let items = commonImages.map((i) => {
         return (
             <div>
                 <div style={{
@@ -19,12 +19,13 @@ let Slider = ({commonImages}: I_props) => {
                     height: `35rem`,
                     backgroundSize: 'cover',
                 }} className="caruselContent">
+
                     <h3>
                         {i.image_name}
                     </h3>
                 </div>
             </div>
-            )
+        )
     });
     return (
         <Carousel autoplay effect="fade">

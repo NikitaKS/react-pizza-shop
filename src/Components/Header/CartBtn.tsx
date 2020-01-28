@@ -10,17 +10,14 @@ interface IProps {
 function CartBtn({totalQuantity, totalPrice}:IProps) {
 
     return (
-
-        <div>
-            <NavLink to="/cart" className={style.cartBtnWrapper}>
-                <div className={style.cartName}>
-                    <span>Корзина</span>
-                </div>
-                <div className={style.calculate}>
-                    <span>{totalQuantity}</span>
-                </div>
-            </NavLink>
-        </div>
+        <NavLink to="/cart" className={style.cartBtnWrapper}>
+            <div className={style.cartName}>
+                <span>Корзина</span>
+            </div>
+            <div className={style.calculate}>
+                <span>{totalQuantity}</span>
+            </div>
+        </NavLink>
     );
 }
 
