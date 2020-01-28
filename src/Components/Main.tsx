@@ -16,6 +16,7 @@ import Catalog from "./Catalog/Catalog";
 import Order from "./Order/Order";
 import Cart from "./Cart/Cart";
 import About from "./About/About";
+import StickyBar from "./StickyBar/StickyBar";
 
 interface I_Props {
 
@@ -64,6 +65,7 @@ class Main extends Component<I_MainProps> {
                 <div className={style.mainWrapper}>
                     {this.props.isFetching ? <Preloader/> :
                         <main>
+                            <StickyBar />
                             <Switch>
                                 <Route exact path="/"
                                        render={() => <Redirect to={"/catalog"}/>}/>
