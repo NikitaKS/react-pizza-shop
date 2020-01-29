@@ -216,7 +216,7 @@ interface I_addProductToOrder {
 }
 
 //Type for actions
-type ReducerActions =
+export type ReducerActions =
     I_orderSuccess | I_setSortFilter |
     I_removeFromOrder | I_decreaseQuantity |
     I_increaseQuantity | IcalculateOrder |

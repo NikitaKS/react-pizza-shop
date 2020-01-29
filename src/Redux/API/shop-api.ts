@@ -1,6 +1,7 @@
 import axios from "axios";
 import {testFilters, testPissas} from "./fake-products";
 import {I_UserInfoToOrder, IPostOrderItem} from "../../../../Core/orders-types";
+import {APIerrorLogger} from "../../utils/errorLogger";
 //
 // axios.defaults.xsrfHeaderName = "X-CSRFToken";
 // axios.defaults.xsrfCookieName = "csrftoken";
@@ -55,5 +56,17 @@ export const productsAPI = {
             .catch(()=>{
                 return testFilters;
             })
+    },
+};
+export const languageDataAPI = {
+    async getLanguageData () {
+        try {
+            let res = await instance.get('front-page/');
+            return res.data
+        } catch (err) {
+            APIerrorLogger(err);
+            console.log(err);
+            throw err
+        }
     },
 };

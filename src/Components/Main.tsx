@@ -17,6 +17,7 @@ import Order from "./Order/Order";
 import Cart from "./Cart/Cart";
 import About from "./About/About";
 import StickyBar from "./StickyBar/StickyBar";
+import {fetchLanguageData} from "../Redux/languageDataReducer";
 
 interface I_Props {
 
@@ -31,6 +32,7 @@ interface I_ConnectedProps {
 
 interface I_dispatchProps {
     fetchCatalog: () => void;
+    fetchLanguageData: () => void;
 }
 
 type I_MainProps = I_Props & I_ConnectedProps & I_dispatchProps
@@ -59,13 +61,14 @@ class Main extends Component<I_MainProps> {
     }
 
     render() {
+        const { totalQuantity, totalPrice } = this.props;
         return (
             <div>
-                <Header totalQuantity={this.props.totalQuantity} totalPrice={this.props.totalPrice}/>
+                <Header totalQuantity={totalQuantity} totalPrice={totalPrice}/>
                 <div className={style.mainWrapper}>
                     {this.props.isFetching ? <Preloader/> :
                         <main>
-                            <StickyBar />
+                            <StickyBar totalQuantity={totalQuantity} totalPrice={totalPrice}/>
                             <Switch>
                                 <Route exact path="/"
                                        render={() => <Redirect to={"/catalog"}/>}/>
@@ -96,7 +99,7 @@ const mapStateToProps = (state: AppStateType): I_ConnectedProps => {
 };
 
 let ComposedComponent = connect(
-    mapStateToProps, {fetchCatalog}
+    mapStateToProps, {fetchCatalog, fetchLanguageData}
 )(Main);
 
 export default withRouter(ComposedComponent);

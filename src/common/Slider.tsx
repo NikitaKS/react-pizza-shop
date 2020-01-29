@@ -1,27 +1,27 @@
 import React from 'react';
-import { Carousel } from "antd";
+import {Carousel} from "antd";
 import 'antd/dist/antd.css'
 import './antdComponents.css'
 
 
 interface I_props {
     commonImages: Array<{ image_name: string, image: string }>
+    commonTexts: Array<{ text_name: string, text: string }>
 }
 
-let Slider = ({commonImages}: I_props) => {
-    let items = commonImages.map((i) => {
+let Slider = ({commonImages, commonTexts}: I_props) => {
+    let items = commonImages.map((item, index) => {
         return (
             <div>
                 <div style={{
-                    backgroundImage: `url(${i.image})`,
+                    backgroundImage: `${item.image})`,
                     backgroundPosition: 'center center',
                     backgroundRepeat: 'no-repeat',
                     height: `35rem`,
                     backgroundSize: 'cover',
                 }} className="caruselContent">
-
                     <h3>
-                        {i.image_name}
+                        {commonTexts[index].text}
                     </h3>
                 </div>
             </div>

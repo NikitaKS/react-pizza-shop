@@ -8,7 +8,12 @@ import CartBtn from "../Header/CartBtn";
 
 
 
-const StickyBar: React.FC = () => {
+interface I_Props {
+    totalQuantity: number,
+    totalPrice: number,
+}
+
+const StickyBar: React.FC<I_Props> = ({totalQuantity, totalPrice}:I_Props) => {
     let [opened, setOpened] = useState(false);
     let [visible, setVisible] = useState(false);
 
@@ -35,7 +40,7 @@ const StickyBar: React.FC = () => {
             <div>
                 <Fade right big when={visible}>
                     <div onClick={hideMenu} >
-                        <CartBtn totalQuantity={2} totalPrice={2}/>
+                        <CartBtn totalQuantity={totalQuantity} totalPrice={totalPrice}/>
                     </div>
                     <button className={style.btnMenu} onClick={() => { setOpened(!opened) }}>
                         <img alt="menu" src={menuBtn}/>

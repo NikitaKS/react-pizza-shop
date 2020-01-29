@@ -7,9 +7,10 @@ import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/prod
 import bgPict from "./../../assets/images/slide1.png"
 import PopupWrapper from "../../common/PopupWrapper";
 import {AppStateType} from "../../Redux/Store";
-import {getFilters, getProducts, getSelectedFilter} from "../../Redux/selectors";
+import {getFilters, getLanguageData, getProducts, getSelectedFilter} from "../../Redux/selectors";
 import {IFilterItem, IProductItem} from "../../../../Core/products-types";
 import Slider from "../../common/Slider";
+import {I_LanguageData} from "../../types/types";
 
 let commonCarusel = {"front_image": [
         {
@@ -29,7 +30,8 @@ let commonCarusel = {"front_image": [
 interface IConnectProps {
     products: Array<IProductItem>,
     filters: Array<IFilterItem>,
-    selectedFilter: string
+    selectedFilter: string,
+    languageData: I_LanguageData
 }
 
 interface LinkDispatchProps {
@@ -85,6 +87,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
                     {f.name}
                 </button>
             ));
+        let { languageData } = this.props;
 
         return (
             <div>
@@ -98,7 +101,10 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
 
                 <div>
                     <div>
-                        <Slider commonImages={commonCarusel.front_image} />
+                        <Slider
+                            commonImages={languageData.index.front_image}
+                            commonTexts={languageData.index.front_text}
+                        />
                         <div className={style.container}>{filters}</div>
                     </div>
                     <hr/>
@@ -116,6 +122,7 @@ const mapStateToProps = (state: AppStateType): IConnectProps => {
         products: getProducts(state),
         filters: getFilters(state),
         selectedFilter: getSelectedFilter(state),
+        languageData: getLanguageData(state),
     }
 };
 export default compose(
