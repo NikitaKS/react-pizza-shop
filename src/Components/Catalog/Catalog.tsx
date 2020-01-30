@@ -5,7 +5,7 @@ import {compose} from "redux";
 import {connect} from "react-redux";
 import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
-import PopupWrapper from "../../common/PopupWrapper";
+import {ProductsModal} from "../../common/PopupWrapper";
 import {AppStateType} from "../../Redux/Store";
 import {getFilters, getLanguageData, getProducts, getSelectedFilter} from "../../Redux/selectors";
 import {IFilterItem, IProductItem} from "../../../../Core/products-types";
@@ -92,7 +92,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         return (
             <div>
                 {this.state.isPopupOpen &&
-                <PopupWrapper
+                <ProductsModal
                     product={this.state.popupProduct}
                     setPopupClose={() => {
                         this.setPopupOpen(this.state.popupProduct, false)
