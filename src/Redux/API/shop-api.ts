@@ -46,20 +46,20 @@ export const productsAPI = {
                 return res
             })
     },
-    getOrders () {
-        return instance.get('order/?format=json')
+    getOrderData():Promise<Array<I_orderDates>> {
+        return instance.get(`work-month/`)
             .then(res => {
-                if(res.status === 200) {
+                if (res.status === 200) {
                     return res.data
                 }
             })
-            .catch(()=>{
-                return testFilters;
+            .catch((err) => {
+                throw err;
             })
     },
 };
 export const languageDataAPI = {
-    async getLanguageData () {
+    async getLanguageData() {
         try {
             let res = await instance.get('front-page/');
             return res.data

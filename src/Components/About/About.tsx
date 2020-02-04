@@ -1,19 +1,20 @@
 import React, {Component} from 'react';
-import {fetchOrders} from "../../Redux/productsReducer";
+import {fetchOrderInfo} from "../../Redux/productsReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './About.module.css';
 import {AppStateType} from "../../Redux/Store";
 import axios from "axios";
+import {I_filterItem, I_productItem} from "../../types/types";
 import Slider from "../../common/Slider";
 import bgPict from "../../assets/images/slide1.png";
 // @ts-ignore
 import {Fade} from "react-reveal";
-import {DatepickerRU} from "../../common/FormControls/DatePicker";
+
 
 interface IProps {
-    filters: Array<any>,
-    pizzas: Array<any>
+    filters: Array<I_filterItem>,
+    pizzas: Array<I_productItem>
 }
 
 interface IState {
@@ -22,7 +23,7 @@ interface IState {
 }
 
 interface I_dispatchProps {
-    fetchOrders: () => void
+    fetchOrderInfo: () => void
 }
 
 let commonCarusel = {
@@ -124,7 +125,7 @@ class About extends Component<IProps & I_dispatchProps & IState> {
                         </div>
                     </Fade>
                     <div>
-                        <DatepickerRU />
+
                     </div>
                 </div>
                 <button onClick={this.postOrder}>post test order</button>
@@ -140,4 +141,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 };
 
-export default compose(connect(mapStateToProps, {fetchOrders}))(About);
+export default compose(connect(mapStateToProps, {fetchOrderInfo}))(About);
