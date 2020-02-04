@@ -2,7 +2,7 @@ import React from 'react';
 import './../App.css'
 import preloader from "../assets/images/Spinner.svg";
 
-let Preloader = () => {
+let Preloader:React.FC<any> = () => {
     return (
         <div style={{
             justifyContent: 'center',

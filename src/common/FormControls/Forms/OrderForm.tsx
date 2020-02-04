@@ -1,71 +1,61 @@
 import style from "../FormControl.module.css";
-import {Field, reduxForm} from "redux-form";
-import {number, required} from "../../../utils/validators";
-import {renderDateTimePicker} from "../DatePicker";
+import {Field} from "redux-form";
+import {maxLength100, maxLength15, minLength10, minLength3, number, required} from "../../../utils/validators";
+import {RenderDateTimePicker} from "../DatePicker";
 import React from "react";
-import {DropDownSelect, renderField} from "../FormsControls";
-import {createTextMask} from "redux-form-input-masks";
+import {DropDownSelect, phoneMask, renderField} from "../FormsControls";
 
-const phoneMask = createTextMask({
-    pattern: '8-(099) 999-9999',
-});
-
-const OrderReduxForm = (props:any) => {
-    const {handleSubmit, pristine, reset, submitting} = props;
-    const times = ['', '10', '11', '12'];
+export const OrderReduxForm = ({handleSubmit, pristine, reset, submitting, error}: any) => {
+    const times = ['09', '10', '11', '12'];
+    const dates = ['2020-02-23', '2020-02-24', '2020-02-22'];
 
     return (
         <form className={style.formControl} onSubmit={handleSubmit}>
 
             <Field name="phone"
                    type="text"
-                   component={renderField}
-                   {...phoneMask}
                 // @ts-ignore
                    label="Номер телефона *"
+                   component={renderField}
+                   {...phoneMask}
                    validate={[required, number]}
             />
             <Field name="first_name"
                    type="text"
                    component={renderField}
-                   label="Name"
-                   validate={[required]}
-                   warn={required}
+                   label="Имя *"
+                   validate={[required, minLength3, maxLength15]}
             />
-            <Field
-                name="delivery_date"
-                showTime={false}
-                component={renderDateTimePicker}
-                validate={[required]}
-                warn={required}
-                label="Дата Заказа"
+            <Field name="delivery_date"
+                   component={RenderDateTimePicker}
+                   label="Дата доставки заказа *"
+                   dates={dates}
+                   validate={[required]}
             />
             <Field name="delivery_time"
                    type="select"
                    component={DropDownSelect}
-                   label="time"
+                   label="Время доставки *"
                    times={times}
-                   validate={[number]}
-                   warn={required}
+                   validate={[required]}
             />
             <Field name="address"
                    type="text"
                    component={renderField}
-                   label="address"
-                   validate={[required]}
-                   warn={required}
+                   label="Адрес доставки *"
+                   validate={[required, minLength10, maxLength100]}
             />
             <div className={style.fieldWrapper}>
                 <label>comment</label>
                 <Field name="comment"
                        type="text"
                        component="textarea"
-                       label="comment"
-                       validate={[]}
+                       label="Комментарий"
+                       validate={[maxLength100]}
                 />
             </div>
             <div>
-                <label>payment</label>
+                <label>Форма оплаты *</label>
                 <div className={style.row}>
                     <label><Field name="payment" component="input" type="radio" value="0"/> cash</label>
                     <label><Field name="payment" component="input" type="radio" value="1"/> card</label>
@@ -73,8 +63,8 @@ const OrderReduxForm = (props:any) => {
                 </div>
             </div>
 
-            {props.error && <div>
-                <span className={style.error}>{props.error}</span>
+            {error && <div>
+                <span className={style.errorMessage}>{error}</span>
             </div>}
             <div>
                 <button type="submit" disabled={pristine || submitting}>Order</button>
@@ -83,5 +73,3 @@ const OrderReduxForm = (props:any) => {
         </form>
     )
 };
-
-export default reduxForm({form: 'order'})(OrderReduxForm)
