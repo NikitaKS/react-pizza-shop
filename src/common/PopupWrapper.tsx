@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import Preloader from "./Preloader";
+import {I_orderItem, I_productItem} from "../types/types";
 import style from './PopupWrapper.module.css';
 import {Button, Modal} from "antd";
-import {IProductItem} from "../../../Core/products-types";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 interface I_Props {
-    product: IProductItem
+    product: I_productItem
     setPopupClose: () => void
 }
 
@@ -25,10 +26,14 @@ export const ProductsModal = ({product, setPopupClose}: I_Props) => {
             footer={[]}
         >
             <div className={style.mainImg}>
-                {!imageLoaded &&
-                <Preloader/>
-                }
-                <img src={product.photo} onLoad={handleImageLoaded} alt={product.text_short}/>
+                <LazyLoadImage
+                    alt={product.name}
+                    src={product.photo} // use normal <img> attributes as props
+                    effect="blur"
+                    placeholder={<span>afterLoad</span>}
+                    placeholderSrc={product.photo_thumbnail}
+                    wrapperClassName={style.mainImg}
+                />
             </div>
             <div className={style.row}>
                 <h5>{product.name}</h5>
@@ -45,8 +50,14 @@ export const ProductsModal = ({product, setPopupClose}: I_Props) => {
     )
 };
 
-
-export const OrderModal = ({handleOk, handleCancel, loading}:any) => {
+interface I_orderModal {
+    handleOk: void
+    handleCancel: void,
+    loading: boolean,
+    title: string,
+    order: Array<I_orderItem>
+}
+export const OrderModal = ({handleOk, handleCancel, loading, title, order}:any) => {
 
     let [visible, setVisible] = useState(false);
     const handleImageLoaded = () => {
@@ -55,7 +66,7 @@ export const OrderModal = ({handleOk, handleCancel, loading}:any) => {
 
     return (
         <Modal
-            visible={visible}
+            visible={true}
             title="Title"
             onOk={handleOk}
             onCancel={handleCancel}
@@ -68,11 +79,7 @@ export const OrderModal = ({handleOk, handleCancel, loading}:any) => {
                 </Button>,
             ]}
         >
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
-            <p>Some contents...</p>
+            {order.map( (oi:I_orderItem) => <p key={oi.id}><span>oi.name</span><strong>io.quantity</strong></p>)}
         </Modal>
     )
 };

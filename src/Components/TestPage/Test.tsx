@@ -1,14 +1,13 @@
 import React, {Component, useRef, useState} from 'react';
 import slide from "./../../assets/images/slide1.png"
 import Preloader from "../../common/Preloader";
-import AddPizzaReduxForm, {UploadFile} from "../../common/FormControls/Forms/AddPizzaForm";
-import {fetchOrders} from "../../Redux/productsReducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import style from './Test.module.css';
 import {AppStateType} from "../../Redux/Store";
 import axios from "axios";
 import {IFilterItem, IProductItem} from "../../../../Core/products-types";
+import {fetchOrderInfo} from "../../Redux/actions";
 
 interface IProps {
     filters: Array<IFilterItem>,
@@ -101,4 +100,4 @@ const mapStateToProps = (state:AppStateType) => {
     }
 };
 
-export default compose(connect(mapStateToProps, {fetchOrders}))(Test);
+export default compose(connect(mapStateToProps, {fetchOrderInfo}))(Test);

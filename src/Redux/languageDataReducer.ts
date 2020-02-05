@@ -1,13 +1,15 @@
-import {languageDataAPI} from "./API/shop-api";
+import {languageDataAPI} from "./API/api";
 import {
     I_appLanguageState, I_languagePage, I_LanguageData,
 } from "../types/types";
 
 import {ThunkDispatch} from "redux-thunk";
 import {AppStateType} from "./Store";
-import {ReducerActions} from "./productsReducer";
 import {FormAction} from "redux-form";
 import {convertArrayToObject} from "../utils/object-helpers";
+import {I_appActions} from "./actions";
+import BigImg from '../assets/images/slide1.png';
+import Ico from '../assets/icons/sets.png'
 
 const SET_LANGUAGE_DATA_SUCCESS = 'LANGUAGE_DATA/SET_LANGUAGE_DATA_SUCCESS';
 const SET_LANGUAGE_DATA_ERROR = 'LANGUAGE_DATA/SET_LANGUAGE_DATA_ERROR';
@@ -53,15 +55,15 @@ const initialState: I_appLanguageState = {
             front_image: [
                 {
                     image_name: "carousel image 3",
-                    image: "/media/slide2.png"
+                    image: Ico
                 },
                 {
                     image_name: "carousel image 2",
-                    image: "/media/slide1.png"
+                    image: Ico
                 },
                 {
                     image_name: "carousel image 1",
-                    image: "/media/1.png"
+                    image: Ico
                 }
             ]
         }
@@ -134,7 +136,7 @@ export const _setLanguageDataFetching = (status: boolean): I_setLanguageDataFetc
 
 //FETCH ACTIONS
 export const fetchLanguageData = () =>
-    async (dispatch: ThunkDispatch<{}, {}, I_languageStateActions | ReducerActions | FormAction >, getState: GetStateType) => {
+    async (dispatch: ThunkDispatch<{}, {}, I_languageStateActions | I_appActions | FormAction >, getState: GetStateType) => {
     dispatch(_setLanguageDataFetching(true));
     try {
         const data: Array<I_languagePage> = await languageDataAPI.getLanguageData();

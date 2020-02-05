@@ -1,23 +1,22 @@
 import React, {Component} from 'react';
 import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {fetchCatalog} from "../Redux/productsReducer";
-import {withSuspense} from "../hoc/withSuspense";
-import {AppStateType} from "../Redux/Store";
-import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
-//Styles
-import '../App.css';
-import style from './Main.module.css';
-//Components
 import Preloader from "../common/Preloader";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
+import {withSuspense} from "../hoc/withSuspense";
+import {AppStateType} from "../Redux/Store";
 import Catalog from "./Catalog/Catalog";
+import '../App.css';
+import style from './Main.module.css';
+import {getIsFetching, getTotalPrice, getTotalQuantity} from "../Redux/selectors";
 import Order from "./Order/Order";
 import Cart from "./Cart/Cart";
-import About from "./About/About";
 import StickyBar from "./StickyBar/StickyBar";
 import {fetchLanguageData} from "../Redux/languageDataReducer";
+import {fetchCatalog} from "../Redux/actions";
+
+const About = React.lazy(() => import('./About/About'));
 
 interface I_Props {
 
@@ -38,26 +37,23 @@ interface I_dispatchProps {
 type I_MainProps = I_Props & I_ConnectedProps & I_dispatchProps
 
 class Main extends Component<I_MainProps> {
+
     componentDidMount() {
         this.props.fetchCatalog();
+        this.props.fetchLanguageData();
     }
-
-
-    catchAllUnhandledErrors = (promiseRejectionEvent?: any): any => {
-        console.log('some error occured');
-    };
-
-    componentWillUnmount() {
-        window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors())
-    }
+    timeout: number | undefined;
 
     componentDidUpdate(prevProps: Readonly<I_MainProps>, prevState: Readonly<{}>, snapshot?: any): void {
         //retrying connect to server
         if (this.props.appError) {
-            setTimeout(() => {
+            this.timeout = window.setTimeout(() => {
                 this.props.fetchCatalog()
             }, 20000)
         }
+    }
+    componentWillUnmount(): void {
+        clearTimeout(this.timeout);
     }
 
     render() {

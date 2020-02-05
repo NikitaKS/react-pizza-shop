@@ -3,47 +3,33 @@ import style from './Catalog.module.css';
 import ProductCard from "../ProductItem/ProductItem";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/productsReducer";
 import bgPict from "./../../assets/images/slide1.png"
-import {ProductsModal} from "../../common/PopupWrapper";
+import {I_filterItem, I_LanguageData, I_productItem} from "../../types/types";
 import {AppStateType} from "../../Redux/Store";
 import {getFilters, getLanguageData, getProducts, getSelectedFilter} from "../../Redux/selectors";
-import {IFilterItem, IProductItem} from "../../../../Core/products-types";
 import Slider from "../../common/Slider";
-import {I_LanguageData} from "../../types/types";
+import {ProductsModal} from "../../common/PopupWrapper";
+import {addProductToOrder, calculateOrder, setSortFilter} from "../../Redux/actions";
 
-let commonCarusel = {"front_image": [
-        {
-            "image_name": "carousel asdasdasd image 1",
-            "image": bgPict
-        },
-        {
-            "image_name": "Общество с ограниченной ответственностью «Печь Орин» image 2",
-            "image": bgPict
-        },
-        {
-            "image_name": "Общество с ограниченной ответственностью «Печь Орин» image 2",
-            "image": bgPict
-        }
-    ]};
+
 
 interface IConnectProps {
-    products: Array<IProductItem>,
-    filters: Array<IFilterItem>,
+    products: Array<I_productItem>,
+    filters: Array<I_filterItem>,
     selectedFilter: string,
     languageData: I_LanguageData
 }
 
 interface LinkDispatchProps {
-    addProductToOrder: (productItem: IProductItem, quantity: number) => void;
+    addProductToOrder: (productItem: I_productItem, quantity: number) => void;
     calculateOrder: () => void;
-    setSortFilter: (filter:string) => void;
+    setSortFilter: (filter: string) => void;
 }
 
 interface IState {
     bgPict: string
     isPopupOpen: boolean
-    popupProduct: IProductItem
+    popupProduct: I_productItem
 }
 
 class Catalog extends Component<IConnectProps & LinkDispatchProps> {
@@ -54,7 +40,7 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
         popupProduct: this.props.products[0],
     };
 
-    setPopupOpen = (product: IProductItem, option: boolean) => {
+    setPopupOpen = (product: I_productItem, option: boolean) => {
         this.setState({popupProduct: product});
         this.setState({isPopupOpen: option});
     };
@@ -63,15 +49,16 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
     };
 
     render() {
+        let {languageData} = this.props;
         let products = this.props.products
             .map(p => (
                 <ProductCard product={p}
-                           openPopup={() => {
-                               this.setPopupOpen(p, true)
-                           }}
-                           key={p.id}
-                           calculateOrder={this.props.calculateOrder}
-                           addProductToOrder={this.props.addProductToOrder}
+                             openPopup={() => {
+                                 this.setPopupOpen(p, true)
+                             }}
+                             key={p.id}
+                             calculateOrder={this.props.calculateOrder}
+                             addProductToOrder={this.props.addProductToOrder}
                 />
             ));
 
@@ -87,7 +74,6 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
                     {f.name}
                 </button>
             ));
-        let { languageData } = this.props;
 
         return (
             <div>
@@ -100,13 +86,11 @@ class Catalog extends Component<IConnectProps & LinkDispatchProps> {
                 />}
 
                 <div>
-                    <div>
-                        <Slider
-                            commonImages={languageData.index.front_image}
-                            commonTexts={languageData.index.front_text}
-                        />
-                        <div className={style.container}>{filters}</div>
-                    </div>
+                    <Slider
+                        commonImages={languageData.index.front_image}
+                        commonTexts={languageData.index.front_text}
+                    />
+                    <div className={style.container}>{filters}</div>
                     <hr/>
                     <div className={style.productsContainer}>
                         {products}
@@ -122,7 +106,7 @@ const mapStateToProps = (state: AppStateType): IConnectProps => {
         products: getProducts(state),
         filters: getFilters(state),
         selectedFilter: getSelectedFilter(state),
-        languageData: getLanguageData(state),
+        languageData: getLanguageData(state)
     }
 };
 export default compose(
