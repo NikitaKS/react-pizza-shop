@@ -11,7 +11,7 @@ interface I_Props {
     totalPrice: number,
 }
 
-const StickyBar: React.FC<I_Props> = ({totalQuantity, totalPrice}:I_Props) => {
+const StickyBar: React.FC<I_Props> = React.memo(({totalQuantity, totalPrice}:I_Props) => {
     let [opened, setOpened] = useState(false);
     let [visible, setVisible] = useState(false);
 
@@ -34,38 +34,38 @@ const StickyBar: React.FC<I_Props> = ({totalQuantity, totalPrice}:I_Props) => {
 
     return (
 
-            <div className={style.navButton}>
-                <div>
-                    <Fade right big when={visible}>
-                        <div onClick={hideMenu} >
+        <div className={style.navButton}>
+            <div>
+                <Fade right big when={visible}>
+                    <div onClick={hideMenu} >
                         <CartBtn totalQuantity={totalQuantity} totalPrice={totalPrice}/>
-                        </div>
-                        <button className={style.btnMenu} onClick={() => { setOpened(!opened) }}>
-                            <img alt="menu" src={menuBtn}/>
-                        </button>
-                    </Fade>
-                    <div>
-                        <Fade right big cascade when={opened}>
-                            <div className={classNameForNavBlock}>
-                                <NavLink to="catalog"
-                                         onClick={hideMenu}
-                                         className={style.btn}>HOME
-                                </NavLink>
-                                <NavLink to="about"
-                                         onClick={hideMenu}
-                                         className={style.btn}>ABOUT
-                                </NavLink>
-                                <NavLink to="contacts"
-                                         onClick={hideMenu}
-                                         className={style.btn}>CONTACTS
-                                </NavLink>
-                            </div>
-                        </Fade>
                     </div>
+                    <button className={style.btnMenu} onClick={() => { setOpened(!opened) }}>
+                        <img alt="menu" src={menuBtn}/>
+                    </button>
+                </Fade>
+                <div>
+                    <Fade right big cascade when={opened}>
+                        <div className={classNameForNavBlock}>
+                            <NavLink to="catalog"
+                                     onClick={hideMenu}
+                                     className={style.btn}>HOME
+                            </NavLink>
+                            <NavLink to="about"
+                                     onClick={hideMenu}
+                                     className={style.btn}>ABOUT
+                            </NavLink>
+                            <NavLink to="contacts"
+                                     onClick={hideMenu}
+                                     className={style.btn}>CONTACTS
+                            </NavLink>
+                        </div>
+                    </Fade>
                 </div>
             </div>
+        </div>
 
-        )
-};
+    )
+});
 
 export default StickyBar;
