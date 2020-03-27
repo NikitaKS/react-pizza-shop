@@ -59,7 +59,7 @@ interface I_removeFromOrder {
 
 interface I_setSortFilter {
     type: typeof SET_SORT_FILTER,
-    filter: string
+    filter: string | number
 }
 
 interface I_setIsFetching {
@@ -91,7 +91,7 @@ export const setOrderDataFetchSuccess = (orderData: Array<I_orderDates>): I_setO
 export const setFiltersSuccess = (filters: Array<I_filterItem>): I_setFiltersSuccess =>
     ({type: SET_FILTERS, filters});
 
-export const setSortFilter = (filter: string): I_setSortFilter =>
+export const setSortFilter = (filter: string | number): I_setSortFilter =>
     ({type: SET_SORT_FILTER, filter});
 
 export const calculateOrder = (): I_calculateOrder =>

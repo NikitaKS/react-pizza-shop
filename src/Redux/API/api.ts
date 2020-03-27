@@ -49,12 +49,12 @@ export const productsAPI = {
                 throw new Error(err.response.data.non_field_errors[0])
             }
             APIerrorLogger(err);
-            console.log( JSON.parse(JSON.stringify(err)) );
+            console.log(JSON.parse(JSON.stringify(err)));
 
         }
     },
 
-    getOrderData():Promise<Array<I_orderDates>> {
+    getOrderData(): Promise<Array<I_orderDates>> {
         return instance.get(`work-month/`)
             .then(res => {
                 if (res.status === 200) {
@@ -82,18 +82,17 @@ export const languageDataAPI = {
 export const paymentAPI = {
     getToken() {
         return axios.get('https://checkout.bepaid.by/ctp/api/checkouts',
-            {withCredentials: true,
+            {
+                withCredentials: true,
                 headers: [
-                {'Content-Type': 'application/json'},
-                {'Accept': 'application/json'},
+                    {'Content-Type': 'application/json'},
+                    {'Accept': 'application/json'},
                 ]
             })
-            .then( res => {
-                debugger;
+            .then(res => {
                 console.log(res)
             })
-            .catch( err => {
-                debugger;
+            .catch(err => {
                 console.log(err)
             })
     },

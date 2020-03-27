@@ -40,9 +40,6 @@ const StickyBar: React.FC<I_Props> = React.memo(({totalQuantity, totalPrice}:I_P
                     <div onClick={hideMenu} >
                         <CartBtn totalQuantity={totalQuantity} totalPrice={totalPrice}/>
                     </div>
-                    <button className={style.btnMenu} onClick={() => { setOpened(!opened) }}>
-                        <img alt="menu" src={menuBtn}/>
-                    </button>
                 </Fade>
                 <div>
                     <Fade right big cascade when={opened}>
