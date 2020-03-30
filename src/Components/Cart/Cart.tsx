@@ -85,11 +85,10 @@ const TableItem = ({product, decreaseQuantity, increaseQuantity, removeFromOrder
             <td>
                 <div className={style.description}>
                     <h6>{product.name}</h6>
-                    {/*<span>{product.size}</span>*/}
                 </div>
             </td>
             <td>
-                {product.price}
+                <span className={style.price}>{product.price}</span>
             </td>
             <td>
                 <div className={style.col}>
